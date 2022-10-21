@@ -5,7 +5,7 @@ import java.sql.*;
 // NOTE: Database class uses singleton.
 public class Database{
     static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-    static final String DB_URL = "jdbc:mysql://localhost:3306/testdb?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+    static final String DB_URL = "jdbc:mysql://localhost:3306/ticketdb?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
 
     static final String USER = "root";
     static final String PASS = "20020215";
@@ -36,18 +36,8 @@ public class Database{
             System.out.println("Connection failed to establish!");
             // TODO Auto-generated catch block
             e1.printStackTrace();
-        } finally {
-            try {
-                if (this.conn != null) conn.close();
-            } catch (SQLException e) {
-                System.out.println("Connection failed to close!");
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-
-                return null;
-            }
         }
-
+        
         return null;
 
     }
