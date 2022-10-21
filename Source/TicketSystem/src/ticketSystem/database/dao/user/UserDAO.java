@@ -13,9 +13,9 @@ public class UserDAO implements IUserDAO{
 
     @Override
     public boolean addUser(Database db, String username, String password) {
-        try (
+        try {
             Connection conn = db.connect();
-            Statement stmt = conn.createStatement()) {
+            Statement stmt = conn.createStatement();
             String sqlSelect = "select count(*) from ticketdb.user where username = '%s';";
             ResultSet rs = stmt.executeQuery(String.format(sqlSelect, username));
             rs.next();
@@ -41,9 +41,9 @@ public class UserDAO implements IUserDAO{
 
     @Override
     public boolean changePwd(Database db, String username, String newPwd) {
-        try (
+        try {
             Connection conn = db.connect();
-            Statement stmt = conn.createStatement()) {
+            Statement stmt = conn.createStatement();
             String sqlSelect = "select count(*) from ticketdb.user where username = '%s';";
             ResultSet rs = stmt.executeQuery(String.format(sqlSelect, username));
             rs.next();
@@ -69,9 +69,9 @@ public class UserDAO implements IUserDAO{
 
     @Override
     public boolean queryUser(Database db, String username, String password) {
-        try (
+        try {
             Connection conn = db.connect();
-            Statement stmt = conn.createStatement()) {
+            Statement stmt = conn.createStatement();
             String sqlSelect = "select count(*) from ticketdb.user where username = '%s' and password = '%s';";
             ResultSet rs = stmt.executeQuery(String.format(sqlSelect, username, password));
             rs.next();
@@ -94,9 +94,9 @@ public class UserDAO implements IUserDAO{
     // TODO: error handling
     @Override
     public boolean deleteUser(Database db, String username, String password) {
-        try (
+        try {
             Connection conn = db.connect();
-            Statement stmt = conn.createStatement()) {
+            Statement stmt = conn.createStatement();
             String sqlDelete = "delete from ticketdb.user where username = '%s' and password = '%s';";
             if(stmt.executeUpdate(String.format(sqlDelete, username, password)) == 0) {
                 stmt.close();

@@ -10,8 +10,8 @@ public class Main {
         UserDAO userDAO = new UserDAO();
         // userDAO.addUser(db, "BBB", "123");
         // userDAO.changePwd(db, "AAA", "456");
-        // userDAO.queryUser(db, "AAA", "456");
-        userDAO.deleteUser(db, "AAA", "456");
+        userDAO.queryUser(db, "BBB", "123");
+        // userDAO.deleteUser(db, "AAA", "456");
         db.closeConn();
     }
 }
