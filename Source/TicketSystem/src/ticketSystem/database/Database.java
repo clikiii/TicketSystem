@@ -28,18 +28,34 @@ public class Database{
             System.out.println(this.conn.toString());
 
             return this.conn;
-        } catch (ClassNotFoundException e1) {
-            // TODO Auto-generated catch block
+        } catch (ClassNotFoundException e) {
             System.out.println("Connection failed to establish!");
-            e1.printStackTrace();
-        } catch (SQLException e1) {
+            e.printStackTrace();
+        } catch (SQLException e) {
             System.out.println("Connection failed to establish!");
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
+            e.printStackTrace();
         }
         
         return null;
 
+    }
+
+    public void closeRs(ResultSet rs) {
+        try {
+            if (rs != null) rs.close();
+        } catch (SQLException e) {
+            System.out.println("ResultSet failed to close!");
+            e.printStackTrace();
+        }
+    }
+
+    public void closeStmt(Statement stmt) {
+        try {
+            if (stmt != null) stmt.close();
+        } catch (SQLException e) {
+            System.out.println("Statement failed to close!");
+            e.printStackTrace();
+        }
     }
 
     public void closeConn() {
@@ -49,7 +65,6 @@ public class Database{
                 System.out.println("Database: GoodBye!");
             }
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             System.out.println("Connection failed to close!");
             e.printStackTrace();
         }

@@ -10,102 +10,117 @@ import ticketSystem.database.DBException.ExEbChangePwdFailed;
 import java.sql.*;
 
 public class UserDAO implements IUserDAO{
+    private static UserDAO instance = new UserDAO();
+    private UserDAO(){};
+    public static UserDAO getInstance() {
+        return instance;
+    }
 
     @Override
-    public boolean addUser(Database db, String username, String password) {
+    public boolean addUser(Database db, String username, String password) throws ExDbUserExisted {
+        Connection conn = db.connect();
+        Statement stmt = null;
+        ResultSet rs = null;
         try {
-            Connection conn = db.connect();
-            Statement stmt = conn.createStatement();
+            stmt = conn.createStatement();
             String sqlSelect = "select count(*) from ticketdb.user where username = '%s';";
-            ResultSet rs = stmt.executeQuery(String.format(sqlSelect, username));
+            rs = stmt.executeQuery(String.format(sqlSelect, username));
             rs.next();
             if (rs.getInt("count(*)") > 0) {
-                rs.close();
-                stmt.close();
                 throw new ExDbUserExisted();
             }else{
-                rs.close();
                 String sqlInsert = "insert into ticketdb.user (username, password) values ('%s','%s');";
-                if (stmt.executeUpdate(String.format(sqlInsert, username, password)) == 0){
-                    stmt.close();
-                    throw new ExDbUserRegisterFailed();
-                }
+                stmt.executeUpdate(String.format(sqlInsert, username, password));
             }
-        } catch (SQLException | ExDbUserExisted | ExDbUserRegisterFailed e) {
-            // TODO Auto-generated catch block
+        } catch (SQLException e) {
             e.printStackTrace();
+            return false;
+        } finally {
+            db.closeRs(rs);
+            db.closeStmt(stmt);
         }
 
         return true;
     }
 
     @Override
-    public boolean changePwd(Database db, String username, String newPwd) {
+    public boolean changePwd(Database db, String username, String newPwd) throws ExDbUserNotFound {
+        Connection conn = db.connect();
+        Statement stmt = null;
+        ResultSet rs = null;
         try {
-            Connection conn = db.connect();
-            Statement stmt = conn.createStatement();
+            stmt = conn.createStatement();
             String sqlSelect = "select count(*) from ticketdb.user where username = '%s';";
-            ResultSet rs = stmt.executeQuery(String.format(sqlSelect, username));
+            rs = stmt.executeQuery(String.format(sqlSelect, username));
             rs.next();
             if (rs.getInt("count(*)") == 0) {
-                rs.close();
-                stmt.close();
                 throw new ExDbUserNotFound();
             }else{
-                rs.close();
                 String sqlUpdate = "update ticketdb.user set password='%s' WHERE username = '%s';";
-                if (stmt.executeUpdate(String.format(sqlUpdate, newPwd, username)) == 0){
-                    stmt.close();
-                    throw new ExEbChangePwdFailed();
-                }
+                stmt.executeUpdate(String.format(sqlUpdate, newPwd, username));
             }
-        } catch (SQLException | ExDbUserNotFound | ExEbChangePwdFailed e) {
-            // TODO Auto-generated catch block
+        } catch (SQLException e) {
             e.printStackTrace();
+            return false;
+        } finally {
+            db.closeRs(rs);
+            db.closeStmt(stmt);
         }
 
         return true;
     }
 
     @Override
-    public boolean queryUser(Database db, String username, String password) {
+    public boolean queryUser(Database db, String username, String password) throws ExDbUserNotFound {
+        Connection conn = db.connect();
+        Statement stmt = null;
+        ResultSet rs = null;
         try {
-            Connection conn = db.connect();
-            Statement stmt = conn.createStatement();
+            conn = db.connect();
+            stmt = conn.createStatement();
             String sqlSelect = "select count(*) from ticketdb.user where username = '%s' and password = '%s';";
-            ResultSet rs = stmt.executeQuery(String.format(sqlSelect, username, password));
+            rs = stmt.executeQuery(String.format(sqlSelect, username, password));
             rs.next();
             if (rs.getInt("count(*)") == 0) {
-                rs.close();
-                stmt.close();
                 throw new ExDbUserNotFound();
             }else{
                 rs.close();
                 stmt.close();
             }
-        } catch (SQLException | ExDbUserNotFound e) {
-            // TODO Auto-generated catch block
+        } catch (SQLException e) {
             e.printStackTrace();
+            return false;
+        } finally {
+            db.closeRs(rs);
+            db.closeStmt(stmt);
         }
 
         return true;
     }
 
-    // TODO: error handling
+    // TODO: check error handling
     @Override
-    public boolean deleteUser(Database db, String username, String password) {
+    public boolean deleteUser(Database db, String username, String password) throws ExDbUserNotFound {
+        Connection conn = db.connect();
+        Statement stmt = null;
+        ResultSet rs = null;
         try {
-            Connection conn = db.connect();
-            Statement stmt = conn.createStatement();
-            String sqlDelete = "delete from ticketdb.user where username = '%s' and password = '%s';";
-            if(stmt.executeUpdate(String.format(sqlDelete, username, password)) == 0) {
-                stmt.close();
-                throw new ExDbDeleteUserFailed();
-            }
-            
-        } catch (SQLException | ExDbDeleteUserFailed e) {
-            // TODO Auto-generated catch block
+            stmt = conn.createStatement();
+            String sqlSelect = "select count(*) from ticketdb.user where username = '%s' and password = '%s';";
+            rs = stmt.executeQuery(String.format(sqlSelect, username));
+            rs.next();
+            if (rs.getInt("count(*)") == 0) {
+                throw new ExDbUserNotFound();
+            }else{
+                String sqlUpdate = "update ticketdb.user set password='%s' WHERE username = '%s';";
+                stmt.executeUpdate(String.format(sqlUpdate, password, username));
+            }       
+        } catch (SQLException e) {
             e.printStackTrace();
+            return false;
+        } finally {
+            db.closeRs(rs);
+            db.closeStmt(stmt);
         }
 
         return true;

@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import ticketSystem.Exception.ExOrderAddFailed;
 import ticketSystem.Exception.ExOrderRemoveFailed;
 import ticketSystem.database.Database;
+import ticketSystem.database.DBException.ExDbDeleteUserFailed;
+import ticketSystem.database.DBException.ExDbUserExisted;
+import ticketSystem.database.DBException.ExDbUserNotFound;
 import ticketSystem.database.dao.user.IUserDAO;
 import ticketSystem.database.dao.user.UserDAO;
 
@@ -26,10 +29,10 @@ public class User implements People {
     }
 
     @Override
-    public People register(Database db, String username, String password) {
-        IUserDAO iUserDao = new UserDAO();
+    public People register(Database db, String username, String password) throws ExDbUserExisted {
+        IUserDAO iUserDAO = UserDAO.getInstance();
 
-        iUserDao.addUser(db, username, password);
+        iUserDAO.addUser(db, username, password);
 
         this.username = username;
         this.password = password;
@@ -38,8 +41,8 @@ public class User implements People {
     }
 
     @Override
-    public People login(Database db, String username, String password) {
-        IUserDAO iUserDAO = new UserDAO();
+    public People login(Database db, String username, String password) throws ExDbUserNotFound {
+        IUserDAO iUserDAO = UserDAO.getInstance();
 
         iUserDAO.queryUser(db, username, password);
 
@@ -50,11 +53,10 @@ public class User implements People {
     }
 
     @Override
-    public People changePwd(Database db, String username, String newPwd) {
-        IUserDAO iUserDAO = new UserDAO();
+    public People changePwd(Database db, String username, String newPwd) throws ExDbUserNotFound {
+        IUserDAO iUserDAO = UserDAO.getInstance();
         
-        if (iUserDAO.queryUser(db, username, password))
-            iUserDAO.changePwd(db, username, newPwd);
+        iUserDAO.changePwd(db, username, newPwd);
         
         this.password = newPwd;
 
@@ -62,8 +64,8 @@ public class User implements People {
     }
 
     @Override
-    public Boolean deleteMe(Database db, String username, String password) {
-        IUserDAO iUserDAO = new UserDAO();
+    public Boolean deleteMe(Database db, String username, String password) throws ExDbDeleteUserFailed, ExDbUserNotFound {
+        IUserDAO iUserDAO = UserDAO.getInstance();
 
         iUserDAO.deleteUser(db, username, password);
 
@@ -84,5 +86,5 @@ public class User implements People {
         };
         return myOrders;
     }
-    
+
 }
