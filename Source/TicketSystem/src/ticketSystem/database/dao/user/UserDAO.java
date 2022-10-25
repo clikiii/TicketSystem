@@ -109,7 +109,7 @@ public class UserDAO implements IUserDAO{
             if (rs.getInt("count(*)") == 0) {
                 throw new ExDbUserNotFound();
             }else{
-                String sqlUpdate = "update ticketdb.user set password='%s' WHERE username = '%s';";
+                String sqlUpdate = "delete from ticketdb.user where username = '%s' and password = '%s';";
                 stmt.executeUpdate(String.format(sqlUpdate, password, username));
             }       
         } catch (SQLException e) {
