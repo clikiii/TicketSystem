@@ -14,6 +14,7 @@ CREATE TABLE `flight`(
     total_seats VARCHAR(10) NOT NULL,
     available_seats VARCHAR(10) NOT NULL,
     sell_status VARCHAR(10) NOT NULL,
+    price DECIMAL NOT NULL,
     -- status: SELLING, SOLD OUT
 
     PRIMARY KEY (fid)
