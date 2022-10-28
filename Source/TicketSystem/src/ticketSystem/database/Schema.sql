@@ -11,11 +11,12 @@ CREATE TABLE `flight`(
     destination VARCHAR(35) NOT NULL,
     take_off_time VARCHAR(20) NOT NULL,
     landing_time VARCHAR(20) NOT NULL,
-    total_seats VARCHAR(10) NOT NULL,
-    available_seats VARCHAR(10) NOT NULL,
+    total_seats DECIMAL NOT NULL,
+    available_seats DECIMAL NOT NULL,
     sell_status VARCHAR(10) NOT NULL,
     -- status: SELLING, SOLD OUT
     price DECIMAL NOT NULL,
+    -- price is a double
 
     PRIMARY KEY (fid)
 );
