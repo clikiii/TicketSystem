@@ -15,6 +15,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 public class ExPasswordIsEmpty extends Exception {
+
 	public ExPasswordIsEmpty() {
 		super("The password is empty.");
 		JFrame jf = new JFrame("ExPasswordIsEmpty");

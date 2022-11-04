@@ -20,16 +20,16 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import userInterface.UIException.ExPasswordIsEmpty;
-import userInterface.UIException.ExPasswordOutOfRange;
-import userInterface.UIException.ExTwoPasswordDifferent;
-import userInterface.UIException.ExUsernameIsEmpty;
-import userInterface.UIException.ExUsernameOutOfRange;
+import userInterface.UIException.ExUsernameIsNotFound;
+import userInterface.UIException.ExPasswordIsWrong;
+
 
 public class Login {
-	private static Login instance;
+	
+	private JTextField usr;
+	private JPasswordField pw;
 
-	private Login() {
+	public Login() {
 		JFrame jf = new JFrame("Login");
 
 		JLayeredPane layeredPane = new JLayeredPane();
@@ -60,22 +60,22 @@ public class Login {
 		jl0.setBounds(image.getIconWidth() - 355, 230, 300, 50);
 
 		JLabel jl1 = new JLabel("Username:");
-		jl1.setFont(new Font("Times New Roman", Font.ITALIC, 12));
+		jl1.setFont(new Font("Times New Roman", Font.ITALIC | Font.BOLD, 12));
 		jl1.setForeground(new Color(102, 147, 195));
 		jl1.setBounds(image.getIconWidth() - 435, 300, 250, 50);
 
-		JTextField usr = new JTextField(10);
+		usr = new JTextField(10);
 		usr.addFocusListener(new JTextFieldHintListener(usr, "Within 10 characters"));
 		usr.setOpaque(false);
 		usr.setBorder(BorderFactory.createLineBorder(Color.BLACK, 0));
 		usr.setBounds(image.getIconWidth() - 435, 320, 280, 50);
 
 		JLabel jl2 = new JLabel("Password:");
-		jl2.setFont(new Font("Times New Roman", Font.ITALIC, 12));
+		jl2.setFont(new Font("Times New Roman", Font.ITALIC | Font.BOLD, 12));
 		jl2.setForeground(new Color(102, 147, 195));
 		jl2.setBounds(image.getIconWidth() - 435, 370, 250, 50);
 
-		JPasswordField pw = new JPasswordField(10);
+		pw = new JPasswordField(10);
 		pw.addFocusListener(new JPasswordFieldHintListenser(pw, "Within 10 characters"));
 		pw.setOpaque(false);
 		pw.setBorder(BorderFactory.createLineBorder(Color.BLACK, 0));
@@ -102,9 +102,21 @@ public class Login {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// case1. username cannot find
-				// case2. password is wrong
-				// case3. login successfully
+				try {
+					if (false)
+						throw new ExUsernameIsNotFound(); // case1: username is not found
+					else if (false)
+						throw new ExPasswordIsWrong(); // case2: password is wrong
+					else {
+						// case3: login successfully
+						SearchFlight.getInstance().setAccountBtn(null); // get user from backend (login func)
+						jf.dispose();
+					}
+				} catch (ExUsernameIsNotFound e1) {
+					e1.printStackTrace();
+				} catch (ExPasswordIsWrong e2) {
+					e2.printStackTrace();
+				}
 			}
 
 		});
@@ -130,7 +142,6 @@ public class Login {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				instance = null;
 				jf.dispose();
 			}
 
@@ -148,13 +159,7 @@ public class Login {
 		jf.setLayeredPane(layeredPane);
 		jf.setSize(image.getIconWidth(), image.getIconHeight());
 		jf.setLocationRelativeTo(null);
-		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		jf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		jf.setVisible(true);
-	}
-
-	public static Login getInstance() {
-		if (instance == null)
-			instance = new Login();
-		return instance;
 	}
 }

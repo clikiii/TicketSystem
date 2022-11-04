@@ -15,6 +15,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 public class ExPasswordOutOfRange extends Exception {
+
 	public ExPasswordOutOfRange() {
 		super("The length of password is out of range");
 		JFrame jf = new JFrame("ExPasswordOutOfRange");

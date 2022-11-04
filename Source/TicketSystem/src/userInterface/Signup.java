@@ -27,9 +27,11 @@ import userInterface.UIException.ExPasswordOutOfRange;
 import userInterface.UIException.ExTwoPasswordDifferent;
 
 public class Signup {
-	private static Signup instance;
+	
+	private JTextField usr;
+	private JPasswordField pw;
 
-	private Signup() {
+	public Signup() {
 		JFrame jf = new JFrame("Sign up");
 
 		JLayeredPane layeredPane = new JLayeredPane();
@@ -55,35 +57,35 @@ public class Signup {
 
 		jp.add(img);
 
-		JLabel jl0 = new JLabel("CREATE ACCOUNT");
-		jl0.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 25));
+		JLabel jl0 = new JLabel("SIGN UP");
+		jl0.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 30));
 		jl0.setForeground(new Color(102, 147, 195));
-		jl0.setBounds(image.getIconWidth() - 420, 230, 300, 50);
+		jl0.setBounds(image.getIconWidth() - 360, 230, 300, 50);
 
 		JLabel jl1 = new JLabel("Username:");
-		jl1.setFont(new Font("Times New Roman", Font.ITALIC, 12));
+		jl1.setFont(new Font("Times New Roman", Font.ITALIC | Font.BOLD, 12));
 		jl1.setForeground(new Color(102, 147, 195));
 		jl1.setBounds(image.getIconWidth() - 435, 300, 250, 50);
 
-		JTextField usr = new JTextField(10);
+		usr = new JTextField(10);
 		usr.addFocusListener(new JTextFieldHintListener(usr, "Within 10 characters"));
 		usr.setOpaque(false);
 		usr.setBorder(BorderFactory.createLineBorder(Color.BLACK, 0));
 		usr.setBounds(image.getIconWidth() - 435, 320, 280, 50);
 
 		JLabel jl2 = new JLabel("Password:");
-		jl2.setFont(new Font("Times New Roman", Font.ITALIC, 12));
+		jl2.setFont(new Font("Times New Roman", Font.ITALIC | Font.BOLD, 12));
 		jl2.setForeground(new Color(102, 147, 195));
 		jl2.setBounds(image.getIconWidth() - 435, 370, 250, 50);
 
-		JPasswordField pw = new JPasswordField(10);
+		pw = new JPasswordField(10);
 		pw.addFocusListener(new JPasswordFieldHintListenser(pw, "Within 10 characters"));
 		pw.setOpaque(false);
 		pw.setBorder(BorderFactory.createLineBorder(Color.BLACK, 0));
 		pw.setBounds(image.getIconWidth() - 435, 390, 280, 50);
 
 		JLabel jl3 = new JLabel("Confirm Password:");
-		jl3.setFont(new Font("Times New Roman", Font.ITALIC, 12));
+		jl3.setFont(new Font("Times New Roman", Font.ITALIC | Font.BOLD, 12));
 		jl3.setForeground(new Color(102, 147, 195));
 		jl3.setBounds(image.getIconWidth() - 435, 440, 250, 50);
 
@@ -125,8 +127,8 @@ public class Signup {
 						throw new ExPasswordOutOfRange();
 					else if (!new String(pw.getPassword()).equals(new String(cpw.getPassword())))
 						throw new ExTwoPasswordDifferent();
-					// case5: else if (username is already existed)
-					// case6: else {sign-up successfully --- get start ---}
+					// case6: else if (username is already existed)
+					// case7: else {sign-up successfully --- get start ---}
 				} catch (ExUsernameIsEmpty e1) {
 					e1.printStackTrace();
 				} catch (ExUsernameOutOfRange e2) {
@@ -162,10 +164,8 @@ public class Signup {
 		});
 
 		cancel.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				instance = null;
 				jf.dispose();
 			}
 
@@ -185,13 +185,7 @@ public class Signup {
 		jf.setLayeredPane(layeredPane);
 		jf.setSize(image.getIconWidth(), image.getIconHeight());
 		jf.setLocationRelativeTo(null);
-		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		jf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		jf.setVisible(true);
-	}
-
-	public static Signup getInstance() {
-		if (instance == null)
-			instance = new Signup();
-		return instance;
 	}
 }

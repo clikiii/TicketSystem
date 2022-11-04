@@ -14,11 +14,11 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
-public class ExTwoPasswordDifferent extends Exception {
+public class ExUsernameIsNotFound extends Exception {
 
-	public ExTwoPasswordDifferent() {
-		super("The two passwords are different.");
-		JFrame jf = new JFrame("ExTwoPasswordDifferent");
+	public ExUsernameIsNotFound() {
+		super("The username is not found.");
+		JFrame jf = new JFrame("ExUsernameIsNotFound");
 
 		JLayeredPane layeredPane = new JLayeredPane();
 		ImageIcon image = new ImageIcon("Source/ticketSystem/src/userInterface/ImgSource/warning.jpeg");
@@ -28,14 +28,14 @@ public class ExTwoPasswordDifferent extends Exception {
 		JLabel jl = new JLabel(image);
 		jp.add(jl);
 
-		JLabel text = new JLabel("The two passwords are different.");
-		text.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 17));
+		JLabel text = new JLabel("Username is not found.");
+		text.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 20));
 		text.setForeground(new Color(102, 146, 235));
-		text.setBounds(318, 85, 282, 50);
+		text.setBounds(322, 85, 278, 50);
 
 		JButton ok = new JButton("OK");
-		ok.setBounds(image.getIconWidth() - 100, image.getIconHeight() - 50, 90, 50);
-		ok.setFont(new Font("Times New Roman", Font.ITALIC | Font.BOLD, 25));
+		ok.setBounds(image.getIconWidth() - 100, image.getIconHeight() - 55, 90, 50);
+		ok.setFont(new Font("Times New Roman", Font.ITALIC | Font.BOLD, 27));
 		ok.setForeground(Color.WHITE);
 		ok.setBorderPainted(false);
 		ok.setFocusPainted(false);
@@ -67,7 +67,7 @@ public class ExTwoPasswordDifferent extends Exception {
 		jf.setVisible(true);
 	}
 
-	public ExTwoPasswordDifferent(String msg) {
+	public ExUsernameIsNotFound(String msg) {
 		super(msg);
 	}
 }

@@ -15,6 +15,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 public class ExUsernameOutOfRange extends Exception {
+
 	public ExUsernameOutOfRange() {
 		super("The length of username is out of range");
 		JFrame jf = new JFrame("ExUsernameOutOfRange");

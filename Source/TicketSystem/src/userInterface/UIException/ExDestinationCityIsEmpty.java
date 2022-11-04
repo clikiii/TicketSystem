@@ -14,11 +14,11 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
-public class ExTwoPasswordDifferent extends Exception {
+public class ExDestinationCityIsEmpty extends Exception {
 
-	public ExTwoPasswordDifferent() {
-		super("The two passwords are different.");
-		JFrame jf = new JFrame("ExTwoPasswordDifferent");
+	public ExDestinationCityIsEmpty() {
+		super("The destination city is empty.");
+		JFrame jf = new JFrame("ExDestinationCityIsEmpty");
 
 		JLayeredPane layeredPane = new JLayeredPane();
 		ImageIcon image = new ImageIcon("Source/ticketSystem/src/userInterface/ImgSource/warning.jpeg");
@@ -28,14 +28,14 @@ public class ExTwoPasswordDifferent extends Exception {
 		JLabel jl = new JLabel(image);
 		jp.add(jl);
 
-		JLabel text = new JLabel("The two passwords are different.");
+		JLabel text = new JLabel("Destination city cannot be empty.");
 		text.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 17));
 		text.setForeground(new Color(102, 146, 235));
-		text.setBounds(318, 85, 282, 50);
+		text.setBounds(320, 85, 280, 50);
 
 		JButton ok = new JButton("OK");
-		ok.setBounds(image.getIconWidth() - 100, image.getIconHeight() - 50, 90, 50);
-		ok.setFont(new Font("Times New Roman", Font.ITALIC | Font.BOLD, 25));
+		ok.setBounds(image.getIconWidth() - 100, image.getIconHeight() - 55, 90, 50);
+		ok.setFont(new Font("Times New Roman", Font.ITALIC | Font.BOLD, 27));
 		ok.setForeground(Color.WHITE);
 		ok.setBorderPainted(false);
 		ok.setFocusPainted(false);
@@ -67,7 +67,7 @@ public class ExTwoPasswordDifferent extends Exception {
 		jf.setVisible(true);
 	}
 
-	public ExTwoPasswordDifferent(String msg) {
+	public ExDestinationCityIsEmpty(String msg) {
 		super(msg);
 	}
 }

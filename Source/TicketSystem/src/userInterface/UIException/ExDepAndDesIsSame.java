@@ -14,11 +14,11 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
-public class ExTwoPasswordDifferent extends Exception {
+public class ExDepAndDesIsSame extends Exception {
 
-	public ExTwoPasswordDifferent() {
-		super("The two passwords are different.");
-		JFrame jf = new JFrame("ExTwoPasswordDifferent");
+	public ExDepAndDesIsSame() {
+		super("The departure city and destination city are the same.");
+		JFrame jf = new JFrame("ExDepAndDesIsSame");
 
 		JLayeredPane layeredPane = new JLayeredPane();
 		ImageIcon image = new ImageIcon("Source/ticketSystem/src/userInterface/ImgSource/warning.jpeg");
@@ -28,14 +28,14 @@ public class ExTwoPasswordDifferent extends Exception {
 		JLabel jl = new JLabel(image);
 		jp.add(jl);
 
-		JLabel text = new JLabel("The two passwords are different.");
-		text.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 17));
+		JLabel text = new JLabel("Departure and destination cannot be the same.");
+		text.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 13));
 		text.setForeground(new Color(102, 146, 235));
-		text.setBounds(318, 85, 282, 50);
+		text.setBounds(311, 87, 289, 50);
 
 		JButton ok = new JButton("OK");
-		ok.setBounds(image.getIconWidth() - 100, image.getIconHeight() - 50, 90, 50);
-		ok.setFont(new Font("Times New Roman", Font.ITALIC | Font.BOLD, 25));
+		ok.setBounds(image.getIconWidth() - 100, image.getIconHeight() - 55, 90, 50);
+		ok.setFont(new Font("Times New Roman", Font.ITALIC | Font.BOLD, 27));
 		ok.setForeground(Color.WHITE);
 		ok.setBorderPainted(false);
 		ok.setFocusPainted(false);
@@ -67,7 +67,7 @@ public class ExTwoPasswordDifferent extends Exception {
 		jf.setVisible(true);
 	}
 
-	public ExTwoPasswordDifferent(String msg) {
+	public ExDepAndDesIsSame(String msg) {
 		super(msg);
 	}
 }
