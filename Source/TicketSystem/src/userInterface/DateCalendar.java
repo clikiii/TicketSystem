@@ -37,9 +37,9 @@ public class DateCalendar {
 		jp.add(jl);
 
 		JLabel title = new JLabel("Select the date");
-		title.setFont(new Font("Times New Roman", Font.ITALIC | Font.BOLD, 25));
+		title.setFont(new Font("Times New Roman", Font.ITALIC | Font.BOLD, 23));
 		title.setForeground(new Color(102, 147, 195));
-		title.setBounds(200, 13, 400, 50);
+		title.setBounds(215, 13, 400, 50);
 
 		JLabel Sun = new JLabel("Sun.");
 		Sun.setFont(new Font("Times New Roman", Font.ITALIC | Font.BOLD, 20));

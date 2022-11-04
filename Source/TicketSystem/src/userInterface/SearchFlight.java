@@ -29,7 +29,7 @@ import ticketSystem.Flight;
 import ticketSystem.User;
 import userInterface.UIException.ExDepartureCityIsEmpty;
 import userInterface.UIException.ExDestinationCityIsEmpty;
-import userInterface.UIException.ExDepAndDesIsSame;
+import userInterface.UIException.ExDepAndDesAreSame;
 import userInterface.UIException.ExDateIsEmpty;
 import userInterface.UIException.ExDepartureCityIsNotFound;
 import userInterface.UIException.ExDestinationCityIsNotFound;
@@ -55,6 +55,7 @@ public class SearchFlight {
 	private User user = null;
 	private JButton loginBtn;
 	private JButton signupBtn;
+	private JButton account;
 	
 
 	private SearchFlight() {
@@ -257,7 +258,7 @@ public class SearchFlight {
 					else if (des.getText().equals("Destination City"))
 						throw new ExDestinationCityIsEmpty();
 					else if (dep.getText().equals(des.getText()))
-						throw new ExDepAndDesIsSame();
+						throw new ExDepAndDesAreSame();
 					else if (dft.getForeground() == Color.GRAY)
 						throw new ExDateIsEmpty();
 					else if (false) // call the backend func
@@ -271,7 +272,7 @@ public class SearchFlight {
 					e1.printStackTrace();
 				} catch (ExDestinationCityIsEmpty e2) {
 					e2.printStackTrace();
-				} catch (ExDepAndDesIsSame e3) {
+				} catch (ExDepAndDesAreSame e3) {
 					e3.printStackTrace();
 				} catch (ExDateIsEmpty e4) {
 					e4.printStackTrace();
@@ -345,9 +346,9 @@ public class SearchFlight {
 	
 	public void setAccountBtn(User aUser) {
 		this.user = aUser;
-		this.layeredPane.remove(loginBtn);
-		this.layeredPane.remove(signupBtn);
-		JButton account = new JButton("Hi! Alex"); // user.getUserName();
+		layeredPane.remove(loginBtn);
+		layeredPane.remove(signupBtn);
+		account = new JButton("Hi! Alex"); // user.getUserName();
 		account.setBounds(1181, 0, 259, 50);
 		account.setFont(new Font("Times New Roman", Font.ITALIC | Font.BOLD, 20));
 		account.setForeground(new Color(102, 147, 195));
@@ -370,6 +371,58 @@ public class SearchFlight {
 			}
 		});
 		layeredPane.add(account, JLayeredPane.MODAL_LAYER);
+	}
+	
+	public void logout() {
+		this.user = null;
+		this.layeredPane.remove(account);
+		loginBtn = new JButton("Login");
+		loginBtn.setBounds(1235, 0, 95, 50);
+		loginBtn.setFont(new Font("Times New Roman", Font.ITALIC | Font.BOLD, 20));
+		loginBtn.setForeground(new Color(102, 147, 195));
+		loginBtn.setBorderPainted(false);
+		loginBtn.setFocusPainted(false);
+		loginBtn.setOpaque(false);
+		loginBtn.addMouseListener(new MouseAdapter() {
+			public void mouseEntered(MouseEvent e) {
+				loginBtn.setForeground(new Color(135, 206, 235));
+			}
+
+			public void mouseExited(MouseEvent e) {
+				loginBtn.setForeground(new Color(102, 147, 195));
+			}
+		});
+		loginBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new Login();
+			}
+		});
+
+		signupBtn = new JButton("Sign up");
+		signupBtn.setBounds(1330, 0, 110, 50);
+		signupBtn.setFont(new Font("Times New Roman", Font.ITALIC | Font.BOLD, 20));
+		signupBtn.setForeground(new Color(102, 147, 195));
+		signupBtn.setBorderPainted(false);
+		signupBtn.setFocusPainted(false);
+		signupBtn.setOpaque(false);
+		signupBtn.addMouseListener(new MouseAdapter() {
+			public void mouseEntered(MouseEvent evt) {
+				signupBtn.setForeground(new Color(135, 206, 235));
+			}
+
+			public void mouseExited(MouseEvent evt) {
+				signupBtn.setForeground(new Color(102, 147, 195));
+			}
+		});
+		signupBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new Signup();
+			}
+		});
+		layeredPane.add(loginBtn, JLayeredPane.MODAL_LAYER);
+		layeredPane.add(signupBtn, JLayeredPane.MODAL_LAYER);
 	}
 
 }
