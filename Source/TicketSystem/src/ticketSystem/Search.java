@@ -1,13 +1,62 @@
 package ticketSystem;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+
+import ticketSystem.database.Database;
 
 public class Search {
-    public ArrayList<Flight> search(String searchType) {
-        if (searchType.equalsIgnoreCase("TAKEOFF")){
-            return null;
+
+    private String departure;
+    private String destination;
+    private Date startDate;
+    private Database db;
+
+    public Search(String departure, String destination, Date startDate, Database db){
+        this.departure = departure;
+        this.destination = destination;
+        this.startDate = startDate;
+        this.db = db;
+    }
+
+    private ArrayList<ArrayList<Flight>> singleTo2DArray(ArrayList<Flight> singleRoute) {
+        ArrayList<ArrayList<Flight>> ret = new ArrayList<>();
+
+        for (Flight f: singleRoute) {
+            ret.add(
+                new ArrayList<>(Arrays.asList(f))
+            );
         }
 
-        return null;
+        return ret;
+    }
+
+    // TODO: discuss with the frontend
+    public ArrayList<ArrayList<Flight>> search(String searchType, boolean onlySingle) {
+        ComparatorFactory comparatorFactory = new ComparatorFactory();
+        Comparator<ArrayList<Flight>> comparator = comparatorFactory.getComparator(searchType);
+
+        ArrayList<Flight> tempSingle  = Flight.queryByDepartAndDest(this.db, this.departure, this.destination, this.startDate);
+        ArrayList<ArrayList<Flight>> singleRoute = singleTo2DArray(tempSingle);
+
+        if (onlySingle) {
+            Collections.sort(singleRoute, comparator);
+            return singleRoute;
+        }
+
+        ArrayList<Flight> fromA = Flight.queryByDepart(this.db, this.departure, this.startDate);
+        ArrayList<Flight> toB = Flight.queryByDest(this.db, this.destination, this.startDate);
+
+        ArrayList<ArrayList<Flight>> doubleRoute = Algorithm.computeDoubleRoute(fromA, toB);
+
+        ArrayList<ArrayList<Flight>> ret = new ArrayList<>();
+        ret.addAll(singleRoute);
+        ret.addAll(doubleRoute);
+        Collections.sort(ret, comparator);
+
+        return ret;
     }
 }
