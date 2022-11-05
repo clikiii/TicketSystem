@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import ticketSystem.database.Database;
-import ticketSystem.database.DBException.ExDbFlightrNotFound;
+import ticketSystem.database.DBException.ExDbFlightNotFound;
 import ticketSystem.database.dao.flight.FlightDAO;
 import ticketSystem.database.dao.flight.IFlightDAO;
 
@@ -90,11 +90,11 @@ public class Flight {
                     rs.getString("fid"), 
                     rs.getString("departure"), 
                     rs.getString("destination"), 
-                    rs.getDate("takeOffTime"), 
-                    rs.getDate("landingTime"), 
-                    rs.getInt("totalSeats"),
-                    rs.getInt("availableSeats"), 
-                    rs.getString("sellStatus"), 
+                    rs.getDate("take_off_time"), 
+                    rs.getDate("landing_time"), 
+                    rs.getInt("total_seats"),
+                    rs.getInt("available_seats"), 
+                    rs.getString("sell_status"), 
                     rs.getInt("price")
                 );
 
@@ -120,7 +120,7 @@ public class Flight {
         return rsToAl(rs);
     }
 
-    public static boolean deleteFlightByFid(Database db, String fid) throws ExDbFlightrNotFound {
+    public static boolean deleteFlightByFid(Database db, String fid) throws ExDbFlightNotFound {
         IFlightDAO iFlightDAO = FlightDAO.getInstance();
         Boolean bret = iFlightDAO.deleteFlightByFid(db, fid);
         return bret;

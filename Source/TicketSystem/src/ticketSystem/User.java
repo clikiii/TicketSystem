@@ -14,18 +14,15 @@ import ticketSystem.database.dao.user.UserDAO;
 public class User implements People {
     private String username;
     private String password;
-    private ArrayList<Order> myOrders;
 
     public User() {
         this.username = null;
         this.password = null;
-        myOrders = null;
     }
 
     public User(String username, String password) {
         this.username = username;
         this.password = password;
-        this.myOrders = new ArrayList<>();
     }
 
     @Override
@@ -36,7 +33,6 @@ public class User implements People {
 
         this.username = username;
         this.password = password;
-        this.myOrders = new ArrayList<>();
         return this;
     }
 
@@ -48,7 +44,6 @@ public class User implements People {
 
         this.username = username;
         this.password = password;
-        this.myOrders = new ArrayList<>();
         return this;
     }
 
@@ -73,18 +68,18 @@ public class User implements People {
     }
 
 
-    public ArrayList<Order> addOrder(Order o) throws ExOrderAddFailed {
-        if (!myOrders.add(o)) {
-            throw new ExOrderAddFailed();
-        };
-        return myOrders;
-    }
+    // public ArrayList<Order> addOrder(Order o) throws ExOrderAddFailed {
+    //     if (!myOrders.add(o)) {
+    //         throw new ExOrderAddFailed();
+    //     };
+    //     return myOrders;
+    // }
 
-    public ArrayList<Order> cancelOrder(Order o) throws ExOrderRemoveFailed {
-        if (myOrders.remove(o)) {
-            throw new ExOrderRemoveFailed();
-        };
-        return myOrders;
-    }
+    // public ArrayList<Order> cancelOrder(Order o) throws ExOrderRemoveFailed {
+    //     if (myOrders.remove(o)) {
+    //         throw new ExOrderRemoveFailed();
+    //     };
+    //     return myOrders;
+    // }
 
 }

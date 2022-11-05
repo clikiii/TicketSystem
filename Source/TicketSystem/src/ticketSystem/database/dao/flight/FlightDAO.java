@@ -4,7 +4,7 @@ import java.sql.*;
 import java.util.Date;
 
 import ticketSystem.database.Database;
-import ticketSystem.database.DBException.ExDbFlightrNotFound;
+import ticketSystem.database.DBException.ExDbFlightNotFound;
 
 public class FlightDAO implements IFlightDAO {
     private static FlightDAO instance = new FlightDAO();
@@ -35,6 +35,7 @@ public class FlightDAO implements IFlightDAO {
         return rs;
     }
 
+    // TODO: change fid
     @Override
     public ResultSet queryFlightByFid(Database db, String fid) {
         Connection conn = db.connect();
@@ -58,7 +59,7 @@ public class FlightDAO implements IFlightDAO {
     }
 
     @Override
-    public boolean deleteFlightByFid(Database db, String fid) throws ExDbFlightrNotFound {
+    public boolean deleteFlightByFid(Database db, String fid) throws ExDbFlightNotFound {
         Connection conn = db.connect();
         Statement stmt = null;
         ResultSet rs = null;
@@ -68,7 +69,7 @@ public class FlightDAO implements IFlightDAO {
             rs = stmt.executeQuery(String.format(sqlSelect, fid));
             rs.next();
             if (rs.getInt("count(*)") == 0) {
-                throw new ExDbFlightrNotFound();
+                throw new ExDbFlightNotFound();
             }else{
                 String sqlUpdate = "delete from ticketdb.flight where fid = '%s';";
                 stmt.executeUpdate(String.format(sqlUpdate, fid));
