@@ -10,10 +10,19 @@ import ticketSystem.database.dao.order.IOrderDAO;
 import ticketSystem.database.dao.order.OrderDAO;
 
 public class Order {
+    private int orderIndex;
     private String flightSet;
     private int number;
 
     public Order(String flightSet, int number) {
+        // NOTE: NO order index before insertion.
+        this.orderIndex = -1;
+        this.flightSet = flightSet;
+        this.number = number;
+    }
+
+    public Order(int orderIndex, String flightSet, int number){
+        this.orderIndex = orderIndex;
         this.flightSet = flightSet;
         this.number = number;
     }
@@ -24,6 +33,7 @@ public class Order {
         try {
             while(rs.next()) {
                 Order order = new Order(
+                    rs.getInt("order_index"),
                     rs.getString("flight_set"), 
                     rs.getInt("number")
                 );
@@ -51,15 +61,15 @@ public class Order {
         return rsToAl(rs);
     }
 
-    public static ArrayList<Order> addOrder(Database db, String flightSet, int number) {
+    public static ArrayList<Order> addOrder(Database db, Order o) {
         IOrderDAO iOrderDAO = OrderDAO.getInstance();
-        ResultSet rs = iOrderDAO.addOrder(db, flightSet, number);
+        ResultSet rs = iOrderDAO.addOrder(db, o.flightSet, o.number);
 
         // NOTE: here the ArrayList only contanins one order which is the one newly created above.
         return rsToAl(rs);
     }
 
-    public static boolean deleteOrder(Database db, int orderIndex) throws ExDbOrderNotFound {
+    public static boolean cancelOrder(Database db, int orderIndex) throws ExDbOrderNotFound {
         IOrderDAO iOrderDAO = OrderDAO.getInstance();
         Boolean bret = iOrderDAO.deleteOrder(db, orderIndex);
         return bret;

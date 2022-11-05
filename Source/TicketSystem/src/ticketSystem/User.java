@@ -2,12 +2,15 @@ package ticketSystem;
 
 import java.util.ArrayList;
 
-import ticketSystem.Exception.ExOrderAddFailed;
-import ticketSystem.Exception.ExOrderRemoveFailed;
 import ticketSystem.database.Database;
 import ticketSystem.database.DBException.ExDbDeleteUserFailed;
+import ticketSystem.database.DBException.ExDbFlightNotFound;
+import ticketSystem.database.DBException.ExDbOrderNotFound;
+import ticketSystem.database.DBException.ExDbSeatInsufficient;
 import ticketSystem.database.DBException.ExDbUserExisted;
 import ticketSystem.database.DBException.ExDbUserNotFound;
+import ticketSystem.database.dao.flight.FlightDAO;
+import ticketSystem.database.dao.flight.IFlightDAO;
 import ticketSystem.database.dao.user.IUserDAO;
 import ticketSystem.database.dao.user.UserDAO;
 
@@ -54,7 +57,6 @@ public class User implements People {
         iUserDAO.changePwd(db, username, newPwd);
         
         this.password = newPwd;
-
         return this;
     }
 
@@ -68,18 +70,34 @@ public class User implements People {
     }
 
 
-    // public ArrayList<Order> addOrder(Order o) throws ExOrderAddFailed {
-    //     if (!myOrders.add(o)) {
-    //         throw new ExOrderAddFailed();
-    //     };
-    //     return myOrders;
-    // }
+    public ArrayList<Order> addOrder(Database db, String flightSet, int changeNumber) throws ExDbSeatInsufficient, ExDbFlightNotFound{
+        IFlightDAO iFlightDAO = FlightDAO.getInstance();
+        for (String fIdx: flightSet.split(" ")){
+            iFlightDAO.updateSeatByIndex(db, Integer.parseInt(fIdx), changeNumber);
+        }
+        
+        ArrayList<Order> ret = Order.addOrder(db, new Order(flightSet, changeNumber));
 
-    // public ArrayList<Order> cancelOrder(Order o) throws ExOrderRemoveFailed {
-    //     if (myOrders.remove(o)) {
-    //         throw new ExOrderRemoveFailed();
-    //     };
-    //     return myOrders;
-    // }
+        return ret;
+    }
+
+    public boolean cancelOrder(Database db, int orderIndex, String flightSet, int changeNumber) throws ExDbOrderNotFound{
+        boolean bret = Order.cancelOrder(db, orderIndex);
+
+        IFlightDAO iFlightDAO = FlightDAO.getInstance();
+        for (String fIdx: flightSet.split(" ")){
+            try {
+                iFlightDAO.updateSeatByIndex(db, Integer.parseInt(fIdx), -changeNumber);
+            } catch (ExDbSeatInsufficient | ExDbFlightNotFound e) {
+                e.printStackTrace();
+                System.out.println("These errors are not supposed to occur.");
+                return false;
+            } 
+        }
+
+        return bret;
+    }
+
+    // NOTE: to get a specific user's order list, please use Order.queryOrderByUsername(Database db, String username).
 
 }
