@@ -11,6 +11,6 @@ public interface People {
 
         iUserDAO.addUser(db, username, password);
 
-        return new User(username, password);
+        return new User(db, username, password);
     }
 }

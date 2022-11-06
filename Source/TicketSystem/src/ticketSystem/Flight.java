@@ -123,13 +123,13 @@ public class Flight {
         return rsToAl(rs);
     }
 
-    public static ArrayList<Flight> queryFlightByFid(Database db, int flightIndex) {
+    public static ArrayList<Flight> queryFlightByIndex(Database db, int flightIndex) {
         IFlightDAO iFlightDAO = FlightDAO.getInstance();
         ResultSet rs = iFlightDAO.queryFlightByIndex(db, flightIndex);
         return rsToAl(rs);
     }
 
-    public static boolean deleteFlightByFid(Database db, int flightIndex) throws ExDbFlightNotFound {
+    public static boolean deleteFlightByIndex(Database db, int flightIndex) throws ExDbFlightNotFound {
         IFlightDAO iFlightDAO = FlightDAO.getInstance();
         Boolean bret = iFlightDAO.deleteFlightByIndex(db, flightIndex);
         return bret;
