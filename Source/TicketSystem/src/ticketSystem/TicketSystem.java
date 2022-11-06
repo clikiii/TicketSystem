@@ -43,7 +43,7 @@ public class TicketSystem {
 
 
     public void terminate(){
-        System.out.println("System terminated.");
         this.db.closeConn();
+        System.out.println("System terminated.");
     }
 }
