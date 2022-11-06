@@ -194,5 +194,4 @@ public class FlightDAO implements IFlightDAO {
 
         return true;
     }
-    
 }

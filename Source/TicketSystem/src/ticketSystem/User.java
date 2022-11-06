@@ -28,29 +28,14 @@ public class User implements People {
         this.password = password;
     }
 
-    @Override
-    public People register(Database db, String username, String password) throws ExDbUserExisted {
-        IUserDAO iUserDAO = UserDAO.getInstance();
-
-        iUserDAO.addUser(db, username, password);
-
-        this.username = username;
-        this.password = password;
-        return this;
-    }
-
-    @Override
-    public People login(Database db, String username, String password) throws ExDbUserNotFound {
+    public static User login(Database db, String username, String password) throws ExDbUserNotFound {
         IUserDAO iUserDAO = UserDAO.getInstance();
 
         iUserDAO.queryUser(db, username, password);
 
-        this.username = username;
-        this.password = password;
-        return this;
+        return new User(username, password);
     }
 
-    @Override
     public People changePwd(Database db, String username, String newPwd) throws ExDbUserNotFound {
         IUserDAO iUserDAO = UserDAO.getInstance();
         
@@ -60,7 +45,6 @@ public class User implements People {
         return this;
     }
 
-    @Override
     public Boolean deleteMe(Database db, String username, String password) throws ExDbDeleteUserFailed, ExDbUserNotFound {
         IUserDAO iUserDAO = UserDAO.getInstance();
 
