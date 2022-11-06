@@ -3,7 +3,7 @@ package ticketSystem.database.dao.order;
 import java.sql.*;
 
 import ticketSystem.database.Database;
-import ticketSystem.database.DBException.ExDbOrderNotFound;
+import ticketSystem.database.dbException.ExDbOrderNotFound;
 
 public class OrderDAO implements IOrderDAO{
     private static OrderDAO instance = new OrderDAO();

@@ -5,9 +5,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import ticketSystem.database.Database;
-import ticketSystem.database.DBException.ExDbOrderNotFound;
 import ticketSystem.database.dao.order.IOrderDAO;
 import ticketSystem.database.dao.order.OrderDAO;
+import ticketSystem.database.dbException.ExDbOrderNotFound;
 
 public class Order {
     private int orderIndex;

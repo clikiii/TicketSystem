@@ -1,6 +1,6 @@
 package ticketSystem;
 
-import ticketSystem.database.DBException.ExDbUserExisted;
+import ticketSystem.database.dbException.ExDbUserExisted;
 
 public class Main {
     public static void main(String[] args) {

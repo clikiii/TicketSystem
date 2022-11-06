@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import ticketSystem.database.Database;
-import ticketSystem.database.DBException.ExDbFlightNotFound;
-import ticketSystem.database.DBException.ExDbSeatInsufficient;
 import ticketSystem.database.dao.flight.FlightDAO;
 import ticketSystem.database.dao.flight.IFlightDAO;
+import ticketSystem.database.dbException.ExDbFlightNotFound;
+import ticketSystem.database.dbException.ExDbSeatInsufficient;
 
 public class Flight {
     private int flightIndex;

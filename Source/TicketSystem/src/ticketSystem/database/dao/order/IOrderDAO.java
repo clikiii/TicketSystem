@@ -3,7 +3,7 @@ package ticketSystem.database.dao.order;
 import java.sql.ResultSet;
 
 import ticketSystem.database.Database;
-import ticketSystem.database.DBException.ExDbOrderNotFound;
+import ticketSystem.database.dbException.ExDbOrderNotFound;
 
 public interface IOrderDAO {
     public ResultSet queryOrderByUsername(Database db, String username);

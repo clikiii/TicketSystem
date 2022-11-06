@@ -3,14 +3,14 @@ package ticketSystem;
 import java.util.ArrayList;
 
 import ticketSystem.database.Database;
-import ticketSystem.database.DBException.ExDbFlightNotFound;
-import ticketSystem.database.DBException.ExDbOrderNotFound;
-import ticketSystem.database.DBException.ExDbSeatInsufficient;
-import ticketSystem.database.DBException.ExDbUserNotFound;
 import ticketSystem.database.dao.flight.FlightDAO;
 import ticketSystem.database.dao.flight.IFlightDAO;
 import ticketSystem.database.dao.user.IUserDAO;
 import ticketSystem.database.dao.user.UserDAO;
+import ticketSystem.database.dbException.ExDbFlightNotFound;
+import ticketSystem.database.dbException.ExDbOrderNotFound;
+import ticketSystem.database.dbException.ExDbSeatInsufficient;
+import ticketSystem.database.dbException.ExDbUserNotFound;
 
 public class User implements People {
     private String username;

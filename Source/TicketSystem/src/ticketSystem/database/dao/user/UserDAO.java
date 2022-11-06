@@ -1,8 +1,8 @@
 package ticketSystem.database.dao.user;
 
 import ticketSystem.database.Database;
-import ticketSystem.database.DBException.ExDbUserExisted;
-import ticketSystem.database.DBException.ExDbUserNotFound;
+import ticketSystem.database.dbException.ExDbUserExisted;
+import ticketSystem.database.dbException.ExDbUserNotFound;
 
 import java.sql.*;
 

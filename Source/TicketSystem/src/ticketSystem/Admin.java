@@ -1,7 +1,7 @@
 package ticketSystem;
 
 import ticketSystem.database.Database;
-import ticketSystem.database.DBException.ExDbUserNotFound;
+import ticketSystem.database.dbException.ExDbUserNotFound;
 
 public class Admin implements People{
     private static Admin instance = new Admin();
