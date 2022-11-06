@@ -1,0 +1,21 @@
+Class User addOrder方法
+myOrders.add这个方法永远返回true，下面判断没有意义
+if (!myOrders.add(o)) {
+    throw new ExOrderAddFailed();
+};
+
+Class UserDAO deleteUser方法
+107行，少了个password，rs = stmt.executeQuery(String.format(sqlSelect, username, password));
+113行，password和username顺序反了
+
+
+
+
+
+
+
+
+Flight
+将ticketSystem.Flight中的query方法都改成static，这些不应该是单个对象的方法，应该是类的方法
+
+rsToAl方法里没有判断resultSet是否为null，加上了
