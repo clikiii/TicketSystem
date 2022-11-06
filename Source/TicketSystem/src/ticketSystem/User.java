@@ -3,11 +3,9 @@ package ticketSystem;
 import java.util.ArrayList;
 
 import ticketSystem.database.Database;
-import ticketSystem.database.DBException.ExDbDeleteUserFailed;
 import ticketSystem.database.DBException.ExDbFlightNotFound;
 import ticketSystem.database.DBException.ExDbOrderNotFound;
 import ticketSystem.database.DBException.ExDbSeatInsufficient;
-import ticketSystem.database.DBException.ExDbUserExisted;
 import ticketSystem.database.DBException.ExDbUserNotFound;
 import ticketSystem.database.dao.flight.FlightDAO;
 import ticketSystem.database.dao.flight.IFlightDAO;
@@ -45,7 +43,7 @@ public class User implements People {
         return this;
     }
 
-    public Boolean deleteMe(Database db, String username, String password) throws ExDbDeleteUserFailed, ExDbUserNotFound {
+    public Boolean deleteMe(Database db, String username, String password) throws ExDbUserNotFound {
         IUserDAO iUserDAO = UserDAO.getInstance();
 
         iUserDAO.deleteUser(db, username, password);
