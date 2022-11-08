@@ -61,7 +61,8 @@ public class Database{
     public void closeConn() {
         try {
             if (this.conn != null){
-                conn.close();
+                System.out.println(this.conn.toString());
+                this.conn.close();
                 System.out.println("Database: GoodBye!");
             }
         } catch (SQLException e) {

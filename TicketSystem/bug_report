@@ -1,3 +1,22 @@
+User
+login 方法 dao执行失败的时候应该返回null
+changePwd 与login的问题一样
+queryOrderByUsername 未判断rs为null的情况
+addOrder方法未判断rs为null
+
+People
+register dao返回false时，返回null
+
+Flight
+rsToAl 未判断rs为null
+
+TicketSystem
+增加构造函数用于单测 public TicketSystem(Database db)
+
+Order
+rsToAl 未判断rs为null
+
+
 Class User addOrder方法
 myOrders.add这个方法永远返回true，下面判断没有意义
 if (!myOrders.add(o)) {
@@ -7,12 +26,6 @@ if (!myOrders.add(o)) {
 Class UserDAO deleteUser方法
 107行，少了个password，rs = stmt.executeQuery(String.format(sqlSelect, username, password));
 113行，password和username顺序反了
-
-
-
-
-
-
 
 
 Flight

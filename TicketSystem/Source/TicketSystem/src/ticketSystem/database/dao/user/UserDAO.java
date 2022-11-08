@@ -1,8 +1,8 @@
 package ticketSystem.database.dao.user;
 
 import ticketSystem.database.Database;
-import ticketSystem.database.DBException.ExDbUserExisted;
-import ticketSystem.database.DBException.ExDbUserNotFound;
+import ticketSystem.database.dbException.ExDbUserExisted;
+import ticketSystem.database.dbException.ExDbUserNotFound;
 
 import java.sql.*;
 
@@ -69,7 +69,7 @@ public class UserDAO implements IUserDAO{
 
     @Override
     public boolean queryUser(Database db, String username, String password) throws ExDbUserNotFound {
-        Connection conn = db.connect();
+        Connection conn;
         Statement stmt = null;
         ResultSet rs = null;
         try {

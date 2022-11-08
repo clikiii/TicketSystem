@@ -2,88 +2,87 @@ package ticketSystem;
 
 import java.util.ArrayList;
 
-import ticketSystem.Exception.ExOrderAddFailed;
-import ticketSystem.Exception.ExOrderRemoveFailed;
 import ticketSystem.database.Database;
-import ticketSystem.database.DBException.ExDbDeleteUserFailed;
-import ticketSystem.database.DBException.ExDbUserExisted;
-import ticketSystem.database.DBException.ExDbUserNotFound;
+import ticketSystem.database.dao.flight.FlightDAO;
+import ticketSystem.database.dao.flight.IFlightDAO;
 import ticketSystem.database.dao.user.IUserDAO;
 import ticketSystem.database.dao.user.UserDAO;
+import ticketSystem.database.dbException.ExDbFlightNotFound;
+import ticketSystem.database.dbException.ExDbOrderNotFound;
+import ticketSystem.database.dbException.ExDbSeatInsufficient;
+import ticketSystem.database.dbException.ExDbUserNotFound;
 
 public class User implements People {
     private String username;
     private String password;
-    private ArrayList<Order> myOrders;
+    private Database db;
 
-    public User() {
-        this.username = null;
-        this.password = null;
-        myOrders = null;
-    }
-
-    public User(String username, String password) {
+    public User(Database db, String username, String password) {
         this.username = username;
         this.password = password;
-        this.myOrders = new ArrayList<>();
+        this.db = db;
     }
 
-    @Override
-    public People register(Database db, String username, String password) throws ExDbUserExisted {
+    public static User login(Database db, String username, String password) throws ExDbUserNotFound {
         IUserDAO iUserDAO = UserDAO.getInstance();
 
-        iUserDAO.addUser(db, username, password);
+        if (iUserDAO.queryUser(db, username, password)) {
+            return new User(db, username, password);
+        }
 
-        this.username = username;
-        this.password = password;
-        this.myOrders = new ArrayList<>();
-        return this;
+        return null;
     }
 
-    @Override
-    public People login(Database db, String username, String password) throws ExDbUserNotFound {
+    public People changePwd(String newPwd) throws ExDbUserNotFound {
         IUserDAO iUserDAO = UserDAO.getInstance();
 
-        iUserDAO.queryUser(db, username, password);
+        if (iUserDAO.changePwd(this.db, this.username, newPwd)) {
+            this.password = newPwd;
+            return this;
+        }
 
-        this.username = username;
-        this.password = password;
-        this.myOrders = new ArrayList<>();
-        return this;
+        return null;
     }
 
-    @Override
-    public People changePwd(Database db, String username, String newPwd) throws ExDbUserNotFound {
-        IUserDAO iUserDAO = UserDAO.getInstance();
-        
-        iUserDAO.changePwd(db, username, newPwd);
-        
-        this.password = newPwd;
-
-        return this;
-    }
-
-    @Override
-    public Boolean deleteMe(Database db, String username, String password) throws ExDbDeleteUserFailed, ExDbUserNotFound {
+    public Boolean deleteMe() throws ExDbUserNotFound {
         IUserDAO iUserDAO = UserDAO.getInstance();
 
-        iUserDAO.deleteUser(db, username, password);
+        iUserDAO.deleteUser(this.db, this.username, this.password);
 
         return true;
     }
 
 
-    public ArrayList<Order> addOrder(Order o) throws ExOrderAddFailed {
-        myOrders.add(o);
+    public ArrayList<Order> addOrder(String flightSet, int changeNumber) throws ExDbSeatInsufficient, ExDbFlightNotFound{
+        IFlightDAO iFlightDAO = FlightDAO.getInstance();
+        for (String fIdx: flightSet.split(" ")){
+            iFlightDAO.updateSeatByIndex(this.db, Integer.parseInt(fIdx), changeNumber);
+        }
+        
+        ArrayList<Order> ret = Order.addOrder(this.db, new Order(flightSet, changeNumber));
 
-        return myOrders;
+        return ret;
     }
 
-    public ArrayList<Order> cancelOrder(Order o) throws ExOrderRemoveFailed {
-        if (!myOrders.remove(o)) {
-            throw new ExOrderRemoveFailed();
-        };
-        return myOrders;
+    public boolean cancelOrder(int orderIndex, String flightSet, int changeNumber) throws ExDbOrderNotFound{
+        boolean bret = Order.cancelOrder(this.db, orderIndex);
+
+        IFlightDAO iFlightDAO = FlightDAO.getInstance();
+        for (String fIdx: flightSet.split(" ")){
+            try {
+                iFlightDAO.updateSeatByIndex(this.db, Integer.parseInt(fIdx), -changeNumber);
+            } catch (ExDbSeatInsufficient | ExDbFlightNotFound e) {
+                e.printStackTrace();
+                System.out.println("These errors are not supposed to occur.");
+                return false;
+            } 
+        }
+
+        return bret;
+    }
+
+    public ArrayList<Order> getMyOrder(){
+        return Order.queryOrderByUsername(this.db, username);
     }
 
 }

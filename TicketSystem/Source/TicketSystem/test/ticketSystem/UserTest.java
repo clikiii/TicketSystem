@@ -8,224 +8,163 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import ticketSystem.Exception.ExOrderAddFailed;
-import ticketSystem.Exception.ExOrderRemoveFailed;
-import ticketSystem.database.DBException.ExDbDeleteUserFailed;
-import ticketSystem.database.DBException.ExDbUserExisted;
-import ticketSystem.database.DBException.ExDbUserNotFound;
 import ticketSystem.database.Database;
+import ticketSystem.database.dbException.ExDbFlightNotFound;
+import ticketSystem.database.dbException.ExDbOrderNotFound;
+import ticketSystem.database.dbException.ExDbSeatInsufficient;
+import ticketSystem.database.dbException.ExDbUserNotFound;
 
-public class UserTest {
-    @Test (expected = NullPointerException.class)
-    public void testAddOrderFailed() throws ExOrderAddFailed {
-        User user = new User();
-        user.addOrder(new Order("test"));
+public class UserTest extends BaseTest {
+    private User user;
+
+    @Before
+    public void init() throws SQLException {
+        super.init();
+
+        Mockito.when(rs.getInt("order_index")).thenReturn(1);
+        Mockito.when(rs.getString("flight_set")).thenReturn("1");
+        Mockito.when(rs.getInt("number")).thenReturn(1);
+        user = new User(db, "abc", "123");
+    }
+
+    @Test (expected = NumberFormatException.class)
+    public void testAddOrderFailed1() throws ExDbFlightNotFound, ExDbSeatInsufficient {
+        List<Order> list = user.addOrder("flight1", 1);
+        Assert.assertEquals(1, list.size());
     }
 
     @Test
-    public void testAddOrderPassed() throws ExOrderAddFailed {
-        User user = new User("abc", "123");
-        List<Order> list = user.addOrder(new Order("test"));
-        Assert.assertEquals(1, list.size());
+    public void testAddOrderFailed2() throws ExDbFlightNotFound, ExDbSeatInsufficient, SQLException {
+        Mockito.when(stmt.executeQuery(anyString())).thenThrow(SQLException.class);
+        Mockito.when(rs.next()).thenReturn(false, false, false);
+        List<Order> list = user.addOrder("101", 1);
+        Assert.assertNull(list);
     }
 
-    @Test (expected = ExOrderRemoveFailed.class)
-    public void testCancelOrderFailed() throws ExOrderAddFailed, ExOrderRemoveFailed {
-        User user = new User("abc", "123");
-        Order o1 = new Order("test");
-        List<Order> list = user.addOrder(o1);
-        Assert.assertEquals(1, list.size());
+    @Test (expected = ExDbFlightNotFound.class)
+    public void testAddOrderFailed3() throws ExDbFlightNotFound, ExDbSeatInsufficient, SQLException {
+        Mockito.when(stmt.executeQuery(anyString())).thenReturn(rs);
+        Mockito.when(rs.getInt("count(*)")).thenReturn(0);
 
-        list = user.cancelOrder(new Order("123"));
-        Assert.assertEquals(1, list.size());
+        List<Order> list = user.addOrder("101", 1);
+    }
+
+    @Test (expected = ExDbSeatInsufficient.class)
+    public void testAddOrderFailed4() throws ExDbFlightNotFound, ExDbSeatInsufficient, SQLException {
+        Mockito.when(stmt.executeQuery(anyString())).thenReturn(rs);
+        Mockito.when(rs.getInt("count(*)")).thenReturn(1);
+        Mockito.when(rs.getInt("available_seats")).thenReturn(-1);
+
+        List<Order> list = user.addOrder("101", 1);
     }
 
     @Test
-    public void testCancelOrderPassed() throws ExOrderAddFailed, ExOrderRemoveFailed {
-        User user = new User("abc", "123");
-        Order o1 = new Order("test");
-        List<Order> list = user.addOrder(o1);
-        Assert.assertEquals(1, list.size());
+    public void testAddOrderPass() throws ExDbFlightNotFound, ExDbSeatInsufficient, SQLException {
+        Mockito.when(stmt.executeQuery(anyString())).thenReturn(rs);
+        Mockito.when(rs.getInt("count(*)")).thenReturn(1);
+        Mockito.when(rs.getInt("available_seats")).thenReturn(1);
+        Mockito.when(rs.next()).thenReturn(true, true, true, false);
 
-        list = user.cancelOrder(o1);
-        Assert.assertEquals(0, list.size());
+        List<Order> list = user.addOrder("101", 1);
+        Assert.assertEquals(1, list.size());
+    }
+
+    @Test (expected = ExDbOrderNotFound.class)
+    public void testCancelOrderFailed1() throws SQLException, ExDbOrderNotFound {
+        Mockito.when(stmt.executeQuery(anyString())).thenReturn(rs);
+        Mockito.when(rs.getInt("count(*)")).thenReturn(0);
+
+        boolean res = user.cancelOrder(1, "101", 1);
+        Assert.assertFalse(res);
+    }
+
+    @Test
+    public void testCancelOrderFailed2() throws SQLException, ExDbOrderNotFound {
+        Mockito.when(stmt.executeQuery(anyString())).thenReturn(rs);
+        Mockito.when(rs.getInt("count(*)")).thenReturn(1);
+        Mockito.when(rs.getInt("available_seats")).thenReturn(-2);
+
+        boolean res = user.cancelOrder(1, "101", 1);
+        Assert.assertFalse(res);
+    }
+
+    @Test
+    public void testCancelOrderPassed() throws SQLException, ExDbOrderNotFound {
+        Mockito.when(stmt.executeQuery(anyString())).thenReturn(rs);
+        Mockito.when(rs.getInt("count(*)")).thenReturn(1);
+        Mockito.when(rs.getInt("available_seats")).thenReturn(1);
+
+        boolean res = user.cancelOrder(1, "101", 1);
+        Assert.assertTrue(res);
     }
 
     @Test (expected = ExDbUserNotFound.class)
-    public void testDeleteUserFailed1() throws SQLException, ExDbUserNotFound, ExDbDeleteUserFailed {
-        User user = new User();
-        Database db = Mockito.mock(Database.class);
-        Connection conn = Mockito.mock(Connection.class);
-        Mockito.when(db.connect()).thenReturn(conn);
-        Statement stmt = Mockito.mock(Statement.class);
-        Mockito.when(conn.createStatement()).thenReturn(stmt);
-        ResultSet rs = Mockito.mock(ResultSet.class);
-        Mockito.when(stmt.executeQuery(anyString())).thenReturn(rs);
-        Mockito.when(rs.getInt(anyString())).thenReturn(0);
-
-        Assert.assertTrue(user.deleteMe(db, "abc", "123"));
+    public void testDeleteFailed1() throws ExDbUserNotFound, SQLException {
+        Mockito.when(rs.getInt("count(*)")).thenReturn(0);
+        Assert.assertTrue(user.deleteMe());
     }
 
     @Test
-    public void testDeleteUserFailed2() throws SQLException, ExDbUserNotFound, ExDbDeleteUserFailed {
-        User user = new User();
-        Database db = Mockito.mock(Database.class);
-        Connection conn = Mockito.mock(Connection.class);
-        Mockito.when(db.connect()).thenReturn(conn);
-        Statement stmt = Mockito.mock(Statement.class);
-        Mockito.when(conn.createStatement()).thenReturn(stmt);
-        ResultSet rs = Mockito.mock(ResultSet.class);
-        Mockito.when(stmt.executeQuery(anyString())).thenThrow(new SQLException());
-
-        Assert.assertTrue(user.deleteMe(db, "abc", "123"));
+    public void testDeleteFailed2() throws ExDbUserNotFound, SQLException {
+        Mockito.when(rs.getInt("count(*)")).thenThrow(SQLException.class);
+        Assert.assertTrue(user.deleteMe());
     }
 
     @Test
-    public void testDeleteUserPassed() throws SQLException, ExDbUserNotFound, ExDbDeleteUserFailed {
-        User user = new User();
-        Database db = Mockito.mock(Database.class);
-        Connection conn = Mockito.mock(Connection.class);
-        Mockito.when(db.connect()).thenReturn(conn);
-        Statement stmt = Mockito.mock(Statement.class);
-        Mockito.when(conn.createStatement()).thenReturn(stmt);
-        ResultSet rs = Mockito.mock(ResultSet.class);
-        Mockito.when(stmt.executeQuery(anyString())).thenReturn(rs);
-        Mockito.when(rs.getInt(anyString())).thenReturn(1);
-
-        Assert.assertTrue(user.deleteMe(db, "abc", "123"));
-    }
-
-    @Test (expected = ExDbUserExisted.class)
-    public void testRegisterFailed1() throws SQLException, ExDbUserExisted {
-        User user = new User();
-        Database db = Mockito.mock(Database.class);
-        Connection conn = Mockito.mock(Connection.class);
-        Mockito.when(db.connect()).thenReturn(conn);
-        Statement stmt = Mockito.mock(Statement.class);
-        Mockito.when(conn.createStatement()).thenReturn(stmt);
-        ResultSet rs = Mockito.mock(ResultSet.class);
-        Mockito.when(stmt.executeQuery(anyString())).thenReturn(rs);
-        Mockito.when(rs.getInt(anyString())).thenReturn(1);
-
-        Assert.assertNotNull(user.register(db, "abc", "123"));
-    }
-
-    @Test
-    public void testRegisterFailed2() throws SQLException, ExDbUserExisted {
-        User user = new User();
-        Database db = Mockito.mock(Database.class);
-        Connection conn = Mockito.mock(Connection.class);
-        Mockito.when(db.connect()).thenReturn(conn);
-        Statement stmt = Mockito.mock(Statement.class);
-        Mockito.when(conn.createStatement()).thenReturn(stmt);
-        ResultSet rs = Mockito.mock(ResultSet.class);
-        Mockito.when(stmt.executeQuery(anyString())).thenThrow(new SQLException());
-
-        Assert.assertNotNull(user.register(db, "abc", "123"));
-    }
-
-    @Test
-    public void testRegisterPassed() throws SQLException, ExDbUserExisted {
-        User user = new User();
-        Database db = Mockito.mock(Database.class);
-        Connection conn = Mockito.mock(Connection.class);
-        Mockito.when(db.connect()).thenReturn(conn);
-        Statement stmt = Mockito.mock(Statement.class);
-        Mockito.when(conn.createStatement()).thenReturn(stmt);
-        ResultSet rs = Mockito.mock(ResultSet.class);
-        Mockito.when(stmt.executeQuery(anyString())).thenReturn(rs);
-        Mockito.when(rs.getInt(anyString())).thenReturn(0);
-
-        Assert.assertNotNull(user.register(db, "abc", "123"));
+    public void testDeleteUserPass() throws SQLException, ExDbUserNotFound {
+        Mockito.when(rs.getInt("count(*)")).thenReturn(1);
+        Assert.assertTrue(user.deleteMe());
     }
 
     @Test (expected = ExDbUserNotFound.class)
     public void testLoginFailed1() throws SQLException, ExDbUserNotFound {
-        User user = new User();
-        Database db = Mockito.mock(Database.class);
-        Connection conn = Mockito.mock(Connection.class);
-        Mockito.when(db.connect()).thenReturn(conn);
-        Statement stmt = Mockito.mock(Statement.class);
-        Mockito.when(conn.createStatement()).thenReturn(stmt);
-        ResultSet rs = Mockito.mock(ResultSet.class);
-        Mockito.when(stmt.executeQuery(anyString())).thenReturn(rs);
-        Mockito.when(rs.getInt(anyString())).thenReturn(0);
-
+        Mockito.when(rs.getInt("count(*)")).thenReturn(0);
         Assert.assertNotNull(user.login(db, "abc", "123"));
     }
 
     @Test
     public void testLoginFailed2() throws SQLException, ExDbUserNotFound {
-        User user = new User();
-        Database db = Mockito.mock(Database.class);
-        Connection conn = Mockito.mock(Connection.class);
-        Mockito.when(db.connect()).thenReturn(conn);
-        Statement stmt = Mockito.mock(Statement.class);
-        Mockito.when(conn.createStatement()).thenReturn(stmt);
-        ResultSet rs = Mockito.mock(ResultSet.class);
-        Mockito.when(stmt.executeQuery(anyString())).thenThrow(new SQLException());
-
-        Assert.assertNotNull(user.login(db, "abc", "123"));
+        Mockito.when(rs.getInt("count(*)")).thenThrow(SQLException.class);
+        Assert.assertNull(user.login(db, "abc", "123"));
     }
 
     @Test
-    public void testLoginPassed() throws SQLException, ExDbUserNotFound {
-        User user = new User();
-        Database db = Mockito.mock(Database.class);
-        Connection conn = Mockito.mock(Connection.class);
-        Mockito.when(db.connect()).thenReturn(conn);
-        Statement stmt = Mockito.mock(Statement.class);
-        Mockito.when(conn.createStatement()).thenReturn(stmt);
-        ResultSet rs = Mockito.mock(ResultSet.class);
-        Mockito.when(stmt.executeQuery(anyString())).thenReturn(rs);
-        Mockito.when(rs.getInt(anyString())).thenReturn(1);
-
+    public void testLoginPass() throws SQLException, ExDbUserNotFound {
+        Mockito.when(rs.getInt("count(*)")).thenReturn(1);
         Assert.assertNotNull(user.login(db, "abc", "123"));
     }
 
     @Test (expected = ExDbUserNotFound.class)
     public void testChangePwdFailed1() throws SQLException, ExDbUserNotFound {
-        User user = new User();
-        Database db = Mockito.mock(Database.class);
-        Connection conn = Mockito.mock(Connection.class);
-        Mockito.when(db.connect()).thenReturn(conn);
-        Statement stmt = Mockito.mock(Statement.class);
-        Mockito.when(conn.createStatement()).thenReturn(stmt);
-        ResultSet rs = Mockito.mock(ResultSet.class);
-        Mockito.when(stmt.executeQuery(anyString())).thenReturn(rs);
-        Mockito.when(rs.getInt(anyString())).thenReturn(0);
-
-        Assert.assertNotNull(user.changePwd(db, "abc", "123"));
+        Mockito.when(rs.getInt("count(*)")).thenReturn(0);
+        Assert.assertNotNull(user.changePwd("123"));
     }
 
     @Test
     public void testChangePwdFailed2() throws SQLException, ExDbUserNotFound {
-        User user = new User();
-        Database db = Mockito.mock(Database.class);
-        Connection conn = Mockito.mock(Connection.class);
-        Mockito.when(db.connect()).thenReturn(conn);
-        Statement stmt = Mockito.mock(Statement.class);
-        Mockito.when(conn.createStatement()).thenReturn(stmt);
-        ResultSet rs = Mockito.mock(ResultSet.class);
-        Mockito.when(stmt.executeQuery(anyString())).thenThrow(new SQLException());
-
-        Assert.assertNotNull(user.changePwd(db, "abc", "123"));
+        Mockito.when(rs.getInt("count(*)")).thenThrow(SQLException.class);
+        Assert.assertNull(user.changePwd("123"));
     }
 
     @Test
-    public void testChangePwdPassed() throws SQLException, ExDbUserNotFound {
-        User user = new User();
-        Database db = Mockito.mock(Database.class);
-        Connection conn = Mockito.mock(Connection.class);
-        Mockito.when(db.connect()).thenReturn(conn);
-        Statement stmt = Mockito.mock(Statement.class);
-        Mockito.when(conn.createStatement()).thenReturn(stmt);
-        ResultSet rs = Mockito.mock(ResultSet.class);
-        Mockito.when(stmt.executeQuery(anyString())).thenReturn(rs);
-        Mockito.when(rs.getInt(anyString())).thenReturn(1);
+    public void testChangePwdPass() throws SQLException, ExDbUserNotFound {
+        Mockito.when(rs.getInt("count(*)")).thenReturn(1);
+        Assert.assertNotNull(user.changePwd("123"));
+    }
 
-        Assert.assertNotNull(user.changePwd(db, "abc", "123"));
+    @Test
+    public void testGetOrderFailed() throws SQLException {
+        Mockito.when(stmt.executeQuery(anyString())).thenThrow(SQLException.class);
+        Assert.assertNull(user.getMyOrder());
+    }
+
+    @Test
+    public void testGetOrderPass() throws SQLException, ExDbUserNotFound {
+        Mockito.when(rs.getInt("count(*)")).thenReturn(1);
+        Mockito.when(rs.next()).thenReturn(true, false);
+        Assert.assertNotNull(user.getMyOrder());
     }
 }

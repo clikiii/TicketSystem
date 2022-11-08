@@ -1,19 +1,18 @@
 package ticketSystem;
 
-import ticketSystem.database.Database;
-import ticketSystem.database.DBException.ExDbUserExisted;
-
+import ticketSystem.database.dbException.ExDbUserExisted;
 
 public class Main {
     public static void main(String[] args) {
-        // System.out.println("Hello world!");
-        Database db = new Database();
+        TicketSystem ticketSystem = TicketSystem.start();
+
+        // simple example
         try {
-            People currentUser = new User().register(db, "EEE", "789");
-        } catch (ExDbUserExisted e) {
-            // TODO Auto-generated catch block
+            System.out.println(ticketSystem.register("AAA", "123").toString());
+        } catch ( ExDbUserExisted e) {
             e.printStackTrace();
         }
-        db.closeConn();
+
+        ticketSystem.terminate();
     }
 }
