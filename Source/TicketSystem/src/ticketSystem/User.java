@@ -17,6 +17,15 @@ public class User implements People {
     private String password;
     private Database db;
 
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+    
+
     public User(Database db, String username, String password) {
         this.username = username;
         this.password = password;
@@ -49,13 +58,13 @@ public class User implements People {
     }
 
 
-    public ArrayList<Order> addOrder(String flightSet, int changeNumber) throws ExDbSeatInsufficient, ExDbFlightNotFound{
+    public ArrayList<Order> addOrder(String flightSet, int changeNumber, String username) throws ExDbSeatInsufficient, ExDbFlightNotFound{
         IFlightDAO iFlightDAO = FlightDAO.getInstance();
         for (String fIdx: flightSet.split(" ")){
             iFlightDAO.updateSeatByIndex(this.db, Integer.parseInt(fIdx), changeNumber);
         }
         
-        ArrayList<Order> ret = Order.addOrder(this.db, new Order(flightSet, changeNumber));
+        ArrayList<Order> ret = Order.addOrder(this.db, new Order(flightSet, changeNumber, username));
 
         return ret;
     }

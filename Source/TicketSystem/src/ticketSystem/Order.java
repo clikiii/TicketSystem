@@ -14,22 +14,52 @@ public class Order {
     private String flightSet;
     private ArrayList<Flight> flightSetObjList;
     private int number;
+    private String username;
 
-    public Order(String flightSet, int number) {
+    public int getOrderIndex() {
+        return this.orderIndex;
+    }
+
+    public String getFlightSet() {
+        return this.flightSet;
+    }
+
+    public ArrayList<Flight> getFlightSetObjList() {
+        return this.flightSetObjList;
+    }
+
+    public int getNumber() {
+        return this.number;
+    }
+
+    public String getUsername() {
+        return this.username;
+    }
+
+
+    public Order(String flightSet, int number, String username) {
         // NOTE: NO order index before insertion.
         this.orderIndex = -1;
         this.flightSet = flightSet;
         this.number = number;
 
         this.flightSetObjList = null;
+        this.username = username;
     }
 
-    public Order(int orderIndex, String flightSet, int number, ArrayList<Flight> flightSetObjList){
+    public Order(
+        int orderIndex, 
+        String flightSet, 
+        int number, 
+        ArrayList<Flight> flightSetObjList, 
+        String username
+    ){
         this.orderIndex = orderIndex;
         this.flightSet = flightSet;
         this.number = number;
 
         this.flightSetObjList = flightSetObjList;
+        this.username = username;
     }
 
     private static ArrayList<Order> rsToAl(Database db, ResultSet rs) {
@@ -48,7 +78,8 @@ public class Order {
                     rs.getInt("order_index"),
                     rs.getString("flight_set"), 
                     rs.getInt("number"),
-                    flightSetObjList
+                    flightSetObjList,
+                    rs.getString("username")
                 );
 
                 ret.add(order);
@@ -76,7 +107,7 @@ public class Order {
 
     public static ArrayList<Order> addOrder(Database db, Order o) {
         IOrderDAO iOrderDAO = OrderDAO.getInstance();
-        ResultSet rs = iOrderDAO.addOrder(db, o.flightSet, o.number);
+        ResultSet rs = iOrderDAO.addOrder(db, o.flightSet, o.number, o.username);
 
         // NOTE: here the ArrayList only contanins one order which is the one newly created above.
         return rsToAl(db, rs);

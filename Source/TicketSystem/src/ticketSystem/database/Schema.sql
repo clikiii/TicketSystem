@@ -26,6 +26,7 @@ CREATE TABLE `order`(
     order_index INT AUTO_INCREMENT,
     flight_set VARCHAR(255) NOT NULL,
     number DECIMAL NOT NULL,
+    username VARCHAR(10) NOT NULL,
 
     PRIMARY KEY (order_index)
 );
