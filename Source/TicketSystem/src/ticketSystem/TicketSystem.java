@@ -29,7 +29,7 @@ public class TicketSystem {
 
     public People login(String username, String password){
         try {
-            if (username == "admin") return Admin.login(this.db, username, password);
+            if (username.equals("admin")) return Admin.login(this.db, username, password);
 
             return User.login(this.db, username, password);
         } catch (ExDbUserNotFound e) {
