@@ -66,7 +66,7 @@ public class MyOrders {
 		jl0.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 30));
 		jl0.setForeground(new Color(102, 147, 195));
 		jl0.setBounds(image.getIconWidth() - 355, 125, 300, 50);
-		
+
 		JButton returnBtn = new JButton("Return");
 		returnBtn.setBounds(image.getIconWidth() - 140, 740, 120, 50);
 		returnBtn.setFont(new Font("Times New Roman", Font.ITALIC | Font.BOLD, 25));
@@ -161,13 +161,13 @@ public class MyOrders {
 			cancel.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 20));
 			cancel.setForeground(new Color(255, 109, 107));
 			cancel.setBounds(405, 20, 280, 50);
-			
+
 			JLabel order = new JLabel("Order");
 			order.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 20));
 			order.setForeground(new Color(255, 109, 107));
 			order.setBounds(410, 50, 280, 50);
-			
-			JLabel index = new JLabel(idx+"");
+
+			JLabel index = new JLabel(idx + "");
 
 			JButton cancelBtn = new JButton();
 			cancelBtn.setBounds(390, 0, 90, 120);
@@ -190,7 +190,7 @@ public class MyOrders {
 				public void actionPerformed(ActionEvent e) {
 					// call backend func
 					// allFlights = (new) call backend func
-					new ConfirmDeleteFlight(user,allFlights.get(Integer.parseInt(index.getText())));
+					new ConfirmDeleteFlight(user, allFlights.get(Integer.parseInt(index.getText())));
 				}
 			});
 
@@ -228,7 +228,6 @@ public class MyOrders {
 		layeredPane.add(jsp, JLayeredPane.MODAL_LAYER);
 		layeredPane.add(returnBtn, JLayeredPane.MODAL_LAYER);
 
-
 		jf.setLayeredPane(layeredPane);
 		jf.setSize(image.getIconWidth(), image.getIconHeight());
 		jf.setLocationRelativeTo(null);
@@ -239,7 +238,7 @@ public class MyOrders {
 	public static void CreateNewJsp() {
 		layeredPane.remove(jsp);
 		// this.allFlights = (call backend func.)
-		
+
 		JPanel tickets = new JPanel();
 		tickets.setPreferredSize(new Dimension(520, 120 * 1)); // allFlights.size()
 		tickets.setOpaque(false);
@@ -311,7 +310,7 @@ public class MyOrders {
 			cancel.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 20));
 			cancel.setForeground(new Color(255, 109, 107));
 			cancel.setBounds(405, 20, 280, 50);
-			
+
 			JLabel order = new JLabel("Order");
 			order.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 20));
 			order.setForeground(new Color(255, 109, 107));
@@ -370,9 +369,9 @@ public class MyOrders {
 		jsp.getViewport().setOpaque(false);
 		jsp.setBounds(900, 200, 540, 530);
 		jsp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-		
+
 		layeredPane.add(jsp, JLayeredPane.MODAL_LAYER);
-		
+
 	}
 
 	private static boolean isNextDayArrival() {
