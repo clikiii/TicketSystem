@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import ticketSystem.Admin;
 import ticketSystem.TicketSystem;
 import ticketSystem.User;
 import userInterface.UIException.ExUsernameIsNotFound;
@@ -115,7 +116,7 @@ public class Login {
 						throw new ExPasswordIsWrong(); // case2: password is wrong
 					else {
 						// case3: login successfully
-						if (true) { // admin
+						if ((ticketSystem.login(usr.getText(), new String(pw.getPassword()))) instanceof Admin) { // admin
 							new AdminPage();
 							jf.dispose();
 						} else {
