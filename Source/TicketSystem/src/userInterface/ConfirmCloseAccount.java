@@ -53,7 +53,7 @@ public class ConfirmCloseAccount {
 		Yes.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				user.deleteMe(null, null, null); // call the backend func
+//				user.deleteMe(null, null, null); // call the backend func TODO
 				SearchFlight.getInstance().logout();
 				PurchaseTicket.logout();
 				jf.dispose();

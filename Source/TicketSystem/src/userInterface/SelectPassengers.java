@@ -31,17 +31,16 @@ public class SelectPassengers {
 	protected User user;
 	private static JFrame jf;
 
-	public SelectPassengers() { // ArrayList<Flight> aFlight  User aUser
-//		this.flight = aFlight;
-//		this.user = aUser;
-		if (false) // flight.size()==1
+	public SelectPassengers() { // ArrayList<Flight> aFlight  User aUser TODO
+//		this.flight = aFlight; TODO
+//		this.user = aUser; TODO
+		if (false) // flight.size()==1 TODO
 			oneFlightJFrame();
 		else
 			twoFlightJFrame();
 	}
 
 	private void twoFlightJFrame() {
-		// TODO Auto-generated method stub
 		jf = new JFrame("Select Passengers");
 
 		JLayeredPane layeredPane = new JLayeredPane();
@@ -85,33 +84,33 @@ public class SelectPassengers {
 
 		jp.add(img);
 
-		JLabel dep = new JLabel("Hongkong"); // flight.get(0).getDeparture()
+		JLabel dep = new JLabel("Hongkong"); // flight.get(0).getDeparture() TODO
 		dep.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 25));
 		dep.setForeground(new Color(102, 147, 195));
 		dep.setBounds(1140, 110, 300, 50);
 
-		JLabel des = new JLabel("Beijing"); // flight.get(0).getDestination()
+		JLabel des = new JLabel("Beijing"); // flight.get(0).getDestination() TODO
 		des.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 25));
 		des.setForeground(new Color(102, 147, 195));
 		des.setBounds(1140, 228, 300, 50);
 		
-//		long diff1 = flight.get(1).getTakingOffTime().getTime() - flight.get(0).getLandingTime().getTime();
+//		long diff1 = flight.get(1).getTakingOffTime().getTime() - flight.get(0).getLandingTime().getTime(); TODO
 //		long hours1 = diff1 / (1000 * 60 * 60);
 //		long minutes1 = diff1 - hours * (1000 * 60 * 60) / (1000 * 60);
 //		String durationT1 = hours + "hours " + minutes + "minutes";
 		String durationT1 = 2 + "h " + 22 + "m";
 		
-		JLabel stop = new JLabel("Stop Duration: " + durationT1); // flight.get(0).getDestination()
+		JLabel stop = new JLabel("Stop Duration: " + durationT1); // flight.get(0).getDestination() TODO
 		stop.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 18));
 		stop.setForeground(Color.GRAY);
 		stop.setBounds(1140, 268, 300, 50);
 
-		JLabel depTime = new JLabel("10:25"); // flight.get(0).getTakingOffTime()
+		JLabel depTime = new JLabel("10:25"); // flight.get(0).getTakingOffTime() TODO
 		depTime.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 25));
 		depTime.setForeground(new Color(102, 147, 195));
 		depTime.setBounds(1020, 110, 300, 50);
 
-		JLabel desTime = new JLabel("12:50"); // flight.get(0).getLandingTime()
+		JLabel desTime = new JLabel("12:50"); // flight.get(0).getLandingTime() TODO
 		desTime.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 25));
 		desTime.setForeground(new Color(102, 147, 195));
 		desTime.setBounds(1020, 228, 300, 50);
@@ -130,27 +129,27 @@ public class SelectPassengers {
 		desDateT.setForeground(Color.GRAY);
 		desDateT.setBounds(992, 253, 300, 50);
 
-		JLabel flightNum = new JLabel("Flight No. " + "CN1234"); // flight.get(0).getFid()
+		JLabel flightNum = new JLabel("Flight No. " + "CN1234"); // flight.get(0).getFid() TODO
 		flightNum.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 15));
 		flightNum.setForeground(Color.GRAY);
 		flightNum.setBounds(1140, 168, 300, 50);
 		
-		JLabel dep2 = new JLabel("Hongkong"); // flight.get(1).getDeparture()
+		JLabel dep2 = new JLabel("Hongkong"); // flight.get(1).getDeparture() TODO
 		dep2.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 25));
 		dep2.setForeground(new Color(102, 147, 195));
 		dep2.setBounds(1140, 310, 300, 50);
 
-		JLabel des2 = new JLabel("Beijing"); // flight.get(1).getDestination()
+		JLabel des2 = new JLabel("Beijing"); // flight.get(1).getDestination() TODO
 		des2.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 25));
 		des2.setForeground(new Color(102, 147, 195));
 		des2.setBounds(1140, 428, 300, 50);
 
-		JLabel depTime2 = new JLabel("10:25"); // flight.get(1).getTakingOffTime()
+		JLabel depTime2 = new JLabel("10:25"); // flight.get(1).getTakingOffTime() TODO
 		depTime2.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 25));
 		depTime2.setForeground(new Color(102, 147, 195));
 		depTime2.setBounds(1020, 310, 300, 50);
 
-		JLabel desTime2 = new JLabel("12:50"); // flight.get(1).getLandingTime()
+		JLabel desTime2 = new JLabel("12:50"); // flight.get(1).getLandingTime() TODO
 		desTime2.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 25));
 		desTime2.setForeground(new Color(102, 147, 195));
 		desTime2.setBounds(1020, 428, 300, 50);
@@ -169,12 +168,12 @@ public class SelectPassengers {
 		desDateT2.setForeground(Color.GRAY);
 		desDateT2.setBounds(992, 453, 300, 50);
 
-		JLabel flightNum2 = new JLabel("Flight No. " + "CN1234"); // flight.get(1).getFid()
+		JLabel flightNum2 = new JLabel("Flight No. " + "CN1234"); // flight.get(1).getFid() TODO
 		flightNum2.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 15));
 		flightNum2.setForeground(Color.GRAY);
 		flightNum2.setBounds(1140, 368, 300, 50);
 
-//		long diff2 = flight.get(1).getLandingTime().getTime() - flight.get(0).getTakingOffTime().getTime();
+//		long diff2 = flight.get(1).getLandingTime().getTime() - flight.get(0).getTakingOffTime().getTime(); TODO
 //		long hours2 = diff2 / (1000 * 60 * 60);
 //		long minutes2 = diff2 - hours * (1000 * 60 * 60) / (1000 * 60);
 //		String durationT2 = hours + "hours " + minutes + "minutes";
@@ -185,7 +184,7 @@ public class SelectPassengers {
 		duration.setForeground(new Color(102, 147, 195));
 		duration.setBounds(image.getIconWidth() - 447, 40, 300, 50);
 
-		JLabel available = new JLabel("Available Seats:  " + 4); // min{flight.get(0).getAvailableSeats(),flight.get(1).getAvailableSeats()}
+		JLabel available = new JLabel("Available Seats:  " + 4); // min{flight.get(0).getAvailableSeats(),flight.get(1).getAvailableSeats()} TODO
 		available.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 25));
 		available.setForeground(new Color(102, 147, 195));
 		available.setBounds(image.getIconWidth() - 447, 520, 300, 50);
@@ -221,7 +220,7 @@ public class SelectPassengers {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (num == 4) { // min{flight.get(0).getAvaliableSeats(),flight.get(1).getAvailableSeats()}
+				if (num == 4) { // min{flight.get(0).getAvaliableSeats(),flight.get(1).getAvailableSeats()} TODO
 					return;
 				}
 				layeredPane.remove(passengers);
@@ -287,7 +286,7 @@ public class SelectPassengers {
 		buy.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// call the backend func
+				// call the backend func TODO
 				new BuySuccessfully(user);
 			}
 		});
@@ -385,27 +384,27 @@ public class SelectPassengers {
 
 		jp.add(img);
 
-		JLabel dep = new JLabel("Hongkong"); // flight.get(0).getDeparture()
+		JLabel dep = new JLabel("Hongkong"); // flight.get(0).getDeparture() TODO
 		dep.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 25));
 		dep.setForeground(new Color(102, 147, 195));
 		dep.setBounds(1140, 280 - 70, 300, 50);
 
-		JLabel des = new JLabel("Beijing"); // flight.get(0).getDestination()
+		JLabel des = new JLabel("Beijing"); // flight.get(0).getDestination() TODO
 		des.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 25));
 		des.setForeground(new Color(102, 147, 195));
 		des.setBounds(1140, 398 - 70, 300, 50);
 
-		JLabel depTime = new JLabel("10:25"); // flight.get(0).getTakingOffTime()
+		JLabel depTime = new JLabel("10:25"); // flight.get(0).getTakingOffTime() TODO
 		depTime.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 25));
 		depTime.setForeground(new Color(102, 147, 195));
 		depTime.setBounds(1020, 280 - 70, 300, 50);
 
-		JLabel desTime = new JLabel("12:50"); // flight.get(0).getLandingTime()
+		JLabel desTime = new JLabel("12:50"); // flight.get(0).getLandingTime() TODO
 		desTime.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 25));
 		desTime.setForeground(new Color(102, 147, 195));
 		desTime.setBounds(1020, 398 - 70, 300, 50);
 
-		Date date = new Date(); // flight.get(0).get
+		Date date = new Date(); // flight.get(0).get TODO
 		String depDate = date.toString().substring(8, 11) + date.toString().substring(4, 7) + ", "
 				+ date.toString().substring(24);
 
@@ -419,12 +418,12 @@ public class SelectPassengers {
 		desDateT.setForeground(Color.GRAY);
 		desDateT.setBounds(992, 328 + 25, 300, 50);
 
-		JLabel flightNum = new JLabel("Flight No. " + "CN1234"); // flight.get(0).getFid()
+		JLabel flightNum = new JLabel("Flight No. " + "CN1234"); // flight.get(0).getFid() TODO
 		flightNum.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 15));
 		flightNum.setForeground(Color.GRAY);
 		flightNum.setBounds(1140, 338 - 70, 300, 50);
 
-//		long diff = flight.get(0).getLandingTime().getTime() - flight.get(0).getTakingOffTime().getTime();
+//		long diff = flight.get(0).getLandingTime().getTime() - flight.get(0).getTakingOffTime().getTime(); TODO
 //		long hours = diff / (1000 * 60 * 60);
 //		long minutes = diff - hours * (1000 * 60 * 60) / (1000 * 60);
 //		String durationT = hours + "hours " + minutes + "minutes";
@@ -435,7 +434,7 @@ public class SelectPassengers {
 		duration.setForeground(new Color(102, 147, 195));
 		duration.setBounds(image.getIconWidth() - 447, 140, 300, 50);
 
-		JLabel available = new JLabel("Available Seats:  " + 4); // flight.get(0).getAvailableSeats()
+		JLabel available = new JLabel("Available Seats:  " + 4); // flight.get(0).getAvailableSeats() TODO
 		available.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 25));
 		available.setForeground(new Color(102, 147, 195));
 		available.setBounds(image.getIconWidth() - 447, 420, 300, 50);
@@ -471,7 +470,7 @@ public class SelectPassengers {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (num == 4) { // flight.get(0).getAvaliableSeats()
+				if (num == 4) { // flight.get(0).getAvaliableSeats() TODO
 					return;
 				}
 				layeredPane.remove(passengers);

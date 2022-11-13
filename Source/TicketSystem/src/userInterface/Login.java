@@ -20,7 +20,6 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import ticketSystem.Admin;
 import ticketSystem.TicketSystem;
 import ticketSystem.User;
 import userInterface.UIException.ExUsernameIsNotFound;

@@ -55,7 +55,7 @@ public class ConfirmDeleteFlight {
 		Yes.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// call backend func. (user, flight)
+				// call backend func. (user, flight) TODO
 				MyOrders.CreateNewJsp();
 				jf.dispose();
 			}

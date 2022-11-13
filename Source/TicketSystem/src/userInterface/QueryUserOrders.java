@@ -57,7 +57,7 @@ public class QueryUserOrders {
 
 		jp.add(img);
 
-		JLabel jl0 = new JLabel("Alex" + "'s Orders");
+		JLabel jl0 = new JLabel(user.getUsername() + "'s Orders");
 		jl0.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 30));
 		jl0.setForeground(new Color(102, 147, 195));
 		jl0.setBounds(image.getIconWidth() - 375, 125, 300, 50);

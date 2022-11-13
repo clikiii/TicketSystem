@@ -19,6 +19,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 
+import ticketSystem.TicketSystem;
 import ticketSystem.User;
 import userInterface.UIException.ExPasswordIsEmpty;
 import userInterface.UIException.ExPasswordIsWrong;
@@ -29,8 +30,10 @@ import userInterface.UIException.ExOldPwAndNewPwAreSame;
 public class ChangePassword {
 
 	private User user;
+	private TicketSystem ticketSystem;
 
 	public ChangePassword(User aUser) {
+		ticketSystem = TicketSystem.start();
 		this.user = aUser;
 		new ChangePassword();
 	}
@@ -127,12 +130,13 @@ public class ChangePassword {
 						throw new ExPasswordOutOfRange();
 					else if (!new String(newPw.getPassword()).equals(new String(cNewPw.getPassword())))
 						throw new ExTwoPasswordDifferent();
-					else if (false)
-						throw new ExPasswordIsWrong(); // password is wrong
+					else if (((User) ticketSystem.login(user.getUsername(), new String(oldPw.getPassword()))).getUsername()
+							.equals("password wrong"))
+						throw new ExPasswordIsWrong();
 					else if (new String(oldPw.getPassword()).equals(new String(newPw.getPassword())))
 						throw new ExOldPwAndNewPwAreSame();
 					else {
-						// change password successfully
+						// change password successfully TODO
 //						user.changePwd(user.getUserName(), null, new String(newPw.getPassword()));
 						jf.dispose();
 					}

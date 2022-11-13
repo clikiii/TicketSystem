@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import ticketSystem.TicketSystem;
 import ticketSystem.User;
 import userInterface.UIException.ExPasswordIsWrong;
 import userInterface.UIException.ExUsernameIsEmpty;
@@ -29,6 +30,7 @@ public class InputUsername {
 	protected User user = null;
 
 	public InputUsername() {
+		TicketSystem ticketSystem = TicketSystem.start();
 		JFrame jf = new JFrame("InputUsername");
 
 		JLayeredPane layeredPane = new JLayeredPane();
@@ -88,12 +90,12 @@ public class InputUsername {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					if (false)
+					if (usr.getText().equals("Within 10 characters"))
 						throw new ExUsernameIsEmpty();
-					else if (false)
+					else if (false) // TODO
 						throw new ExUsernameIsNotFound();
 					else {
-						// user = (call backend func.) usr.getText()
+						// user = TODO
 						new QueryUserOrders(user);
 						jf.dispose();
 					}

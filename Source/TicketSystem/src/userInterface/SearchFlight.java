@@ -329,7 +329,7 @@ public class SearchFlight {
 	}
 
 	private ArrayList<ArrayList<Flight>> getAllFlights() {
-		// call the backend func;
+		// call the backend func; TODO
 		// (getDatetime());
 		return null;
 	}
@@ -343,7 +343,6 @@ public class SearchFlight {
 			try {
 				sDate = df.parse(this.selectDate + "000000");
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		Calendar cal = Calendar.getInstance();
