@@ -34,9 +34,7 @@ public class Algorithm {
 
             if (aInB >= 0) {
                 for (int bIdx = aInB; bIdx<toBRoute.lastIndexOf(a); bIdx++){
-                    if( ( Integer.parseInt(toB.get(bIdx).getTakeOffTime()) 
-                            - Integer.parseInt(fromA.get(aIdx).getLandingTime())
-                        )>0 ) {
+                    if( toB.get(bIdx).getTakeOffTime().after(fromA.get(aIdx).getLandingTime())) {
                         ret.add(
                             new ArrayList<>(Arrays.asList(
                                 fromA.get(aIdx), toB.get(bIdx)
