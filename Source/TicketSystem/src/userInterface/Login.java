@@ -27,9 +27,8 @@ import userInterface.UIException.ExUsernameIsNotFound;
 import userInterface.UIException.ExPasswordIsWrong;
 import userInterface.UIException.ExUsernameIsEmpty;
 
-
 public class Login {
-	
+
 	private JTextField usr;
 	private JPasswordField pw;
 
@@ -108,23 +107,23 @@ public class Login {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					if (usr.getText().equals("Within 10 characters"))
+					if ((ticketSystem.login(usr.getText(), new String(pw.getPassword()))) instanceof Admin) { // admin
+						new AdminPage();
+						jf.dispose();
+					} else if (usr.getText().equals("Within 10 characters"))
 						throw new ExUsernameIsEmpty();
-					else if (ticketSystem.login(usr.getText(), new String(pw.getPassword()))==null)
+					else if (ticketSystem.login(usr.getText(), new String(pw.getPassword())) == null)
 						throw new ExUsernameIsNotFound(); // case1: username is not found
-					else if (((User) ticketSystem.login(usr.getText(), new String(pw.getPassword()))).getUsername().equals("password wrong"))
+					else if (((User) ticketSystem.login(usr.getText(), new String(pw.getPassword()))).getUsername()
+							.equals("password wrong"))
 						throw new ExPasswordIsWrong(); // case2: password is wrong
 					else {
 						// case3: login successfully
-						if ((ticketSystem.login(usr.getText(), new String(pw.getPassword()))) instanceof Admin) { // admin
-							new AdminPage();
-							jf.dispose();
-						} else {
-							SearchFlight.getInstance().setAccountBtn(null); // get user from backend (login func)
-							if (PurchaseTicket.notCreate())
-								PurchaseTicket.setAccountBtn(null); // get user from backend (login func)
-							jf.dispose();
-						}
+						SearchFlight.getInstance().setAccountBtn(null); // get user from backend (login func)
+						if (PurchaseTicket.notCreate())
+							PurchaseTicket.setAccountBtn(null); // get user from backend (login func)
+						jf.dispose();
+
 					}
 				} catch (ExUsernameIsEmpty e1) {
 					e1.printStackTrace();
