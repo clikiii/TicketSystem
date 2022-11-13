@@ -12,6 +12,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -157,8 +159,7 @@ public class PurchaseTicket {
 			public void actionPerformed(ActionEvent e) {
 				if (tick.getBounds().x == 1220) {
 					tick.setBounds(image.getIconWidth() - 530, 135, 100, 50);
-					// call backend func get ArrayList<ArrayList<Flight>> TODO
-					// setAllFlights();
+					setAllFlights(SearchFlight.getInstance().getAllFlights());
 					creatNewJScrollPane();
 				}
 			}
@@ -185,8 +186,7 @@ public class PurchaseTicket {
 			public void actionPerformed(ActionEvent e) {
 				if (tick.getBounds().x == 910) {
 					tick.setBounds(image.getIconWidth() - 220, 135, 100, 50);
-					// call backend func get ArrayList<ArrayList<Flight>> TODO
-					// setAllFlights();
+					setAllFlights(SearchFlight.getInstance().getAllFlightsByPrice());
 					creatNewJScrollPane();
 				}
 			}
@@ -216,10 +216,10 @@ public class PurchaseTicket {
 		});
 
 		JPanel tickets = new JPanel();
-		tickets.setPreferredSize(new Dimension(520, 120 * 10)); // allFlights.size() TODO
+		tickets.setPreferredSize(new Dimension(520, 120 * allFlights.size()));
 		tickets.setOpaque(false);
 		tickets.setLayout(null);
-		for (idx = 0; idx < 10; idx++) { // allFlights.size() TODO
+		for (idx = 0; idx < allFlights.size(); idx++) {
 
 			tkt = new JPanel() {
 
@@ -242,27 +242,31 @@ public class PurchaseTicket {
 			tkt.setOpaque(false);
 			tkt.setLayout(null);
 
-			JLabel fid = new JLabel("CN1234"); // allFlights.get(idx).get(0).getFid() TODO
+			JLabel fid = new JLabel(allFlights.get(idx).get(0).getFid());
 			fid.setFont(new Font("Times New Roman", Font.ITALIC, 15));
 			fid.setForeground(Color.GRAY);
 			fid.setBounds(20, 0, 300, 40);
 
-			JLabel takeOffTime = new JLabel("10:25"); // allFlights.get(idx).get(0).getTakingOffTime() TODO
+			String depTime = allFlights.get(idx).get(0).getTakeOffTime().toString().substring(11, 16);
+			JLabel takeOffTime = new JLabel(depTime);
 			takeOffTime.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 25));
 			takeOffTime.setForeground(new Color(102, 147, 195));
 			takeOffTime.setBounds(40, 30, 300, 50);
 
-			JLabel dep = new JLabel("Hongkong", JLabel.CENTER); // allFlights.get(idx).get(0).getDeparture() TODO
+			JLabel dep = new JLabel(allFlights.get(idx).get(0).getDeparture(), JLabel.CENTER);
 			dep.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 20));
 			dep.setForeground(new Color(102, 147, 195));
 			dep.setBounds(17, 60, 100, 50);
 
-			JLabel landingTime = new JLabel("12:25"); // allFlights.get(idx).get(allFlights.get(idx).size()-1).getLandingTime() TODO
+			String desTime = allFlights.get(idx).get(allFlights.get(idx).size() - 1).getLandingTime().toString()
+					.substring(11, 16);
+			JLabel landingTime = new JLabel(desTime);
 			landingTime.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 25));
 			landingTime.setForeground(new Color(102, 147, 195));
 			landingTime.setBounds(265, 30, 300, 50);
 
-			JLabel des = new JLabel("Beijing", JLabel.CENTER); // allFlights.get(idx).get(allFlights.get(idx).size()-1).getDestination() TODO
+			JLabel des = new JLabel(allFlights.get(idx).get(allFlights.get(idx).size() - 1).getDestination(),
+					JLabel.CENTER);
 			des.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 20));
 			des.setForeground(new Color(102, 147, 195));
 			des.setBounds(244, 60, 100, 50);
@@ -282,14 +286,14 @@ public class PurchaseTicket {
 			book.setForeground(new Color(255, 109, 107));
 			book.setBounds(385, 20, 280, 50);
 
-//			int totPrice = allFlights.size() == 1 ? allFlights.get(idx).get(0).getPrice() TODO
-//					: allFlights.get(idx).get(0).getPrice() + allFlights.get(idx).get(1).getPrice();
-			JLabel price = new JLabel("$" + "1299"); // totPrice + ""
+			int totPrice = allFlights.size() == 1 ? allFlights.get(idx).get(0).getPrice()
+					: allFlights.get(idx).get(0).getPrice() + allFlights.get(idx).get(1).getPrice();
+			JLabel price = new JLabel("$" + totPrice);
 			price.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 25));
 			price.setForeground(new Color(255, 109, 107));
 			price.setBounds(390, 50, 280, 50);
-			
-			JLabel index = new JLabel(idx+"");
+
+			JLabel index = new JLabel(idx + "");
 
 			JButton bookBtn = new JButton();
 			bookBtn.setBounds(358, 0, 132, 120);
@@ -314,7 +318,7 @@ public class PurchaseTicket {
 						if (user == null)
 							throw new ExUserIsNull();
 						else
-							new SelectPassengers(); // allFlights.get(Integer.parseInt(index.getText())), user TODO
+							new SelectPassengers(allFlights.get(Integer.parseInt(index.getText())), user);
 					} catch (ExUserIsNull e1) {
 						e1.printStackTrace();
 					}
@@ -330,12 +334,12 @@ public class PurchaseTicket {
 			tkt.add(price);
 			tkt.add(bookBtn);
 
-			if (true) // allFlights.get(idx).size()==2 TODO
+			if (allFlights.get(idx).size() == 2) {
 				tkt.add(stop);
-			if (true) // allFlights.get(idx).size()==2 TODO
-				fid.setText("CN1234" + " & " + "CN1235"); // allFlights.get(idx).get(0).getFid() TODO
-															// allFlights.get(idx).get(1).getFid()
-			if (isNextDayArrival())
+				fid.setText(allFlights.get(idx).get(0).getFid() + " & " + allFlights.get(idx).get(1).getFid());
+			}
+			if (isNextDayArrival(allFlights.get(idx).get(0).getTakeOffTime(),
+					allFlights.get(idx).get(allFlights.size() - 1).getLandingTime()))
 				tkt.add(plusOne);
 
 			tickets.add(tkt);
@@ -354,7 +358,7 @@ public class PurchaseTicket {
 		if (PurchaseTicket.user == null) {
 			layeredPane.add(loginBtn, JLayeredPane.MODAL_LAYER);
 			layeredPane.add(signupBtn, JLayeredPane.MODAL_LAYER);
-		} else 
+		} else
 			PurchaseTicket.setAccountBtn(user);
 		layeredPane.add(depCity, JLayeredPane.MODAL_LAYER);
 		layeredPane.add(desCity, JLayeredPane.MODAL_LAYER);
@@ -376,19 +380,22 @@ public class PurchaseTicket {
 		jf.setVisible(true);
 	}
 
-	private boolean isNextDayArrival() {
-		// compare two date TODO
-		return true;
+	private boolean isNextDayArrival(Date date1, Date date2) {
+		Calendar cal1 = Calendar.getInstance();
+		cal1.setTime(date1);
+		Calendar cal2 = Calendar.getInstance();
+		cal2.setTime(date2);
+		return cal1.get(Calendar.DATE) != cal2.get(Calendar.DATE);
 	}
 
 	protected void creatNewJScrollPane() {
 		layeredPane.remove(jsp);
 
 		JPanel tickets = new JPanel();
-		tickets.setPreferredSize(new Dimension(520, 120 * 10)); // allFlights.size() TODO
+		tickets.setPreferredSize(new Dimension(520, 120 * allFlights.size()));
 		tickets.setOpaque(false);
 		tickets.setLayout(null);
-		for (idx = 0; idx < 10; idx++) { // allFlights.size() TODO
+		for (idx = 0; idx < allFlights.size(); idx++) {
 
 			tkt = new JPanel() {
 
@@ -411,27 +418,31 @@ public class PurchaseTicket {
 			tkt.setOpaque(false);
 			tkt.setLayout(null);
 
-			JLabel fid = new JLabel("CN1234"); // allFlights.get(idx).get(0).getFid() TODO
+			JLabel fid = new JLabel(allFlights.get(idx).get(0).getFid());
 			fid.setFont(new Font("Times New Roman", Font.ITALIC, 15));
 			fid.setForeground(Color.GRAY);
 			fid.setBounds(20, 0, 300, 40);
 
-			JLabel takeOffTime = new JLabel("14:25"); // allFlights.get(idx).get(0).getTakingOffTime() TODO
+			String depTime = allFlights.get(idx).get(0).getTakeOffTime().toString().substring(11, 16);
+			JLabel takeOffTime = new JLabel(depTime);
 			takeOffTime.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 25));
 			takeOffTime.setForeground(new Color(102, 147, 195));
 			takeOffTime.setBounds(40, 30, 300, 50);
 
-			JLabel dep = new JLabel("Beijing", JLabel.CENTER); // allFlights.get(idx).get(0).getDeparture() TODO
+			JLabel dep = new JLabel(allFlights.get(idx).get(0).getDeparture(), JLabel.CENTER);
 			dep.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 20));
 			dep.setForeground(new Color(102, 147, 195));
 			dep.setBounds(17, 60, 100, 50);
 
-			JLabel landingTime = new JLabel("19:25"); // allFlights.get(idx).get(allFlights.get(idx).size()-1).getLandingTime() TODO
+			String desTime = allFlights.get(idx).get(allFlights.get(idx).size() - 1).getLandingTime().toString()
+					.substring(11, 16);
+			JLabel landingTime = new JLabel(desTime);
 			landingTime.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 25));
 			landingTime.setForeground(new Color(102, 147, 195));
 			landingTime.setBounds(265, 30, 300, 50);
 
-			JLabel des = new JLabel("Hongkong", JLabel.CENTER); // allFlights.get(idx).get(allFlights.get(idx).size()-1).getDestination() TODO
+			JLabel des = new JLabel(allFlights.get(idx).get(allFlights.get(idx).size() - 1).getDestination(),
+					JLabel.CENTER);
 			des.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 20));
 			des.setForeground(new Color(102, 147, 195));
 			des.setBounds(244, 60, 100, 50);
@@ -451,9 +462,9 @@ public class PurchaseTicket {
 			book.setForeground(new Color(255, 109, 107));
 			book.setBounds(385, 20, 280, 50);
 
-//			int totPrice = allFlights.size() == 1 ? allFlights.get(idx).get(0).getPrice() TODO
-//					: allFlights.get(idx).get(0).getPrice() + allFlights.get(idx).get(1).getPrice();
-			JLabel price = new JLabel("$" + "1299"); // totPrice + ""
+			int totPrice = allFlights.size() == 1 ? allFlights.get(idx).get(0).getPrice()
+					: allFlights.get(idx).get(0).getPrice() + allFlights.get(idx).get(1).getPrice();
+			JLabel price = new JLabel("$" + totPrice);
 			price.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 25));
 			price.setForeground(new Color(255, 109, 107));
 			price.setBounds(390, 50, 280, 50);
@@ -481,7 +492,7 @@ public class PurchaseTicket {
 						if (user == null)
 							throw new ExUserIsNull();
 						else
-							new SelectPassengers(); // allFlights.get(idx), user TODO
+							new SelectPassengers(allFlights.get(idx), user);
 					} catch (ExUserIsNull e1) {
 						e1.printStackTrace();
 					}
@@ -497,12 +508,12 @@ public class PurchaseTicket {
 			tkt.add(price);
 			tkt.add(bookBtn);
 
-			if (true) // allFlights.get(idx).size()==2 TODO
+			if (allFlights.get(idx).size() == 2) {
 				tkt.add(stop);
-			if (true) // allFlights.get(idx).size()==2 TODO
-				fid.setText("CN1234" + " & " + "CN1235"); // allFlights.get(idx).get(0).getFid() TODO
-															// allFlights.get(idx).get(1).getFid()
-			if (isNextDayArrival())
+				fid.setText(allFlights.get(idx).get(0).getFid() + " & " + allFlights.get(idx).get(1).getFid());
+			}
+			if (isNextDayArrival(allFlights.get(idx).get(0).getTakeOffTime(),
+					allFlights.get(idx).get(allFlights.size() - 1).getLandingTime()))
 				tkt.add(plusOne);
 
 			tickets.add(tkt);

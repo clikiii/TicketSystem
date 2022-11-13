@@ -31,10 +31,10 @@ public class SelectPassengers {
 	protected User user;
 	private static JFrame jf;
 
-	public SelectPassengers() { // ArrayList<Flight> aFlight  User aUser TODO
-//		this.flight = aFlight; TODO
-//		this.user = aUser; TODO
-		if (false) // flight.size()==1 TODO
+	public SelectPassengers(ArrayList<Flight> aFlight, User aUser) {
+		this.flight = aFlight;
+		this.user = aUser;
+		if (flight.size()==1)
 			oneFlightJFrame();
 		else
 			twoFlightJFrame();

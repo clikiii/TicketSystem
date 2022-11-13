@@ -328,10 +328,8 @@ public class SearchFlight {
 		return this.date;
 	}
 
-	private ArrayList<ArrayList<Flight>> getAllFlights() {
-		// call the backend func; TODO
-		// (getDatetime());
-		return null;
+	public ArrayList<ArrayList<Flight>> getAllFlights() {
+		return ticketSystem.searchRoute(dep.getText(), des.getText(), getDateFormat(), "TAKEOFFTIME", false);
 	}
 
 	private Date getDateFormat() {
@@ -429,6 +427,10 @@ public class SearchFlight {
 		});
 		layeredPane.add(loginBtn, JLayeredPane.MODAL_LAYER);
 		layeredPane.add(signupBtn, JLayeredPane.MODAL_LAYER);
+	}
+	
+	public ArrayList<ArrayList<Flight>> getAllFlightsByPrice() {
+		return ticketSystem.searchRoute(dep.getText(), des.getText(), getDateFormat(), "PRICE", false);
 	}
 
 }
