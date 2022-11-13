@@ -264,9 +264,9 @@ public class SearchFlight {
 						throw new ExDepAndDesAreSame();
 					else if (dft.getForeground() == Color.GRAY)
 						throw new ExDateIsEmpty();
-					else if (!ticketSystem.checkCity(dep.getText())) // call the backend func
+					else if (!ticketSystem.checkCity(dep.getText()))
 						throw new ExDepartureCityIsNotFound(); // case5: cannot find dep, retry
-					else if (!ticketSystem.checkCity(des.getText())) // call the backend func
+					else if (!ticketSystem.checkCity(des.getText()))
 						throw new ExDestinationCityIsNotFound(); // case6: cannot find des, retry
 					else
 						new PurchaseTicket(user, getAllFlights(), dep.getText(), des.getText(), dft.getText());
@@ -355,7 +355,7 @@ public class SearchFlight {
 		this.user = aUser;
 		layeredPane.remove(loginBtn);
 		layeredPane.remove(signupBtn);
-		account = new JButton("Hi! " + "Alex"); // user.getUserName();
+		account = new JButton("Hi! " + user.getUsername());
 		account.setBounds(1181, 0, 259, 50);
 		account.setFont(new Font("Times New Roman", Font.ITALIC | Font.BOLD, 20));
 		account.setForeground(new Color(102, 147, 195));
