@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Date;
 
 import ticketSystem.database.Database;
+import ticketSystem.database.dbException.ExDbPwdIsWrong;
 import ticketSystem.database.dbException.ExDbUserExisted;
 import ticketSystem.database.dbException.ExDbUserNotFound;
 
@@ -34,6 +35,9 @@ public class TicketSystem {
         } catch (ExDbUserNotFound e) {
             System.out.println("Error: User not found!");
             return null;
+        } catch (ExDbPwdIsWrong e) {
+            System.out.println("Error: User password is wrong!");
+            return new User(db, "password wrong", "password wrong");
         }
     }
 
