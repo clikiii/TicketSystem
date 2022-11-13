@@ -30,7 +30,7 @@ import userInterface.UIException.ExPasswordOutOfRange;
 import userInterface.UIException.ExTwoPasswordDifferent;
 
 public class Signup {
-	
+
 	private JTextField usr;
 	private JPasswordField pw;
 
@@ -134,9 +134,11 @@ public class Signup {
 					else if (ticketSystem.register(usr.getText(), new String(pw.getPassword())) == null)
 						throw new ExUsernameIsExisted();
 					else {
-						SearchFlight.getInstance().setAccountBtn((User) ticketSystem.register(usr.getText(), new String(pw.getPassword())));
-						if (PurchaseTicket.notCreate())
-							PurchaseTicket.setAccountBtn((User) ticketSystem.register(usr.getText(), new String(pw.getPassword())));
+						SearchFlight.getInstance().setAccountBtn(
+								(User) ticketSystem.login(usr.getText(), new String(pw.getPassword())));
+						if (!PurchaseTicket.notCreate())
+							PurchaseTicket.setAccountBtn(
+									(User) ticketSystem.login(usr.getText(), new String(pw.getPassword())));
 						jf.dispose();
 					}
 				} catch (ExUsernameIsEmpty e1) {
