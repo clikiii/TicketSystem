@@ -56,7 +56,6 @@ public class SearchFlight {
 	private JButton loginBtn;
 	private JButton signupBtn;
 	private JButton account;
-	
 
 	private SearchFlight() {
 		JFrame jf = new JFrame("Air Ticket Booking System");
@@ -141,7 +140,7 @@ public class SearchFlight {
 		from.setBounds(image.getIconWidth() - 435, 250, 250, 50);
 
 		dep = new JTextField(10);
-		dep.addFocusListener(new JTextFieldHintListener(dep, "Departure City"));
+		dep.addFocusListener(new JTextFieldHintListener(dep, "Departure City (e.g. Hongkong)"));
 		dep.setOpaque(false);
 		dep.setBorder(BorderFactory.createLineBorder(Color.BLACK, 0));
 		dep.setBounds(image.getIconWidth() - 435, 270, 280, 50);
@@ -152,7 +151,7 @@ public class SearchFlight {
 		to.setBounds(image.getIconWidth() - 435, 350, 250, 50);
 
 		des = new JTextField(10);
-		des.addFocusListener(new JTextFieldHintListener(des, "Destination City"));
+		des.addFocusListener(new JTextFieldHintListener(des, "Destination City (e.g. Beijing)"));
 		des.setOpaque(false);
 		des.setBorder(BorderFactory.createLineBorder(Color.BLACK, 0));
 		des.setBounds(image.getIconWidth() - 435, 370, 280, 50);
@@ -176,18 +175,19 @@ public class SearchFlight {
 		exchange.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (dep.getText().equals("Departure City") && des.getText().equals("Destination City")) {
+				if (dep.getText().equals("Departure City (e.g. Hongkong)")
+						&& des.getText().equals("Destination City (e.g. Beijing)")) {
 					// pass;
-				} else if (dep.getText().equals("Departure City")) {
+				} else if (dep.getText().equals("Departure City (e.g. Hongkong)")) {
 					dep.setText(des.getText());
 					dep.setForeground(new Color(102, 147, 195));
 					dep.setFont(new Font("Times New Roman", Font.PLAIN, 17));
-					des.addFocusListener(new JTextFieldHintListener(des, "Destination City"));
-				} else if (des.getText().equals("Destination City")) {
+					des.addFocusListener(new JTextFieldHintListener(des, "Destination City (e.g. Beijing)"));
+				} else if (des.getText().equals("Destination City (e.g. Beijing)")) {
 					des.setText(dep.getText());
 					des.setForeground(new Color(102, 147, 195));
 					des.setFont(new Font("Times New Roman", Font.PLAIN, 17));
-					dep.addFocusListener(new JTextFieldHintListener(dep, "Departure City"));
+					dep.addFocusListener(new JTextFieldHintListener(dep, "Departure City (e.g. Hongkong)"));
 				} else {
 					String tmp = dep.getText();
 					dep.setText(des.getText());
@@ -265,9 +265,8 @@ public class SearchFlight {
 						throw new ExDepartureCityIsNotFound(); // case5: cannot find dep, retry
 					else if (false) // call the backend func
 						throw new ExDestinationCityIsNotFound(); // case6: cannot find des, retry
-					else {
-						new PurchaseTicket(getAllFlights());
-					}
+					else
+						new PurchaseTicket(user, getAllFlights(), dep.getText(), des.getText(), dft.getText());
 				} catch (ExDepartureCityIsEmpty e1) {
 					e1.printStackTrace();
 				} catch (ExDestinationCityIsEmpty e2) {
@@ -328,27 +327,32 @@ public class SearchFlight {
 
 	private ArrayList<ArrayList<Flight>> getAllFlights() {
 		// call the backend func;
+		// (getDatetime());
 		return null;
 	}
 
 	private Date getDateFormat() {
-		DateFormat df = new SimpleDateFormat("yyyyMMdd");
-		Date date = new Date();
-		try {
-			date = df.parse(this.selectDate);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+		DateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
+		Date sDate = new Date();
+		if (this.selectDate.substring(6, 8).equals(this.date.substring(0, 2)))
+			return new Date();
+		else
+			try {
+				sDate = df.parse(this.selectDate + "000000");
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		Calendar cal = Calendar.getInstance();
-		cal.setTime(date);
+		cal.setTime(sDate);
 		return new Date(cal.getTimeInMillis());
 	}
-	
+
 	public void setAccountBtn(User aUser) {
 		this.user = aUser;
 		layeredPane.remove(loginBtn);
 		layeredPane.remove(signupBtn);
-		account = new JButton("Hi! Alex"); // user.getUserName();
+		account = new JButton("Hi! " + "Alex"); // user.getUserName();
 		account.setBounds(1181, 0, 259, 50);
 		account.setFont(new Font("Times New Roman", Font.ITALIC | Font.BOLD, 20));
 		account.setForeground(new Color(102, 147, 195));
@@ -372,7 +376,7 @@ public class SearchFlight {
 		});
 		layeredPane.add(account, JLayeredPane.MODAL_LAYER);
 	}
-	
+
 	public void logout() {
 		this.user = null;
 		this.layeredPane.remove(account);

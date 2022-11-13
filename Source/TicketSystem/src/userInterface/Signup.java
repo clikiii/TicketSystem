@@ -21,6 +21,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import userInterface.UIException.ExUsernameIsEmpty;
+import userInterface.UIException.ExUsernameIsExisted;
 import userInterface.UIException.ExUsernameOutOfRange;
 import userInterface.UIException.ExPasswordIsEmpty;
 import userInterface.UIException.ExPasswordOutOfRange;
@@ -127,8 +128,14 @@ public class Signup {
 						throw new ExPasswordOutOfRange();
 					else if (!new String(pw.getPassword()).equals(new String(cpw.getPassword())))
 						throw new ExTwoPasswordDifferent();
-					// case6: else if (username is already existed)
-					// case7: else {sign-up successfully --- get start ---}
+					else if (false) // call the backend func
+						throw new ExUsernameIsExisted();
+					else {
+						SearchFlight.getInstance().setAccountBtn(null); // get user from backend (login func)
+						if (PurchaseTicket.notCreate())
+							PurchaseTicket.setAccountBtn(null); // get user from backend (login func)
+						jf.dispose();
+					}
 				} catch (ExUsernameIsEmpty e1) {
 					e1.printStackTrace();
 				} catch (ExUsernameOutOfRange e2) {
@@ -139,10 +146,10 @@ public class Signup {
 					e4.printStackTrace();
 				} catch (ExTwoPasswordDifferent e5) {
 					e5.printStackTrace();
+				} catch (ExUsernameIsExisted e6) {
+					e6.printStackTrace();
 				}
-
 			}
-
 		});
 
 		JButton cancel = new JButton("Cancel");

@@ -22,6 +22,7 @@ import javax.swing.JTextField;
 
 import userInterface.UIException.ExUsernameIsNotFound;
 import userInterface.UIException.ExPasswordIsWrong;
+import userInterface.UIException.ExUsernameIsEmpty;
 
 
 public class Login {
@@ -104,18 +105,29 @@ public class Login {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					if (false)
+						throw new ExUsernameIsEmpty();
+					else if (false)
 						throw new ExUsernameIsNotFound(); // case1: username is not found
 					else if (false)
 						throw new ExPasswordIsWrong(); // case2: password is wrong
 					else {
 						// case3: login successfully
-						SearchFlight.getInstance().setAccountBtn(null); // get user from backend (login func)
-						jf.dispose();
+						if (true) { // admin
+							new AdminPage();
+							jf.dispose();
+						} else {
+							SearchFlight.getInstance().setAccountBtn(null); // get user from backend (login func)
+							if (PurchaseTicket.notCreate())
+								PurchaseTicket.setAccountBtn(null); // get user from backend (login func)
+							jf.dispose();
+						}
 					}
-				} catch (ExUsernameIsNotFound e1) {
+				} catch (ExUsernameIsEmpty e1) {
 					e1.printStackTrace();
 				} catch (ExPasswordIsWrong e2) {
 					e2.printStackTrace();
+				} catch (ExUsernameIsNotFound e3) {
+					e3.printStackTrace();
 				}
 			}
 

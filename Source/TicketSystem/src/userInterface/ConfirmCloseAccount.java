@@ -55,6 +55,7 @@ public class ConfirmCloseAccount {
 			public void actionPerformed(ActionEvent e) {
 //				user.deleteMe(null, null, null); // call the backend func
 				SearchFlight.getInstance().logout();
+				PurchaseTicket.logout();
 				jf.dispose();
 				MyAccount.CloseWindow();
 			}

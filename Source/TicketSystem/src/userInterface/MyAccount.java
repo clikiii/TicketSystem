@@ -57,13 +57,13 @@ public class MyAccount {
 
 		jp.add(img);
 
-		JLabel username = new JLabel("Hi! Alex", SwingConstants.CENTER); // user.getUserName();
+		JLabel username = new JLabel("Hi! " + "Alex", SwingConstants.CENTER); // user.getUserName();
 		username.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 30));
 		username.setForeground(new Color(102, 147, 195));
 		username.setBounds(image.getIconWidth() - 490, 200, 400, 50);
 		
-		JButton myOrder = new JButton("My Order");
-		myOrder.setBounds(image.getIconWidth() - 490, 300, 145, 50);
+		JButton myOrder = new JButton("My Orders");
+		myOrder.setBounds(image.getIconWidth() - 490, 300, 155, 50);
 		myOrder.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 25));
 		myOrder.setForeground(new Color(102, 147, 195));
 		myOrder.setBorderPainted(false);
@@ -83,7 +83,7 @@ public class MyAccount {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new MyOrder(user);
+				new MyOrders(user);
 			}
 
 		});
@@ -162,6 +162,7 @@ public class MyAccount {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				SearchFlight.getInstance().logout();
+				PurchaseTicket.logout();
 				jf.dispose();
 			}
 
