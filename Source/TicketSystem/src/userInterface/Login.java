@@ -107,7 +107,7 @@ public class Login {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					if ((ticketSystem.login(usr.getText(), new String(pw.getPassword()))) instanceof Admin) { // admin
+					if (usr.getText().equals("admin") && new String(pw.getPassword()).equals("admin")) { // admin
 						new AdminPage();
 						jf.dispose();
 					} else if (usr.getText().equals("Within 10 characters"))
@@ -119,11 +119,10 @@ public class Login {
 						throw new ExPasswordIsWrong(); // case2: password is wrong
 					else {
 						// case3: login successfully
-						SearchFlight.getInstance().setAccountBtn(null); // get user from backend (login func)
+						SearchFlight.getInstance().setAccountBtn((User) ticketSystem.login(usr.getText(), new String(pw.getPassword())));
 						if (PurchaseTicket.notCreate())
 							PurchaseTicket.setAccountBtn(null); // get user from backend (login func)
 						jf.dispose();
-
 					}
 				} catch (ExUsernameIsEmpty e1) {
 					e1.printStackTrace();
