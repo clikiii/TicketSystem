@@ -1,6 +1,7 @@
 package ticketSystem;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 import ticketSystem.database.Database;
@@ -8,6 +9,7 @@ import ticketSystem.database.dbException.ExDbUserExisted;
 import ticketSystem.database.dbException.ExDbUserNotFound;
 
 public class TicketSystem {
+    private static final ArrayList<String> cities = new ArrayList<String>(Arrays.asList("Beijing", "Chongqing", "Chengdu", "Hangzhou", "Kunming", "Nanjing", "Shanghai", "Qingdao", "Wuhan", "Amoy"));
     private Database db;
 
     private static TicketSystem instance = new TicketSystem();
@@ -41,6 +43,9 @@ public class TicketSystem {
         return search.searchRoute(searchType, onlySingle);
     }
 
+    public boolean checkCity (String city) {
+        return cities.contains(city);
+    }
 
     public void terminate(){
         this.db.closeConn();
