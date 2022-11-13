@@ -119,9 +119,11 @@ public class Login {
 						throw new ExPasswordIsWrong(); // case2: password is wrong
 					else {
 						// case3: login successfully
-						SearchFlight.getInstance().setAccountBtn((User) ticketSystem.login(usr.getText(), new String(pw.getPassword())));
-						if (PurchaseTicket.notCreate())
-							PurchaseTicket.setAccountBtn(null); // get user from backend (login func)
+						SearchFlight.getInstance()
+								.setAccountBtn((User) ticketSystem.login(usr.getText(), new String(pw.getPassword())));
+						if (!PurchaseTicket.notCreate())
+							PurchaseTicket.setAccountBtn(
+									(User) ticketSystem.login(usr.getText(), new String(pw.getPassword())));
 						jf.dispose();
 					}
 				} catch (ExUsernameIsEmpty e1) {
