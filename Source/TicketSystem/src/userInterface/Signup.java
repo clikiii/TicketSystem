@@ -20,6 +20,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import ticketSystem.TicketSystem;
+import ticketSystem.User;
 import userInterface.UIException.ExUsernameIsEmpty;
 import userInterface.UIException.ExUsernameIsExisted;
 import userInterface.UIException.ExUsernameOutOfRange;
@@ -33,6 +35,7 @@ public class Signup {
 	private JPasswordField pw;
 
 	public Signup() {
+		TicketSystem ticketSystem = TicketSystem.start();
 		JFrame jf = new JFrame("Sign up");
 
 		JLayeredPane layeredPane = new JLayeredPane();
@@ -128,12 +131,12 @@ public class Signup {
 						throw new ExPasswordOutOfRange();
 					else if (!new String(pw.getPassword()).equals(new String(cpw.getPassword())))
 						throw new ExTwoPasswordDifferent();
-					else if (false) // call the backend func
+					else if (ticketSystem.register(usr.getText(), new String(pw.getPassword())) == null)
 						throw new ExUsernameIsExisted();
 					else {
-						SearchFlight.getInstance().setAccountBtn(null); // get user from backend (login func)
+						SearchFlight.getInstance().setAccountBtn((User) ticketSystem.register(usr.getText(), new String(pw.getPassword())));
 						if (PurchaseTicket.notCreate())
-							PurchaseTicket.setAccountBtn(null); // get user from backend (login func)
+							PurchaseTicket.setAccountBtn((User) ticketSystem.register(usr.getText(), new String(pw.getPassword())));
 						jf.dispose();
 					}
 				} catch (ExUsernameIsEmpty e1) {

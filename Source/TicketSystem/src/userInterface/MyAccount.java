@@ -57,7 +57,7 @@ public class MyAccount {
 
 		jp.add(img);
 
-		JLabel username = new JLabel("Hi! " + "Alex", SwingConstants.CENTER); // user.getUserName();
+		JLabel username = new JLabel("Hi! " + user.getUsername(), SwingConstants.CENTER);
 		username.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 30));
 		username.setForeground(new Color(102, 147, 195));
 		username.setBounds(image.getIconWidth() - 490, 200, 400, 50);
