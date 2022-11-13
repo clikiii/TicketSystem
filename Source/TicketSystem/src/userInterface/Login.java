@@ -20,6 +20,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import ticketSystem.TicketSystem;
+import ticketSystem.User;
 import userInterface.UIException.ExUsernameIsNotFound;
 import userInterface.UIException.ExPasswordIsWrong;
 import userInterface.UIException.ExUsernameIsEmpty;
@@ -31,6 +33,7 @@ public class Login {
 	private JPasswordField pw;
 
 	public Login() {
+		TicketSystem ticketSystem = TicketSystem.start();
 		JFrame jf = new JFrame("Login");
 
 		JLayeredPane layeredPane = new JLayeredPane();
@@ -104,11 +107,11 @@ public class Login {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					if (false)
+					if (usr.getText().equals("Within 10 characters"))
 						throw new ExUsernameIsEmpty();
-					else if (false)
+					else if (ticketSystem.login(usr.getText(), new String(pw.getPassword()))==null)
 						throw new ExUsernameIsNotFound(); // case1: username is not found
-					else if (false)
+					else if (((User) ticketSystem.login(usr.getText(), new String(pw.getPassword()))).getUsername().equals("password wrong"))
 						throw new ExPasswordIsWrong(); // case2: password is wrong
 					else {
 						// case3: login successfully

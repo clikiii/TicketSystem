@@ -26,6 +26,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import ticketSystem.Flight;
+import ticketSystem.TicketSystem;
 import ticketSystem.User;
 import userInterface.UIException.ExDepartureCityIsEmpty;
 import userInterface.UIException.ExDestinationCityIsEmpty;
@@ -36,8 +37,10 @@ import userInterface.UIException.ExDestinationCityIsNotFound;
 
 public class SearchFlight {
 	private static SearchFlight instance = new SearchFlight();
+	private static TicketSystem ticketSystem;
 
 	public static void main(String[] args) {
+		ticketSystem = TicketSystem.start();
 		SearchFlight.getInstance();
 	}
 
@@ -261,9 +264,9 @@ public class SearchFlight {
 						throw new ExDepAndDesAreSame();
 					else if (dft.getForeground() == Color.GRAY)
 						throw new ExDateIsEmpty();
-					else if (false) // call the backend func
+					else if (!ticketSystem.checkCity(dep.getText())) // call the backend func
 						throw new ExDepartureCityIsNotFound(); // case5: cannot find dep, retry
-					else if (false) // call the backend func
+					else if (!ticketSystem.checkCity(des.getText())) // call the backend func
 						throw new ExDestinationCityIsNotFound(); // case6: cannot find des, retry
 					else
 						new PurchaseTicket(user, getAllFlights(), dep.getText(), des.getText(), dft.getText());
