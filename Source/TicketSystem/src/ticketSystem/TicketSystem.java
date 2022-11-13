@@ -23,8 +23,13 @@ public class TicketSystem {
     }
 
 
-    public User register(String username, String password) throws ExDbUserExisted{
-        return People.register(this.db, username, password);
+    public User register(String username, String password){
+        try {
+            return People.register(this.db, username, password);
+        } catch (ExDbUserExisted e) {
+            System.out.println("Error: Username existed!");
+            return null;
+        }
     }
 
     public People login(String username, String password){
