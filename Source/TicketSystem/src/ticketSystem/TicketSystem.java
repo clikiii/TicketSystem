@@ -26,10 +26,15 @@ public class TicketSystem {
         return People.register(this.db, username, password);
     }
 
-    public People login(String username, String password) throws ExDbUserNotFound{
-        if (username == "admin") return Admin.login(this.db, username, password);
+    public People login(String username, String password){
+        try {
+            if (username == "admin") return Admin.login(this.db, username, password);
 
-        return User.login(this.db, username, password);
+            return User.login(this.db, username, password);
+        } catch (ExDbUserNotFound e) {
+            System.out.println("Error: User not found!");
+            return null;
+        }
     }
 
     public ArrayList<ArrayList<Flight>> searchRoute(
