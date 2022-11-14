@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import ticketSystem.database.Database;
+import ticketSystem.database.csvToSql;
 import ticketSystem.database.dbException.ExDbUserExisted;
 import ticketSystem.database.dbException.ExDbUserNotFound;
 
@@ -45,5 +46,9 @@ public class TicketSystem {
     public void terminate(){
         this.db.closeConn();
         System.out.println("System terminated.");
+    }
+
+    public void load() {
+        csvToSql.dataLoader(db);
     }
 }

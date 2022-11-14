@@ -14,7 +14,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class csvToSql extends SQLException {
-    public void dataLoader(Database db) {
+    public static void dataLoader(Database db) {
         try {
             readCSV(db);
         } catch (CsvValidationException e) {
@@ -50,21 +50,30 @@ public class csvToSql extends SQLException {
         
         String[] rowData = null;
         String t = "";
-        int i = 0;
+        int position = 1;
+        int index = 1;
         while ((rowData = reader.readNext()) != null) {
             for (String data : rowData) {
-                if (i == 5 || i == 6) {
-                    long time = Long.parseLong(data);
-                    long new_time = time + daycount;
-                    data = Long.toString(new_time);
+                if (position == 2 || position == 4 || position == 8) {
+                    
+                }
+                else {
+                    if (position == 6 || position == 7) {
+                        long time = Long.parseLong(data);
+                        long new_time = time + daycount;
+                        data = Long.toString(new_time);
+                    }
+
+                    pstmt.setString(index++, data);
                 }
 
-                pstmt.setString(i++, data);
-                pstmt.addBatch();
-                pstmt.executeBatch();
+                position++;
             }
 
-            i = 0;
+            position = 1;
+            index = 1;
+            pstmt.addBatch();
+            pstmt.executeBatch();
         }
 
         reader.close();
