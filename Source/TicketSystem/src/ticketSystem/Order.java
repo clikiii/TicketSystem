@@ -12,30 +12,74 @@ import ticketSystem.database.dbException.ExDbOrderNotFound;
 public class Order {
     private int orderIndex;
     private String flightSet;
+    private ArrayList<Flight> flightSetObjList;
     private int number;
+    private String username;
 
-    public Order(String flightSet, int number) {
+    public int getOrderIndex() {
+        return this.orderIndex;
+    }
+
+    public String getFlightSet() {
+        return this.flightSet;
+    }
+
+    public ArrayList<Flight> getFlightSetObjList() {
+        return this.flightSetObjList;
+    }
+
+    public int getNumber() {
+        return this.number;
+    }
+
+    public String getUsername() {
+        return this.username;
+    }
+
+
+    public Order(String flightSet, int number, String username) {
         // NOTE: NO order index before insertion.
         this.orderIndex = -1;
         this.flightSet = flightSet;
         this.number = number;
+
+        this.flightSetObjList = null;
+        this.username = username;
     }
 
-    public Order(int orderIndex, String flightSet, int number){
+    public Order(
+        int orderIndex, 
+        String flightSet, 
+        int number, 
+        ArrayList<Flight> flightSetObjList, 
+        String username
+    ){
         this.orderIndex = orderIndex;
         this.flightSet = flightSet;
         this.number = number;
+
+        this.flightSetObjList = flightSetObjList;
+        this.username = username;
     }
 
-    private static ArrayList<Order> rsToAl(ResultSet rs) {
+    private static ArrayList<Order> rsToAl(Database db, ResultSet rs) {
         ArrayList<Order> ret = new ArrayList<>();
 
         try {
             while(rs.next()) {
+                // "001 002"
+                ArrayList<Flight> flightSetObjList = new ArrayList<>();
+                for (String s: rs.getString("flight_set").split(" ")){
+                    int fIdx = Integer.parseInt(s);
+                    flightSetObjList.addAll(Flight.queryFlightByIndex(db, fIdx));
+                }
+
                 Order order = new Order(
                     rs.getInt("order_index"),
                     rs.getString("flight_set"), 
-                    rs.getInt("number")
+                    rs.getInt("number"),
+                    flightSetObjList,
+                    rs.getString("username")
                 );
 
                 ret.add(order);
@@ -52,21 +96,21 @@ public class Order {
     public static ArrayList<Order> queryOrderByUsername(Database db, String username){
         IOrderDAO iOrderDAO = OrderDAO.getInstance();
         ResultSet rs = iOrderDAO.queryOrderByUsername(db, username);
-        return rsToAl(rs);
+        return rsToAl(db, rs);
     }
 
     public static ArrayList<Order> queryAllOrder(Database db) {
         IOrderDAO iOrderDAO = OrderDAO.getInstance();
         ResultSet rs = iOrderDAO.queryAllOrder(db);
-        return rsToAl(rs);
+        return rsToAl(db, rs);
     }
 
     public static ArrayList<Order> addOrder(Database db, Order o) {
         IOrderDAO iOrderDAO = OrderDAO.getInstance();
-        ResultSet rs = iOrderDAO.addOrder(db, o.flightSet, o.number);
+        ResultSet rs = iOrderDAO.addOrder(db, o.flightSet, o.number, o.username);
 
         // NOTE: here the ArrayList only contanins one order which is the one newly created above.
-        return rsToAl(rs);
+        return rsToAl(db, rs);
     }
 
     public static boolean cancelOrder(Database db, int orderIndex) throws ExDbOrderNotFound {

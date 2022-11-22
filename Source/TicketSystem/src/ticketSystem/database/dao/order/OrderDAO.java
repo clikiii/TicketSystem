@@ -35,13 +35,13 @@ public class OrderDAO implements IOrderDAO{
     }
 
     @Override
-    public ResultSet addOrder(Database db, String flightSet, int number) {
+    public ResultSet addOrder(Database db, String flightSet, int number, String username) {
         Connection conn = db.connect();
         Statement stmt = null;
         ResultSet rs = null;
         try {
             stmt = conn.createStatement();
-            String sqlInsert = "insert into ticketdb.order (flight_set, number) values ('%s','%d');";
+            String sqlInsert = "insert into ticketdb.order (flight_set, number, username) values ('%s','%d','%s');";
             stmt.executeUpdate(String.format(sqlInsert, flightSet, number));
             rs = stmt.executeQuery("SELECT * from ticketdb.order where order_index = (SELECT max(order_index) FROM ticketdb.order);");
         } catch (SQLException e) {

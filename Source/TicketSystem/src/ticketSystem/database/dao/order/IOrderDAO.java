@@ -7,7 +7,7 @@ import ticketSystem.database.dbException.ExDbOrderNotFound;
 
 public interface IOrderDAO {
     public ResultSet queryOrderByUsername(Database db, String username);
-    public ResultSet addOrder(Database db, String flightSet, int number);
+    public ResultSet addOrder(Database db, String flightSet, int number, String username);
     public boolean deleteOrder(Database db, int orderIndex) throws ExDbOrderNotFound;
     public ResultSet queryAllOrder(Database db);
 }
