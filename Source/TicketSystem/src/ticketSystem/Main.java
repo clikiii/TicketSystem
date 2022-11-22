@@ -8,12 +8,12 @@ public class Main {
 
         // simple example
         // try {
-            
+        //     System.out.println(ticketSystem.register("AAA", "123").toString());
         // } catch ( ExDbUserExisted e) {
         //     e.printStackTrace();
         // }
 
-        System.out.println(ticketSystem.checkCity("BeijingS"));
+        ticketSystem.load();
 
         ticketSystem.terminate();
     }
