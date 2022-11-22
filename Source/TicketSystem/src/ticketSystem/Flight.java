@@ -16,8 +16,8 @@ public class Flight {
     private String fid;
     private String departure;
     private String destination;
-    private String takeOffTime;
-    private String landingTime;
+    private Date takeOffTime;
+    private Date landingTime;
     private int totalSeats;
     private int availableSeats;
     private String sellStatus;
@@ -39,11 +39,11 @@ public class Flight {
         return this.destination;
     }
 
-    public String getTakeOffTime() {
+    public Date getTakeOffTime() {
         return this.takeOffTime;
     }
 
-    public String getLandingTime() {
+    public Date getLandingTime() {
         return this.landingTime;
     }
 
@@ -69,8 +69,8 @@ public class Flight {
         String fid,
         String departure,
         String destination,
-        String takeOffTime,
-        String landingTime,
+        Date takeOffTime,
+        Date landingTime,
         int totalSeats,
         int availableSeats,
         String sellStatus,
@@ -89,6 +89,10 @@ public class Flight {
     }
 
     
+    private static Date tsToDate(String ts){
+        return new Date(Long.parseLong(ts));
+    }
+
     private static ArrayList<Flight> rsToAl(ResultSet rs) {
         ArrayList<Flight> ret = new ArrayList<>();
 
@@ -99,8 +103,8 @@ public class Flight {
                     rs.getString("fid"), 
                     rs.getString("departure"), 
                     rs.getString("destination"), 
-                    rs.getString("take_off_time"), 
-                    rs.getString("landing_time"), 
+                    tsToDate(rs.getString("take_off_time")), 
+                    tsToDate(rs.getString("landing_time")), 
                     rs.getInt("total_seats"),
                     rs.getInt("available_seats"), 
                     rs.getString("sell_status"), 

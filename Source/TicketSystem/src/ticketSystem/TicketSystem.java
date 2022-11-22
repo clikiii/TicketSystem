@@ -1,13 +1,17 @@
 package ticketSystem;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
+import ticketSystem.database.CsvToSql;
 import ticketSystem.database.Database;
+import ticketSystem.database.dbException.ExDbPwdIsWrong;
 import ticketSystem.database.dbException.ExDbUserExisted;
 import ticketSystem.database.dbException.ExDbUserNotFound;
 
 public class TicketSystem {
+    private static final ArrayList<String> cities = new ArrayList<String>(Arrays.asList("Beijing", "Chongqing", "Chengdu", "Hangzhou", "Kunming", "Nanjing", "Shanghai", "Qingdao", "Wuhan", "Amoy"));
     private Database db;
 
     private static TicketSystem instance = new TicketSystem();
@@ -20,14 +24,31 @@ public class TicketSystem {
     }
 
 
-    public User register(String username, String password) throws ExDbUserExisted{
-        return People.register(this.db, username, password);
+    public void load() {
+        CsvToSql.dataLoader(this.db);
     }
 
-    public People login(String username, String password) throws ExDbUserNotFound{
-        if (username == "admin") return Admin.login(this.db, username, password);
+    public User register(String username, String password){
+        try {
+            return People.register(this.db, username, password);
+        } catch (ExDbUserExisted e) {
+            System.out.println("Error: Username existed!");
+            return null;
+        }
+    }
 
-        return User.login(this.db, username, password);
+    public People login(String username, String password){
+        try {
+            if (username.equals("admin")) return Admin.login(this.db, username, password);
+
+            return User.login(this.db, username, password);
+        } catch (ExDbUserNotFound e) {
+            System.out.println("Error: User not found!");
+            return null;
+        } catch (ExDbPwdIsWrong e) {
+            System.out.println("Error: User password is wrong!");
+            return new User(db, "password wrong", "password wrong");
+        }
     }
 
     public ArrayList<ArrayList<Flight>> searchRoute(
@@ -41,6 +62,9 @@ public class TicketSystem {
         return search.searchRoute(searchType, onlySingle);
     }
 
+    public boolean checkCity (String city) {
+        return cities.contains(city);
+    }
 
     public void terminate(){
         this.db.closeConn();

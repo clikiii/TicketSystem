@@ -1,6 +1,7 @@
 package ticketSystem.database.dao.user;
 
 import ticketSystem.database.Database;
+import ticketSystem.database.dbException.ExDbPwdIsWrong;
 import ticketSystem.database.dbException.ExDbUserExisted;
 import ticketSystem.database.dbException.ExDbUserNotFound;
 
@@ -68,18 +69,18 @@ public class UserDAO implements IUserDAO{
     }
 
     @Override
-    public boolean queryUser(Database db, String username, String password) throws ExDbUserNotFound {
+    public boolean queryUser(Database db, String username, String password) throws ExDbUserNotFound, ExDbPwdIsWrong {
         Connection conn = db.connect();
         Statement stmt = null;
         ResultSet rs = null;
         try {
             conn = db.connect();
             stmt = conn.createStatement();
-            String sqlSelect = "select count(*) from ticketdb.user where username = '%s' and password = '%s';";
+            String sqlSelect = "select count(*) from ticketdb.user where username = '%s';";
             rs = stmt.executeQuery(String.format(sqlSelect, username, password));
             rs.next();
             if (rs.getInt("count(*)") == 0) {
-                throw new ExDbUserNotFound();
+                throw new ExDbPwdIsWrong();
             }else{
                 rs.close();
                 stmt.close();

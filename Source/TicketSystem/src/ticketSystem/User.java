@@ -9,6 +9,7 @@ import ticketSystem.database.dao.user.IUserDAO;
 import ticketSystem.database.dao.user.UserDAO;
 import ticketSystem.database.dbException.ExDbFlightNotFound;
 import ticketSystem.database.dbException.ExDbOrderNotFound;
+import ticketSystem.database.dbException.ExDbPwdIsWrong;
 import ticketSystem.database.dbException.ExDbSeatInsufficient;
 import ticketSystem.database.dbException.ExDbUserNotFound;
 
@@ -32,7 +33,7 @@ public class User implements People {
         this.db = db;
     }
 
-    public static User login(Database db, String username, String password) throws ExDbUserNotFound {
+    public static User login(Database db, String username, String password) throws ExDbUserNotFound, ExDbPwdIsWrong {
         IUserDAO iUserDAO = UserDAO.getInstance();
 
         iUserDAO.queryUser(db, username, password);
