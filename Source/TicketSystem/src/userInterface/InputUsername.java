@@ -17,14 +17,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import ticketSystem.Admin;
-import ticketSystem.People;
 import ticketSystem.TicketSystem;
-import ticketSystem.User;
-import userInterface.UIException.ExPasswordIsWrong;
 import userInterface.UIException.ExUsernameIsEmpty;
 import userInterface.UIException.ExUsernameIsNotFound;
 
@@ -32,7 +28,7 @@ public class InputUsername {
 	private Admin admin;
 
     public InputUsername(Admin aAdmin) {
-	    this.admin = aAdmin;
+		this.admin = aAdmin;
 		TicketSystem ticketSystem = TicketSystem.start();
 		JFrame jf = new JFrame("InputUsername");
 

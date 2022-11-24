@@ -25,7 +25,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.Border;
 
-import ticketSystem.Flight;
 import ticketSystem.Order;
 
 public class QueryAllOrders {

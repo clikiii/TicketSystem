@@ -13,7 +13,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
-import javax.swing.WindowConstants;
 
 public class ExUsernameIsEmpty extends Exception {
 
