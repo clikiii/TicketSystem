@@ -34,7 +34,6 @@ public class Search {
         return ret;
     }
 
-    // TODO: discuss with the frontend
     public ArrayList<ArrayList<Flight>> searchRoute(String searchType, boolean onlySingle) {
         ComparatorFactory comparatorFactory = new ComparatorFactory();
         Comparator<ArrayList<Flight>> comparator = comparatorFactory.getComparator(searchType);

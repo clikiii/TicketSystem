@@ -117,7 +117,7 @@ public class Flight {
 
                 ret.add(flight);
             }
-            System.out.println("Flight success" + ret.size());
+            System.out.println("Flight success " + ret.size());
         } catch (SQLException e) {
             e.printStackTrace();
             return null;

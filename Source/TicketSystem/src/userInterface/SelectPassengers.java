@@ -101,9 +101,6 @@ public class SelectPassengers {
         long minutes1 = (diff1 - hours1 * (1000 * 60 * 60)) / (1000 * 60);
         String durationT1 = hours1 + "hours " + minutes1 + "minutes";
 
-        System.out.println("start" + flight.get(1).getTakeOffTime());
-        System.out.println("end" + flight.get(0).getLandingTime());
-
         JLabel stop = new JLabel("Stop Duration: " + durationT1);
         stop.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 18));
         stop.setForeground(Color.GRAY);
@@ -188,11 +185,8 @@ public class SelectPassengers {
         flightNum2.setBounds(1140, 368, 300, 50);
 
         long diff2 = flight.get(1).getLandingTime().getTime() - flight.get(0).getTakeOffTime().getTime();
-        System.out.println(diff2);
         long hours2 = diff2 / (1000 * 60 * 60);
-        System.out.println(hours2);
         long minutes2 = (diff2 - hours2 * 1000 * 60 * 60) / (1000 * 60);
-        System.out.println(minutes2);
         String durationT2 = hours2 + "hours " + minutes2 + "minutes";
 
         JLabel duration = new JLabel("Trip Duration: " + durationT2);
@@ -303,7 +297,6 @@ public class SelectPassengers {
         buy.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("111");
                 if (flight.size() == 1) {
                     try {
                         user.addOrder(flight.get(0).getFlightIndex() + "", num, user.getUsername());

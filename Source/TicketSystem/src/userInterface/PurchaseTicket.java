@@ -568,7 +568,6 @@ public class PurchaseTicket {
 
 	public static void logout() {
 		user = null;
-		System.out.println("test"+notCreate());
 		layeredPane.remove(account);
 		loginBtn = new JButton("Login");
 		loginBtn.setBounds(1235, 0, 95, 50);

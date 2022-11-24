@@ -108,7 +108,6 @@ public class Login {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					if (usr.getText().equals("admin") && new String(pw.getPassword()).equals("admin")) { // admin
-						System.out.println((ticketSystem.login(usr.getText(), new String(pw.getPassword()))).toString());
 						new AdminPage((Admin) ticketSystem.login(usr.getText(), new String(pw.getPassword())));
 						jf.dispose();
 					} else if (usr.getText().equals("Within 10 characters"))

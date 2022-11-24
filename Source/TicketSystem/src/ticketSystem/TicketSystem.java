@@ -43,7 +43,6 @@ public class TicketSystem {
 
     public People login(String username, String password){
         try {
-            System.out.println("login "+username.equals("admin"));
             if (username.equals("admin")) return Admin.login(this.db, username, password);
 
             return User.login(this.db, username, password);

@@ -18,7 +18,7 @@ public class Admin implements People{
             username.equals("admin") &&
             password.equals("admin")
         ) {
-            System.out.print("admin login" + instance.toString());
+            System.out.print("admin login " + instance.toString());
             instance.db = db;
             return instance;
         }
