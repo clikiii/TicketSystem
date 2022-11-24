@@ -117,12 +117,11 @@ public class Flight {
 
                 ret.add(flight);
             }
-            System.out.println("success" + ret.size());
+            System.out.println("Flight success" + ret.size());
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         } finally {
-            System.out.println("finally" + rs.toString());
             Database.closeRs(rs);
         }
 

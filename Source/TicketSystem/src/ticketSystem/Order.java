@@ -62,7 +62,7 @@ public class Order {
         this.username = username;
     }
 
-    private static ArrayList<Order> rsToAl(Database db, ResultSet rs) {
+    public static ArrayList<Order> rsToAl(Database db, ResultSet rs) {
         ArrayList<Order> ret = new ArrayList<>();
 
         try {
@@ -84,9 +84,13 @@ public class Order {
 
                 ret.add(order);
             }
+
+            System.out.println("Order success " + ret.size());
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
+        } finally {
+            Database.closeRs(rs);
         }
 
         return ret;
@@ -95,22 +99,18 @@ public class Order {
 
     public static ArrayList<Order> queryOrderByUsername(Database db, String username){
         IOrderDAO iOrderDAO = OrderDAO.getInstance();
-        ResultSet rs = iOrderDAO.queryOrderByUsername(db, username);
-        return rsToAl(db, rs);
+        return iOrderDAO.queryOrderByUsername(db, username);
     }
 
     public static ArrayList<Order> queryAllOrder(Database db) {
         IOrderDAO iOrderDAO = OrderDAO.getInstance();
-        ResultSet rs = iOrderDAO.queryAllOrder(db);
-        return rsToAl(db, rs);
+        return iOrderDAO.queryAllOrder(db);
     }
 
     public static ArrayList<Order> addOrder(Database db, Order o) {
         IOrderDAO iOrderDAO = OrderDAO.getInstance();
-        ResultSet rs = iOrderDAO.addOrder(db, o.flightSet, o.number, o.username);
-
+        return iOrderDAO.addOrder(db, o.flightSet, o.number, o.username);
         // NOTE: here the ArrayList only contanins one order which is the one newly created above.
-        return rsToAl(db, rs);
     }
 
     public static boolean cancelOrder(Database db, int orderIndex) throws ExDbOrderNotFound {

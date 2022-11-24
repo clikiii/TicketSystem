@@ -8,9 +8,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ArrayList;
-import java.util.Calendar;
-
-import org.apache.commons.lang3.time.DateUtils;
 
 import ticketSystem.Flight;
 import ticketSystem.database.Database;
