@@ -72,8 +72,8 @@ public class CsvToSql {
             
         } finally {
             reader.close();
-            db.closeRs(rs);
-            db.closeStmt(pstmt);
+            Database.closeRs(rs);
+            Database.closeStmt(pstmt);
         }
     
         return;
