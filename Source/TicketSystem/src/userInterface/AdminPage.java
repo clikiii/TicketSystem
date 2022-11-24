@@ -27,7 +27,7 @@ public class AdminPage {
 	private Admin admin;
 
     public AdminPage(Admin aAdmin) {
-	    this.admin = aAdmin;
+		this.admin = aAdmin;
 		JFrame jf = new JFrame("AdminPage");
 
 		JLayeredPane layeredPane = new JLayeredPane();

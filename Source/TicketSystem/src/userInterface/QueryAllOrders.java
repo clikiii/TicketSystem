@@ -154,7 +154,7 @@ public class QueryAllOrders {
             user.setForeground(new Color(255, 109, 107));
             user.setBounds(330, 20, 150, 50);
 
-            JLabel num = new JLabel("×" + 4);
+            JLabel num = new JLabel("×" + allOrders.get(idx).getNumber());
             num.setFont(new Font("Times New Roman", Font.ITALIC | Font.BOLD, 25));
             num.setForeground(new Color(255, 109, 107));
             num.setBounds(385, 50, 100, 50);

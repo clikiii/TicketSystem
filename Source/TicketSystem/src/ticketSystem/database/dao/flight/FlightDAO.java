@@ -167,7 +167,7 @@ public class FlightDAO implements IFlightDAO {
             conn = db.connect();
             stmt = conn.createStatement();
             String sqlSelect = "select * from ticketdb.flight where departure = '%s' and destination = '%s' and cast(take_off_time as signed) > '%d' and cast(take_off_time as signed) < '%d' and sell_status = 'SELLING';";
-            System.out.println(String.format(sqlSelect, departure, destination, Integer.parseInt(startDate), endDate));
+            System.out.println("query" + String.format(sqlSelect, departure, destination, Integer.parseInt(startDate), endDate));
             rs = stmt.executeQuery(String.format(sqlSelect, departure, destination, Integer.parseInt(startDate), endDate));
 
             return Flight.rsToAl(rs);

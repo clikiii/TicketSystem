@@ -69,7 +69,7 @@ public class SelectPassengers {
                 graphics.drawLine(1109, 308 - 70, 1109, 318 - 70);
                 graphics.drawLine(image.getIconWidth() - 447, 110, image.getIconWidth() - 137, 110);
                 graphics.drawLine(image.getIconWidth() - 447, 510, image.getIconWidth() - 137, 510);
-//				graphics.drawRect(image.getIconWidth() - 447, 645, 140, 50);
+                // graphics.drawRect(image.getIconWidth() - 447, 645, 140, 50);
 
                 graphics.drawArc(1100, 330, 18, 18, 0, 360);
                 graphics.drawArc(1100, 518 - 70, 18, 18, 0, 360);
@@ -153,7 +153,7 @@ public class SelectPassengers {
         des2.setForeground(new Color(102, 147, 195));
         des2.setBounds(1140, 428, 300, 50);
 
-        JLabel depTime2 = new JLabel(flight.get(1).getTakeOffTime().toString().substring(11,16));
+        JLabel depTime2 = new JLabel(flight.get(1).getTakeOffTime().toString().substring(11, 16));
         depTime2.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 25));
         depTime2.setForeground(new Color(102, 147, 195));
         depTime2.setBounds(1020, 310, 300, 50);
@@ -187,20 +187,21 @@ public class SelectPassengers {
         flightNum2.setForeground(Color.GRAY);
         flightNum2.setBounds(1140, 368, 300, 50);
 
-		long diff2 = flight.get(1).getLandingTime().getTime() - flight.get(0).getTakeOffTime().getTime();
+        long diff2 = flight.get(1).getLandingTime().getTime() - flight.get(0).getTakeOffTime().getTime();
         System.out.println(diff2);
         long hours2 = diff2 / (1000 * 60 * 60);
         System.out.println(hours2);
-		long minutes2 = (diff2 - hours2 * 1000 * 60 * 60) / (1000 * 60);
+        long minutes2 = (diff2 - hours2 * 1000 * 60 * 60) / (1000 * 60);
         System.out.println(minutes2);
-		String durationT2 = hours2 + "hours " + minutes2 + "minutes";
+        String durationT2 = hours2 + "hours " + minutes2 + "minutes";
 
         JLabel duration = new JLabel("Trip Duration: " + durationT2);
         duration.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 25));
         duration.setForeground(new Color(102, 147, 195));
         duration.setBounds(image.getIconWidth() - 447, 40, 447, 50);
 
-        JLabel available = new JLabel("Available Seats:  " + Math.min(flight.get(0).getAvailableSeats(),flight.get(1).getAvailableSeats()));
+        JLabel available = new JLabel(
+                "Available Seats:  " + Math.min(flight.get(0).getAvailableSeats(), flight.get(1).getAvailableSeats()));
         available.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 25));
         available.setForeground(new Color(102, 147, 195));
         available.setBounds(image.getIconWidth() - 447, 520, 300, 50);
@@ -236,7 +237,7 @@ public class SelectPassengers {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (num == Math.min(flight.get(0).getAvailableSeats(),flight.get(1).getAvailableSeats())) {
+                if (num == Math.min(flight.get(0).getAvailableSeats(), flight.get(1).getAvailableSeats())) {
                     return;
                 }
                 layeredPane.remove(passengers);
@@ -302,17 +303,19 @@ public class SelectPassengers {
         buy.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (flight.size()==1) {
+                System.out.println("111");
+                if (flight.size() == 1) {
                     try {
-                        user.addOrder(flight.get(0).getFlightIndex()+"", num, user.getUsername());
+                        user.addOrder(flight.get(0).getFlightIndex() + "", num, user.getUsername());
                     } catch (ExDbSeatInsufficient e1) {
                         e1.printStackTrace();
                     } catch (ExDbFlightNotFound e1) {
                         e1.printStackTrace();
                     }
-                } else if (flight.size()==2) {
+                } else if (flight.size() == 2) {
                     try {
-                        user.addOrder(flight.get(0).getFlightIndex()+" "+flight.get(1).getFlightIndex(), num, user.getUsername());
+                        user.addOrder(flight.get(0).getFlightIndex() + " " + flight.get(1).getFlightIndex(), num,
+                                user.getUsername());
                     } catch (ExDbSeatInsufficient e1) {
                         e1.printStackTrace();
                     } catch (ExDbFlightNotFound e1) {
@@ -382,7 +385,7 @@ public class SelectPassengers {
     }
 
     private void oneFlightJFrame() {
-        JFrame jf = new JFrame("Select Passengers");
+        jf = new JFrame("Select Passengers");
 
         JLayeredPane layeredPane = new JLayeredPane();
 
@@ -408,7 +411,7 @@ public class SelectPassengers {
                 graphics.drawLine(1109, 408 - 70, 1109, 418 - 70);
                 graphics.drawLine(image.getIconWidth() - 447, 210, image.getIconWidth() - 137, 210);
                 graphics.drawLine(image.getIconWidth() - 447, 410, image.getIconWidth() - 137, 410);
-//				graphics.drawRect(image.getIconWidth() - 447, 545, 140, 50);
+                // graphics.drawRect(image.getIconWidth() - 447, 545, 140, 50);
             }
         };
         jp.setBounds(0, -5, image.getIconWidth(), image.getIconHeight());
@@ -425,7 +428,7 @@ public class SelectPassengers {
         des.setForeground(new Color(102, 147, 195));
         des.setBounds(1140, 398 - 70, 300, 50);
 
-        JLabel depTime = new JLabel(flight.get(0).getTakeOffTime().toString().substring(11,16));
+        JLabel depTime = new JLabel(flight.get(0).getTakeOffTime().toString().substring(11, 16));
         depTime.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 25));
         depTime.setForeground(new Color(102, 147, 195));
         depTime.setBounds(1020, 280 - 70, 300, 50);
@@ -459,15 +462,15 @@ public class SelectPassengers {
         flightNum.setForeground(Color.GRAY);
         flightNum.setBounds(1140, 338 - 70, 300, 50);
 
-		long diff = flight.get(0).getLandingTime().getTime() - flight.get(0).getTakeOffTime().getTime();
-		long hours = diff / (1000 * 60 * 60);
-		long minutes = (diff - hours * 1000 * 60 * 60) / (1000 * 60);
-		String durationT = hours + "hours " + minutes + "minutes";
+        long diff = flight.get(0).getLandingTime().getTime() - flight.get(0).getTakeOffTime().getTime();
+        long hours = diff / (1000 * 60 * 60);
+        long minutes = (diff - hours * 1000 * 60 * 60) / (1000 * 60);
+        String durationT = hours + "hours " + minutes + "minutes";
 
         JLabel duration = new JLabel("Trip Duration: " + durationT);
         duration.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 25));
         duration.setForeground(new Color(102, 147, 195));
-        duration.setBounds(image.getIconWidth() - 447, 140, 300, 50);
+        duration.setBounds(image.getIconWidth() - 447, 140, 447, 50);
 
         JLabel available = new JLabel("Available Seats:  " + flight.get(0).getAvailableSeats());
         available.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 25));
@@ -571,7 +574,14 @@ public class SelectPassengers {
         buy.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                try {
+                    user.addOrder(flight.get(0).getFlightIndex() + "", num, user.getUsername());
+                } catch (ExDbSeatInsufficient e1) {
+                    e1.printStackTrace();
+                } catch (ExDbFlightNotFound e1) {
+                    e1.printStackTrace();
+                }
+                new BuySuccessfully(user);
             }
         });
 

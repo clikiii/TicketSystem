@@ -153,7 +153,7 @@ public class QueryUserOrders {
             plusOne.setForeground(new Color(255, 109, 107));
             plusOne.setBounds(330, 20, 100, 50);
 
-            JLabel num = new JLabel("× " + 4);
+            JLabel num = new JLabel("× " + allOrders.get(idx).getNumber());
             num.setFont(new Font("Times New Roman", Font.ITALIC | Font.BOLD, 30));
             num.setForeground(new Color(255, 109, 107));
             num.setBounds(380, 35, 100, 50);

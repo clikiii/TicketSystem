@@ -11,7 +11,7 @@ import ticketSystem.database.dbException.ExDbUserExisted;
 import ticketSystem.database.dbException.ExDbUserNotFound;
 
 public class TicketSystem {
-    private static final ArrayList<String> cities = new ArrayList<String>(Arrays.asList("Beijing", "Chongqing", "Chengdu", "Hangzhou", "Kunming", "Nanjing", "Shanghai", "Qingdao", "Wuhan", "Amoy"));
+    private static final ArrayList<String> cities = new ArrayList<String>(Arrays.asList("Beijing", "Chongqing", "Chengdu", "Hangzhou", "Kunming", "Nanjing", "Shanghai", "Qingdao", "Wuhan", "Amoy", "Taipei", "Hong Kong"));
     private Database db;
 
     private static TicketSystem instance = new TicketSystem();
@@ -43,6 +43,7 @@ public class TicketSystem {
 
     public People login(String username, String password){
         try {
+            System.out.println("login "+username.equals("admin"));
             if (username.equals("admin")) return Admin.login(this.db, username, password);
 
             return User.login(this.db, username, password);

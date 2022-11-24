@@ -159,7 +159,9 @@ public class MyAccount {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				SearchFlight.getInstance().logout();
-				PurchaseTicket.logout();
+				if (!PurchaseTicket.notCreate()) {
+					PurchaseTicket.logout();
+				}
 				jf.dispose();
 			}
 

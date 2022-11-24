@@ -45,9 +45,10 @@ public class OrderDAO implements IOrderDAO{
         try {
             stmt = conn.createStatement();
             String sqlInsert = "insert into ticketdb.order (flight_set, number, username) values ('%s','%d','%s');";
-            stmt.executeUpdate(String.format(sqlInsert, flightSet, number));
+            stmt.executeUpdate(String.format(sqlInsert, flightSet, number, username));
             rs = stmt.executeQuery("SELECT * from ticketdb.order where order_index = (SELECT max(order_index) FROM ticketdb.order);");
         
+            System.out.println("success");
             return Order.rsToAl(db, rs);
         
         } catch (SQLException e) {

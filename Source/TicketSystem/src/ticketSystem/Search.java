@@ -52,12 +52,14 @@ public class Search {
 
         ArrayList<ArrayList<Flight>> doubleRoute = Algorithm.computeDoubleRoute(fromA, toB);
 
+        System.out.println("doubleRoute " + doubleRoute.size());
+
         ArrayList<ArrayList<Flight>> ret = new ArrayList<>();
         ret.addAll(singleRoute.subList(0, 5>singleRoute.size()? singleRoute.size():5));
         ret.addAll(doubleRoute.subList(0, 5>doubleRoute.size()? doubleRoute.size():5));
         Collections.sort(ret, comparator);
 
-        System.out.println("serarch result" + ret.size());
+        System.out.println("search result " + ret.size());
         return ret;
     }
 }

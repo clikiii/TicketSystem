@@ -18,10 +18,11 @@ import javax.swing.JPanel;
 import ticketSystem.Flight;
 import ticketSystem.Order;
 import ticketSystem.User;
+import ticketSystem.database.dbException.ExDbOrderNotFound;
 
 public class ConfirmDeleteFlight {
 
-	public ConfirmDeleteFlight(User user, Order order) {
+	public ConfirmDeleteFlight(int orderIdx, User user, Order order) {
 		JFrame jf = new JFrame("ConfirmDeleteFlight");
 
 		JLayeredPane layeredPane = new JLayeredPane();
@@ -33,7 +34,7 @@ public class ConfirmDeleteFlight {
 		jp.add(jl);
 
 		JLabel text = new JLabel("Are you sure to delete this flight?");
-		text.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 19));
+		text.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 18));
 		text.setForeground(new Color(102, 146, 235));
 		text.setBounds(318, 85, 278, 50);
 		
@@ -55,9 +56,20 @@ public class ConfirmDeleteFlight {
 		});
 		Yes.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				// call backend func. (user, flight) TODO
-				MyOrders.CreateNewJsp();
+			public void actionPerformed(ActionEvent e) {			    
+			    String flightSet = order.getFlightSetObjList().size() == 1
+                        ? order.getFlightSetObjList().get(0).getFlightIndex() + ""
+                        : order.getFlightSetObjList().get(0).getFlightIndex() + " "
+                                + order.getFlightSetObjList().get(1).getFlightIndex();
+                int changeNum = order.getNumber();
+                try {
+                    user.cancelOrder(orderIdx, flightSet, changeNum);
+                } catch (ExDbOrderNotFound e1) {
+                    e1.printStackTrace();
+                }
+			    
+				MyOrders.CloseWindow();
+				new MyOrders(user);
 				jf.dispose();
 			}
 		});
