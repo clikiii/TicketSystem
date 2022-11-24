@@ -64,7 +64,7 @@ public class User implements People {
         for (String fIdx: flightSet.split(" ")){
             iFlightDAO.updateSeatByIndex(this.db, Integer.parseInt(fIdx), changeNumber);
         }
-        
+
         ArrayList<Order> ret = Order.addOrder(this.db, new Order(flightSet, changeNumber, username));
 
         return ret;

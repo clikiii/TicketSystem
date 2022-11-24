@@ -34,8 +34,8 @@ public class UserDAO implements IUserDAO{
             e.printStackTrace();
             return false;
         } finally {
-            db.closeRs(rs);
-            db.closeStmt(stmt);
+            Database.closeRs(rs);
+            Database.closeStmt(stmt);
         }
 
         return true;
@@ -61,8 +61,8 @@ public class UserDAO implements IUserDAO{
             e.printStackTrace();
             return false;
         } finally {
-            db.closeRs(rs);
-            db.closeStmt(stmt);
+            Database.closeRs(rs);
+            Database.closeStmt(stmt);
         }
 
         return true;
@@ -76,7 +76,7 @@ public class UserDAO implements IUserDAO{
         try {
             conn = db.connect();
             stmt = conn.createStatement();
-            String sqlSelect = "select count(*) from ticketdb.user where username = '%s';";
+            String sqlSelect = "select count(*) from ticketdb.user where username = '%s' and password = '%s';";
             rs = stmt.executeQuery(String.format(sqlSelect, username, password));
             rs.next();
             if (rs.getInt("count(*)") == 0) {
@@ -89,8 +89,8 @@ public class UserDAO implements IUserDAO{
             e.printStackTrace();
             return false;
         } finally {
-            db.closeRs(rs);
-            db.closeStmt(stmt);
+            Database.closeRs(rs);
+            Database.closeStmt(stmt);
         }
 
         return true;
@@ -117,11 +117,33 @@ public class UserDAO implements IUserDAO{
             e.printStackTrace();
             return false;
         } finally {
-            db.closeRs(rs);
-            db.closeStmt(stmt);
+            Database.closeRs(rs);
+            Database.closeStmt(stmt);
         }
 
         return true;
     }
     
+    @Override
+    public boolean checkUsernameExist(Database db, String username) {
+        Connection conn = db.connect();
+        Statement stmt = null;
+        ResultSet rs = null;
+        try {
+            conn = db.connect();
+            stmt = conn.createStatement();
+            String sqlSelect = "select count(*) from ticketdb.user where username = '%s';";
+            rs = stmt.executeQuery(String.format(sqlSelect, username));
+            rs.next();
+
+            return (rs.getInt("count(*)") == 0);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            Database.closeRs(rs);
+            Database.closeStmt(stmt);
+        }
+
+    }
 }

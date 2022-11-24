@@ -3,6 +3,8 @@ package ticketSystem;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.apache.commons.lang3.time.DateUtils;
+
 public class Algorithm {
 
     private static final ArrayList<String> cities = new ArrayList<String>(Arrays.asList("Beijing", "Chongqing", "Chengdu", "Hangzhou", "Kunming", "Nanjing", "Shanghai", "Qingdao", "Wuhan", "Amoy"));
@@ -34,7 +36,9 @@ public class Algorithm {
 
             if (aInB >= 0) {
                 for (int bIdx = aInB; bIdx<toBRoute.lastIndexOf(a); bIdx++){
-                    if( toB.get(bIdx).getTakeOffTime().after(fromA.get(aIdx).getLandingTime())) {
+                    if( toB.get(bIdx).getTakeOffTime().after(fromA.get(aIdx).getLandingTime()) &&
+                        toB.get(bIdx).getLandingTime().before(DateUtils.addHours(fromA.get(aIdx).getTakeOffTime(), 48))
+                    ) {
                         ret.add(
                             new ArrayList<>(Arrays.asList(
                                 fromA.get(aIdx), toB.get(bIdx)

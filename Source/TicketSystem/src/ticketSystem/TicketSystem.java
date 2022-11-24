@@ -23,9 +23,13 @@ public class TicketSystem {
         return instance;
     }
 
-
     public void load() {
         CsvToSql.dataLoader(this.db);
+    }
+
+
+    public boolean checkUsernameExist(String username){
+        return People.checkUsernameExist(this.db, username);
     }
 
     public User register(String username, String password){

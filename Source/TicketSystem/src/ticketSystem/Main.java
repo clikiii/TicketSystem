@@ -1,5 +1,7 @@
 package ticketSystem;
 
+import java.util.ArrayList;
+import java.util.Date;
 
 public class Main {
     public static void main(String[] args) {
@@ -10,6 +12,31 @@ public class Main {
 
         // ticketSystem.load();
 
+        String str = "1669999500000";
+        Date date = new Date(Long.parseLong(str));
+        System.out.println(date);
+
+        ArrayList<ArrayList<Flight>> ffs = ticketSystem.searchRoute(
+            "Shanghai", "Beijing", date, "PRICE", true
+        );
+
+        System.out.println(ffs.size());
+        // for (ArrayList<Flight> ff: ffs ) {
+        //     // for (Flight f: ff){
+        //     //     System.out.println(f.getDeparture());
+        //     // }
+
+        //     System.out.println(ff.size());
+        // }
+
         ticketSystem.terminate();
+
+
+        // String str = "1669999500";
+        // System.out.println(Long.parseLong(str)*1000);
+        // Date date = new Date(Long.parseLong(str)*1000);
+        // long t = date.getTime();
+        // String ts = String.valueOf((int)(t/1000));
+        // System.out.println(ts);
     }
 }

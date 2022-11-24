@@ -10,4 +10,5 @@ public interface IUserDAO {
     public boolean changePwd(Database db, String username, String newPwd) throws ExDbUserNotFound;
     public boolean queryUser(Database db, String username, String password) throws ExDbUserNotFound, ExDbPwdIsWrong; // login
     public boolean deleteUser(Database db, String username, String password) throws ExDbUserNotFound;
+    public boolean checkUsernameExist(Database db, String username);
 }

@@ -13,4 +13,10 @@ public interface People {
 
         return new User(db, username, password);
     }
+
+    public static boolean checkUsernameExist(Database db, String username) {
+        IUserDAO iUserDAO = UserDAO.getInstance();
+
+        return iUserDAO.checkUsernameExist(db, username);
+    }
 }
