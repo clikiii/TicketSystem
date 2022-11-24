@@ -7,8 +7,8 @@ import org.apache.commons.lang3.time.DateUtils;
 
 public class Algorithm {
 
-    private static final ArrayList<String> cities = new ArrayList<String>(Arrays.asList("Beijing", "Chongqing", "Chengdu", "Hangzhou", "Kunming", "Nanjing", "Shanghai", "Qingdao", "Wuhan", "Amoy", "Taipei", "Hong Kong"));
-    
+    private static final ArrayList<String> cities = TicketSystem.getCities();
+
     private static ArrayList<Integer> flightsToEdges(ArrayList<Flight> flightsArr, boolean isFrom) {
 
         ArrayList<Integer> ret = new ArrayList<>();
