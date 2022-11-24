@@ -53,8 +53,8 @@ public class Search {
         ArrayList<ArrayList<Flight>> doubleRoute = Algorithm.computeDoubleRoute(fromA, toB);
 
         ArrayList<ArrayList<Flight>> ret = new ArrayList<>();
-        ret.addAll(singleRoute);
-        ret.addAll(doubleRoute);
+        ret.addAll(singleRoute.subList(0, 5>singleRoute.size()? singleRoute.size():5));
+        ret.addAll(doubleRoute.subList(0, 5>doubleRoute.size()? doubleRoute.size():5));
         Collections.sort(ret, comparator);
 
         return ret;

@@ -17,10 +17,11 @@ public class Main {
         System.out.println(date);
 
         ArrayList<ArrayList<Flight>> ffs = ticketSystem.searchRoute(
-            "Shanghai", "Beijing", date, "PRICE", true
+            "Shanghai", "Beijing", date, "PRICE", false
         );
 
         System.out.println(ffs.size());
+
         // for (ArrayList<Flight> ff: ffs ) {
         //     // for (Flight f: ff){
         //     //     System.out.println(f.getDeparture());
