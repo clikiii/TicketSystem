@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import ticketSystem.Admin;
 import ticketSystem.TicketSystem;
 import ticketSystem.User;
 import userInterface.UIException.ExUsernameIsNotFound;
@@ -107,7 +108,7 @@ public class Login {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					if (usr.getText().equals("admin") && new String(pw.getPassword()).equals("admin")) { // admin
-						new AdminPage();
+						new AdminPage((Admin) ticketSystem.login(usr.getText(), new String(pw.getPassword())));
 						jf.dispose();
 					} else if (usr.getText().equals("Within 10 characters"))
 						throw new ExUsernameIsEmpty();

@@ -21,6 +21,7 @@ import javax.swing.JPasswordField;
 
 import ticketSystem.TicketSystem;
 import ticketSystem.User;
+import ticketSystem.database.dbException.ExDbUserNotFound;
 import userInterface.UIException.ExPasswordIsEmpty;
 import userInterface.UIException.ExPasswordIsWrong;
 import userInterface.UIException.ExPasswordOutOfRange;
@@ -136,8 +137,12 @@ public class ChangePassword {
 					else if (new String(oldPw.getPassword()).equals(new String(newPw.getPassword())))
 						throw new ExOldPwAndNewPwAreSame();
 					else {
-						// change password successfully TODO
-//						user.changePwd(user.getUserName(), null, new String(newPw.getPassword()));
+						// change password successfully
+						try {
+                            user.changePwd(new String(newPw.getPassword()));
+                        } catch (ExDbUserNotFound e1) {
+                            e1.printStackTrace();
+                        }
 						jf.dispose();
 					}
 				} catch (ExPasswordIsEmpty e1) {

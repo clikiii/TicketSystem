@@ -15,6 +15,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 import ticketSystem.User;
+import ticketSystem.database.dbException.ExDbUserNotFound;
 
 public class ConfirmCloseAccount {
 
@@ -53,7 +54,11 @@ public class ConfirmCloseAccount {
 		Yes.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				user.deleteMe(null, null, null); // call the backend func TODO
+				try {
+                    user.deleteMe();
+                } catch (ExDbUserNotFound e1) {
+                    e1.printStackTrace();
+                }
 				SearchFlight.getInstance().logout();
 				PurchaseTicket.logout();
 				jf.dispose();

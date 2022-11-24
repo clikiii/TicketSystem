@@ -20,10 +20,14 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import ticketSystem.Admin;
 import userInterface.UIException.ExUsernameIsNotFound;
 
 public class AdminPage {
-	public AdminPage() {
+	private Admin admin;
+
+    public AdminPage(Admin aAdmin) {
+	    this.admin = aAdmin;
 		JFrame jf = new JFrame("AdminPage");
 
 		JLayeredPane layeredPane = new JLayeredPane();
@@ -72,7 +76,7 @@ public class AdminPage {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new QueryAllOrders();
+				new QueryAllOrders(admin.getAllOrder());
 			}
 
 		});
@@ -98,7 +102,7 @@ public class AdminPage {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new InputUsername();
+				new InputUsername(admin);
 			}
 
 		});

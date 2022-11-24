@@ -12,6 +12,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -24,6 +26,7 @@ import javax.swing.JScrollPane;
 import javax.swing.border.Border;
 
 import ticketSystem.Flight;
+import ticketSystem.Order;
 import ticketSystem.User;
 
 public class MyOrders {
@@ -31,12 +34,12 @@ public class MyOrders {
 	private User user;
 	private static JScrollPane jsp;
 	private static JLayeredPane layeredPane;
-	private ArrayList<ArrayList<Flight>> allFlights = new ArrayList<ArrayList<Flight>>();
 	private int idx;
+    private static ArrayList<Order> allOrders;
 
 	public MyOrders(User aUser) {
 		this.user = aUser;
-		// this.allFlights = (call backend func.) TODO
+		allOrders = user.getMyOrder();
 		new MyOrders();
 	}
 
@@ -91,10 +94,10 @@ public class MyOrders {
 		});
 
 		JPanel tickets = new JPanel();
-		tickets.setPreferredSize(new Dimension(520, 120 * 1)); // allFlights.size() TODO
+		tickets.setPreferredSize(new Dimension(520, 120 * allOrders.size()));
 		tickets.setOpaque(false);
 		tickets.setLayout(null);
-		for (idx = 0; idx < 1; idx++) { // allFlights.size() TODO
+		for (idx = 0; idx < allOrders.size(); idx++) {
 
 			JPanel tkt = new JPanel() {
 
@@ -117,30 +120,34 @@ public class MyOrders {
 			tkt.setOpaque(false);
 			tkt.setLayout(null);
 
-			JLabel fid = new JLabel("CN1234"); // allFlights.get(idx).get(0).getFid() TODO
-			fid.setFont(new Font("Times New Roman", Font.ITALIC, 15));
-			fid.setForeground(Color.GRAY);
-			fid.setBounds(20, 0, 300, 40);
+			JLabel fid = new JLabel(allOrders.get(idx).getFlightSetObjList().get(0).getFid());
+            fid.setFont(new Font("Times New Roman", Font.ITALIC, 15));
+            fid.setForeground(Color.GRAY);
+            fid.setBounds(20, 0, 300, 40);
 
-			JLabel takeOffTime = new JLabel("10:25"); // allFlights.get(idx).get(0).getTakingOffTime() TODO
-			takeOffTime.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 25));
-			takeOffTime.setForeground(new Color(102, 147, 195));
-			takeOffTime.setBounds(40, 30, 300, 50);
+            JLabel takeOffTime = new JLabel(
+                    allOrders.get(idx).getFlightSetObjList().get(0).getTakeOffTime().toString().substring(11, 16));
+            takeOffTime.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 25));
+            takeOffTime.setForeground(new Color(102, 147, 195));
+            takeOffTime.setBounds(40, 30, 300, 50);
 
-			JLabel dep = new JLabel("Hongkong", JLabel.CENTER); // allFlights.get(idx).get(0).getDeparture() TODO
-			dep.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 20));
-			dep.setForeground(new Color(102, 147, 195));
-			dep.setBounds(17, 60, 100, 50);
+            JLabel dep = new JLabel(allOrders.get(idx).getFlightSetObjList().get(0).getDeparture(), JLabel.CENTER);
+            dep.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 20));
+            dep.setForeground(new Color(102, 147, 195));
+            dep.setBounds(17, 60, 100, 50);
 
-			JLabel landingTime = new JLabel("12:25"); // allFlights.get(idx).get(allFlights.get(idx).size()-1).getLandingTime() TODO
-			landingTime.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 25));
-			landingTime.setForeground(new Color(102, 147, 195));
-			landingTime.setBounds(265, 30, 300, 50);
+            JLabel landingTime = new JLabel(allOrders.get(idx).getFlightSetObjList()
+                    .get(allOrders.get(idx).getFlightSetObjList().size() - 1).getLandingTime().toString()
+                    .substring(11, 16));
+            landingTime.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 25));
+            landingTime.setForeground(new Color(102, 147, 195));
+            landingTime.setBounds(265, 30, 300, 50);
 
-			JLabel des = new JLabel("Beijing", JLabel.CENTER); // allFlights.get(idx).get(allFlights.get(idx).size()-1).getDestination() TODO
-			des.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 20));
-			des.setForeground(new Color(102, 147, 195));
-			des.setBounds(244, 60, 100, 50);
+            JLabel des = new JLabel(allOrders.get(idx).getFlightSetObjList()
+                    .get(allOrders.get(idx).getFlightSetObjList().size() - 1).getDestination(), JLabel.CENTER);
+            des.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 20));
+            des.setForeground(new Color(102, 147, 195));
+            des.setBounds(244, 60, 100, 50);
 
 			JLabel stop = new JLabel("1 Stop");
 			stop.setFont(new Font("Times New Roman", Font.ITALIC, 15));
@@ -189,8 +196,8 @@ public class MyOrders {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// call backend func TODO
-					// allFlights = (new) call backend func
-					new ConfirmDeleteFlight(user, allFlights.get(Integer.parseInt(index.getText())));
+				    
+					new ConfirmDeleteFlight(user, );
 				}
 			});
 
@@ -204,13 +211,15 @@ public class MyOrders {
 			tkt.add(order);
 			tkt.add(cancelBtn);
 
-			if (true) // allFlights.get(idx).size()==2 TODO
-				tkt.add(stop);
-			if (true) // allFlights.get(idx).size()==2 TODO
-				fid.setText("CN1234" + " & " + "CN1235"); // allFlights.get(idx).get(0).getFid() TODO
-															// allFlights.get(idx).get(1).getFid()
-			if (isNextDayArrival())
-				tkt.add(plusOne);
+			if (allOrders.get(idx).getFlightSetObjList().size() == 2) {
+                tkt.add(stop);
+                fid.setText(allOrders.get(idx).getFlightSetObjList().get(0).getFid() + " & "
+                        + allOrders.get(idx).getFlightSetObjList().get(1).getFid());
+            }
+            if (isNextDayArrival(allOrders.get(idx).getFlightSetObjList().get(0).getTakeOffTime(),
+                    allOrders.get(idx).getFlightSetObjList().get(allOrders.get(idx).getFlightSetObjList().size() - 1)
+                            .getLandingTime()))
+                tkt.add(plusOne);
 
 			tickets.add(tkt);
 
@@ -237,7 +246,6 @@ public class MyOrders {
 
 	public static void CreateNewJsp() {
 		layeredPane.remove(jsp);
-		// this.allFlights = (call backend func.) TODO
 
 		JPanel tickets = new JPanel();
 		tickets.setPreferredSize(new Dimension(520, 120 * 1)); // allFlights.size() TODO
@@ -266,30 +274,34 @@ public class MyOrders {
 			tkt.setOpaque(false);
 			tkt.setLayout(null);
 
-			JLabel fid = new JLabel("CN1234"); // allFlights.get(idx).get(0).getFid() TODO
-			fid.setFont(new Font("Times New Roman", Font.ITALIC, 15));
-			fid.setForeground(Color.GRAY);
-			fid.setBounds(20, 0, 300, 40);
+			JLabel fid = new JLabel(allOrders.get(idx).getFlightSetObjList().get(0).getFid());
+            fid.setFont(new Font("Times New Roman", Font.ITALIC, 15));
+            fid.setForeground(Color.GRAY);
+            fid.setBounds(20, 0, 300, 40);
 
-			JLabel takeOffTime = new JLabel("10:25"); // allFlights.get(idx).get(0).getTakingOffTime() TODO
-			takeOffTime.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 25));
-			takeOffTime.setForeground(new Color(102, 147, 195));
-			takeOffTime.setBounds(40, 30, 300, 50);
+            JLabel takeOffTime = new JLabel(
+                    allOrders.get(idx).getFlightSetObjList().get(0).getTakeOffTime().toString().substring(11, 16));
+            takeOffTime.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 25));
+            takeOffTime.setForeground(new Color(102, 147, 195));
+            takeOffTime.setBounds(40, 30, 300, 50);
 
-			JLabel dep = new JLabel("Hongkong", JLabel.CENTER); // allFlights.get(idx).get(0).getDeparture() TODO
-			dep.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 20));
-			dep.setForeground(new Color(102, 147, 195));
-			dep.setBounds(17, 60, 100, 50);
+            JLabel dep = new JLabel(allOrders.get(idx).getFlightSetObjList().get(0).getDeparture(), JLabel.CENTER);
+            dep.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 20));
+            dep.setForeground(new Color(102, 147, 195));
+            dep.setBounds(17, 60, 100, 50);
 
-			JLabel landingTime = new JLabel("12:25"); // allFlights.get(idx).get(allFlights.get(idx).size()-1).getLandingTime() TODO
-			landingTime.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 25));
-			landingTime.setForeground(new Color(102, 147, 195));
-			landingTime.setBounds(265, 30, 300, 50);
+            JLabel landingTime = new JLabel(allOrders.get(idx).getFlightSetObjList()
+                    .get(allOrders.get(idx).getFlightSetObjList().size() - 1).getLandingTime().toString()
+                    .substring(11, 16));
+            landingTime.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 25));
+            landingTime.setForeground(new Color(102, 147, 195));
+            landingTime.setBounds(265, 30, 300, 50);
 
-			JLabel des = new JLabel("Beijing", JLabel.CENTER); // allFlights.get(idx).get(allFlights.get(idx).size()-1).getDestination() TODO
-			des.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 20));
-			des.setForeground(new Color(102, 147, 195));
-			des.setBounds(244, 60, 100, 50);
+            JLabel des = new JLabel(allOrders.get(idx).getFlightSetObjList()
+                    .get(allOrders.get(idx).getFlightSetObjList().size() - 1).getDestination(), JLabel.CENTER);
+            des.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 20));
+            des.setForeground(new Color(102, 147, 195));
+            des.setBounds(244, 60, 100, 50);
 
 			JLabel stop = new JLabel("1 Stop");
 			stop.setFont(new Font("Times New Roman", Font.ITALIC, 15));
@@ -351,13 +363,15 @@ public class MyOrders {
 			tkt.add(order);
 			tkt.add(cancelBtn);
 
-			if (true) // allFlights.get(idx).size()==2 TODO
-				tkt.add(stop);
-			if (true) // allFlights.get(idx).size()==2 TODO
-				fid.setText("CN1234" + " & " + "CN1235"); // allFlights.get(idx).get(0).getFid() TODO
-															// allFlights.get(idx).get(1).getFid()
-			if (isNextDayArrival())
-				tkt.add(plusOne);
+			if (allOrders.get(idx).getFlightSetObjList().size() == 2) {
+                tkt.add(stop);
+                fid.setText(allOrders.get(idx).getFlightSetObjList().get(0).getFid() + " & "
+                        + allOrders.get(idx).getFlightSetObjList().get(1).getFid());
+            }
+            if (isNextDayArrival(allOrders.get(idx).getFlightSetObjList().get(0).getTakeOffTime(),
+                    allOrders.get(idx).getFlightSetObjList().get(allOrders.get(idx).getFlightSetObjList().size() - 1)
+                            .getLandingTime()))
+                tkt.add(plusOne);
 
 			tickets.add(tkt);
 
@@ -374,9 +388,12 @@ public class MyOrders {
 
 	}
 
-	private static boolean isNextDayArrival() {
-		// compare two date TODO
-		return true;
-	}
+	private static boolean isNextDayArrival(Date date1, Date date2) {
+        Calendar cal1 = Calendar.getInstance();
+        cal1.setTime(date1);
+        Calendar cal2 = Calendar.getInstance();
+        cal2.setTime(date2);
+        return cal1.get(Calendar.DATE) != cal2.get(Calendar.DATE);
+    }
 
 }

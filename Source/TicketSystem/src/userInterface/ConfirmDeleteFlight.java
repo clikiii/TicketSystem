@@ -16,11 +16,12 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 import ticketSystem.Flight;
+import ticketSystem.Order;
 import ticketSystem.User;
 
 public class ConfirmDeleteFlight {
 
-	public ConfirmDeleteFlight(User user, ArrayList<Flight> flight) {
+	public ConfirmDeleteFlight(User user, Order order) {
 		JFrame jf = new JFrame("ConfirmDeleteFlight");
 
 		JLayeredPane layeredPane = new JLayeredPane();
