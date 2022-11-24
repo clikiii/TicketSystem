@@ -104,14 +104,14 @@ public class UserDAO implements IUserDAO{
         ResultSet rs = null;
         try {
             stmt = conn.createStatement();
-            String sqlSelect = "select count(*) from ticketdb.user where username = '%s' and password = '%s';";
+            String sqlSelect = "select count(*) from ticketdb.user where username = '%s';";
             rs = stmt.executeQuery(String.format(sqlSelect, username));
             rs.next();
             if (rs.getInt("count(*)") == 0) {
                 throw new ExDbUserNotFound();
             }else{
                 String sqlUpdate = "delete from ticketdb.user where username = '%s' and password = '%s';";
-                stmt.executeUpdate(String.format(sqlUpdate, password, username));
+                stmt.executeUpdate(String.format(sqlUpdate, username, password));
             }       
         } catch (SQLException e) {
             e.printStackTrace();

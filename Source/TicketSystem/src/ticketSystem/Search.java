@@ -57,6 +57,7 @@ public class Search {
         ret.addAll(doubleRoute.subList(0, 5>doubleRoute.size()? doubleRoute.size():5));
         Collections.sort(ret, comparator);
 
+        System.out.println("serarch result" + ret.size());
         return ret;
     }
 }

@@ -12,12 +12,13 @@ public class Main {
 
         // ticketSystem.load();
 
-        String str = "1669999500000";
-        Date date = new Date(Long.parseLong(str));
+        // String str = "1669999500000";
+        // Date date = new Date(Long.parseLong(str));
+        Date date = new Date();
         System.out.println(date);
 
         ArrayList<ArrayList<Flight>> ffs = ticketSystem.searchRoute(
-            "Shanghai", "Beijing", date, "PRICE", false
+            "Beijing", "Shanghai", date, "PRICE", false
         );
 
         System.out.println(ffs.size());
