@@ -29,7 +29,7 @@ public class DateCalendar {
 		jf = new JFrame("DateCalendar");
 
 		JLayeredPane layeredPane = new JLayeredPane();
-		ImageIcon image = new ImageIcon("Source/ticketSystem/src/userInterface/ImgSource/calendar.jpeg");
+		ImageIcon image = new ImageIcon(getClass().getResource("ImgSource/calendar.jpeg"));
 		JPanel jp = new JPanel();
 		jp.setBounds(0, -5, image.getIconWidth(), image.getIconHeight() + 22);
 

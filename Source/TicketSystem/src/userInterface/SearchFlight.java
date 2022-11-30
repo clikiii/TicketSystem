@@ -39,13 +39,14 @@ public class SearchFlight {
 	private static SearchFlight instance = new SearchFlight();
 	private static TicketSystem ticketSystem;
 
-	public static void main(String[] args) {
-		ticketSystem = TicketSystem.start();
-		SearchFlight.getInstance();
-	}
-
 	public static SearchFlight getInstance() {
 		return instance;
+	}
+
+	public static void main(String[] args) {
+		ticketSystem = TicketSystem.start();
+		ticketSystem.load();
+		SearchFlight.getInstance();
 	}
 
 	private JTextField dep;
@@ -62,8 +63,7 @@ public class SearchFlight {
 
 	private SearchFlight() {
 		JFrame jf = new JFrame("Air Ticket Booking System");
-
-		ImageIcon image = new ImageIcon("Source/ticketSystem/src/userInterface/ImgSource/background.jpeg");
+		ImageIcon image = new ImageIcon(getClass().getResource("ImgSource/background.jpeg"));
 		JLabel jl = new JLabel(image);
 
 		layeredPane = new JLayeredPane();

@@ -40,7 +40,7 @@ public class Signup {
 
 		JLayeredPane layeredPane = new JLayeredPane();
 
-		ImageIcon image = new ImageIcon("Source/ticketSystem/src/userInterface/ImgSource/background.jpeg");
+		ImageIcon image = new ImageIcon(getClass().getResource("ImgSource/background.jpeg"));
 		JLabel img = new JLabel(image);
 
 		JPanel jp = new JPanel() {

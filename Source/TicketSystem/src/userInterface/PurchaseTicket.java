@@ -51,7 +51,7 @@ public class PurchaseTicket {
 
 		layeredPane = new JLayeredPane();
 
-		ImageIcon image = new ImageIcon("Source/ticketSystem/src/userInterface/ImgSource/background.jpeg");
+		ImageIcon image = new ImageIcon(getClass().getResource("ImgSource/background.jpeg"));
 		JLabel img = new JLabel(image);
 
 		JPanel jp = new JPanel() {
@@ -368,7 +368,7 @@ public class PurchaseTicket {
 		layeredPane.add(sortByDepTime, JLayeredPane.MODAL_LAYER);
 		layeredPane.add(returnBtn, JLayeredPane.MODAL_LAYER);
 
-		ImageIcon image2 = new ImageIcon("Source/ticketSystem/src/userInterface/ImgSource/flight.jpeg");
+		ImageIcon image2 = new ImageIcon(getClass().getResource("ImgSource/flight.jpeg"));
 		JLabel img2 = new JLabel(image2);
 		img2.setBounds(1115, 52, 50, 50);
 		layeredPane.add(img2, JLayeredPane.MODAL_LAYER);

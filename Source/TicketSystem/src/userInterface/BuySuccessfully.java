@@ -25,7 +25,7 @@ public class BuySuccessfully{
 		JFrame jf = new JFrame("BuySuccessfully");
 
 		JLayeredPane layeredPane = new JLayeredPane();
-		ImageIcon image = new ImageIcon("Source/ticketSystem/src/userInterface/ImgSource/warning.jpeg");
+		ImageIcon image = new ImageIcon(getClass().getResource("warning.jpeg"));
 		JPanel jp = new JPanel();
 		jp.setBounds(0, -5, image.getIconWidth(), image.getIconHeight() + 22);
 

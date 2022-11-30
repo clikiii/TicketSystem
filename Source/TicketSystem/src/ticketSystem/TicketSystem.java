@@ -28,7 +28,13 @@ public class TicketSystem {
     }
 
     public void load() {
-        CsvToSql.dataLoader(this.db);
+        System.out.println("Loading data to database...");
+        if ((Flight.queryAllFlight(this.db)).size() == 0){
+            CsvToSql.dataLoader(this.db);
+            System.out.println("Data loaded successful!");
+            return;
+        }
+        System.out.println("Data already loaded!");
     }
 
 

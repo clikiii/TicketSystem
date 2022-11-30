@@ -10,6 +10,7 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvValidationException;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -37,7 +38,7 @@ public class CsvToSql {
             long day = count/1000/60/60/24;
             long daycount = day * 24 * 60 * 60;
 
-            reader = new CSVReaderBuilder(new FileReader("Source/TicketSystem/src/ticketSystem/database/flight.csv")).withSkipLines(1).build();
+            reader = new CSVReaderBuilder(new FileReader(System.getProperty("user.dir") + File.separator + "flight.csv")).withSkipLines(1).build();
             String sqlInsert = "INSERT INTO flight" + 
                 "(fid, departure, destination, take_off_time, landing_time, total_seats, available_seats, sell_status, price)" + 
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
@@ -48,10 +49,7 @@ public class CsvToSql {
             int index = 1;
             while ((rowData = reader.readNext()) != null) {
                 for (String data : rowData) {
-                    if (position == 2 || position == 4 || position == 8) {
-                        
-                    }
-                    else {
+                    if (!(position == 2 || position == 4 || position == 8)){
                         if (position == 6 || position == 7) {
                             long time = Long.parseLong(data);
                             long new_time = time + daycount;
