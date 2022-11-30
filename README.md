@@ -1,5 +1,23 @@
 ### This README is for internal use.
 
+### **NOTE: To run this repo, please**
+1. make sure [docker](https://docs.docker.com/get-docker/) is properly installed.
+    ```bash
+    # self test
+    docker -v
+    # sample output(version may not be the same)
+    Docker version 20.10.14, build a224086
+    ```
+2. run <kbd>/Source/buildAndRun.sh</kbd>
+    ```bash
+    cd Source
+    chmod 755 buildAndRun.sh
+    ./buildAndRun.sh
+    ```
+3. this java project use openjdk:19, please mind the version is correct.
+4. mysql is not needed. (not tested yet)
+
+
 ## Create a new branch and PR when changes are made (which is for report). :D
 
 - Please check [this](https://www.youtube.com/watch?v=MtME-ERufu0) video when you don't know how to add a dependency in vscode.
