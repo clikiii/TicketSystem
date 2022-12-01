@@ -36,18 +36,22 @@ public class User implements People {
     public static User login(Database db, String username, String password) throws ExDbUserNotFound, ExDbPwdIsWrong {
         IUserDAO iUserDAO = UserDAO.getInstance();
 
-        iUserDAO.queryUser(db, username, password);
+        if (iUserDAO.queryUser(db, username, password)) {
+            return new User(db, username, password);
+        }
 
-        return new User(db, username, password);
+        return null;
     }
 
     public People changePwd(String newPwd) throws ExDbUserNotFound {
         IUserDAO iUserDAO = UserDAO.getInstance();
         
-        iUserDAO.changePwd(this.db, this.username, newPwd);
+        if (iUserDAO.changePwd(this.db, this.username, newPwd)) {
+            this.password = newPwd;
+            return this;
+        }
         
-        this.password = newPwd;
-        return this;
+        return null;
     }
 
     public Boolean deleteMe() throws ExDbUserNotFound {

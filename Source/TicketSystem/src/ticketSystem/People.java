@@ -18,9 +18,11 @@ public interface People {
     public static User register(Database db, String username, String password) throws ExDbUserExisted{
         IUserDAO iUserDAO = UserDAO.getInstance();
 
-        iUserDAO.addUser(db, username, password);
+        if (iUserDAO.addUser(db, username, password)) {
+            return new User(db, username, password);
+        }
 
-        return new User(db, username, password);
+        return null;
     }
 
 
