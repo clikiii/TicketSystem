@@ -13,6 +13,15 @@ public class Admin implements People{
         this.db = null;
     };
 
+    
+    /** 
+     * Login function for the admin.
+     * @param db
+     * @param username
+     * @param password
+     * @return Admin
+     * @throws ExDbUserNotFound
+     */
     public static Admin login(Database db, String username, String password) throws ExDbUserNotFound {
         if(
             username.equals("admin") &&
@@ -26,10 +35,21 @@ public class Admin implements People{
         throw new ExDbUserNotFound();
     }
 
+    
+    /** 
+     * Get users' orders by the given username.
+     * @param username
+     * @return ArrayList<Order>
+     */
     public ArrayList<Order> getUserOrder(String username){
         return Order.queryOrderByUsername(this.db, username);
     }
 
+    
+    /** 
+     * Get all orders.
+     * @return ArrayList<Order>
+     */
     public ArrayList<Order> getAllOrder(){
         return Order.queryAllOrder(this.db);
     }

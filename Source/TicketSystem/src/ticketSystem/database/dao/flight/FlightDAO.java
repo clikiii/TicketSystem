@@ -17,10 +17,20 @@ import ticketSystem.database.dbException.ExDbSeatInsufficient;
 public class FlightDAO implements IFlightDAO {
     private static FlightDAO instance = new FlightDAO();
     private FlightDAO(){};
+    
+    /** 
+     * The singleton instance getter.
+     * @return FlightDAO
+     */
     public static FlightDAO getInstance() {
         return instance;
     }
 
+    /**
+     * Get the timestamp of the next day from the database given by a start date.
+     * @param startDate
+     * @return the timestamp of the next day
+     */
     private static String getTomorrowTs(String startDate) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
         try {
@@ -34,6 +44,12 @@ public class FlightDAO implements IFlightDAO {
         return null;
     }
 
+    
+    /** 
+     * Get all flights from the database.
+     * @param db
+     * @return ArrayList<Flight>
+     */
     @Override
     public ArrayList<Flight> queryAllFlight(Database db) {
         Connection conn = db.connect();
@@ -57,6 +73,13 @@ public class FlightDAO implements IFlightDAO {
 
     }
 
+    
+    /** 
+     * Get the flight from the database by the given index.
+     * @param db
+     * @param flightIndex
+     * @return ArrayList<Flight>
+     */
     @Override
     public ArrayList<Flight> queryFlightByIndex(Database db, int flightIndex) {
         Connection conn = db.connect();
@@ -80,6 +103,14 @@ public class FlightDAO implements IFlightDAO {
 
     }
 
+    
+    /** 
+     * Delete the flight from the database by the given index.
+     * @param db
+     * @param flightIndex
+     * @return boolean
+     * @throws ExDbFlightNotFound
+     */
     @Override
     public boolean deleteFlightByIndex(Database db, int flightIndex) throws ExDbFlightNotFound {
         Connection conn = db.connect();
@@ -108,7 +139,14 @@ public class FlightDAO implements IFlightDAO {
 
     }
     
-    // TODO: add date
+    
+    /** 
+     * Get the flight from the database by the given departure location and the start date.
+     * @param db
+     * @param departure
+     * @param startDate
+     * @return ArrayList<Flight>
+     */
     @Override
     public ArrayList<Flight> queryByDepart(Database db, String departure, String startDate) {
         Connection conn = db.connect();
@@ -133,6 +171,14 @@ public class FlightDAO implements IFlightDAO {
         }
     }
 
+    
+    /** 
+     * Get the flight from the database by the given destination location and the start date.
+     * @param db
+     * @param destination
+     * @param startDate
+     * @return ArrayList<Flight>
+     */
     @Override
     public ArrayList<Flight> queryByDest(Database db, String destination, String startDate) {
         Connection conn = db.connect();
@@ -155,6 +201,15 @@ public class FlightDAO implements IFlightDAO {
         }
     }
     
+    
+    /** 
+     * Get the flight from the database by the given destination and departure locations and the start date.
+     * @param db
+     * @param departure
+     * @param destination
+     * @param startDate
+     * @return ArrayList<Flight>
+     */
     @Override
     public ArrayList<Flight> queryByDepartAndDest(Database db, String departure, String destination, String startDate) {
         Connection conn = db.connect();
@@ -181,6 +236,16 @@ public class FlightDAO implements IFlightDAO {
 
     }
 
+    
+    /** 
+     * Update the seat number of the flight with the given index.
+     * @param db
+     * @param flightIndex
+     * @param changeNumber
+     * @return boolean
+     * @throws ExDbSeatInsufficient
+     * @throws ExDbFlightNotFound
+     */
     @Override
     public boolean updateSeatByIndex(Database db, int flightIndex, int changeNumber) throws ExDbSeatInsufficient, ExDbFlightNotFound {
         /**

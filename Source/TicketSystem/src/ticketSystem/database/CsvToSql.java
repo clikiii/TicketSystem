@@ -16,6 +16,11 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class CsvToSql {
+    
+    /** 
+     * The dataloader for the database.
+     * @param db
+     */
     public static void dataLoader(Database db) {
         try {
             readCSV(db);
@@ -24,6 +29,17 @@ public class CsvToSql {
         }
     }
     
+    
+    /** 
+     * Read data csv file and dump the data to the database.
+     * @param db
+     * @throws CsvValidationException
+     * @throws NumberFormatException
+     * @throws FileNotFoundException
+     * @throws ParseException
+     * @throws SQLException
+     * @throws IOException
+     */
     private static void readCSV(Database db) throws CsvValidationException, NumberFormatException, FileNotFoundException, ParseException, SQLException, IOException {
         Connection conn = db.connect();
         PreparedStatement pstmt = null;
@@ -38,7 +54,7 @@ public class CsvToSql {
             long day = count/1000/60/60/24;
             long daycount = day * 24 * 60 * 60;
 
-            reader = new CSVReaderBuilder(new FileReader(System.getProperty("user.dir") + File.separator + "flight.csv")).withSkipLines(1).build();
+            reader = new CSVReaderBuilder(new FileReader("Source/TicketSystem/src/ticketSystem/database/flight.csv")).withSkipLines(1).build();
             String sqlInsert = "INSERT INTO flight" + 
                 "(fid, departure, destination, take_off_time, landing_time, total_seats, available_seats, sell_status, price)" + 
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";

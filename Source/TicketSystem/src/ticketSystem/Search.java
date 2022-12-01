@@ -22,6 +22,12 @@ public class Search {
         this.db = db;
     }
 
+    
+    /** 
+     * Convert single routes to a 2d arraylist for the frontend.
+     * @param singleRoute
+     * @return ArrayList<ArrayList<Flight>>
+     */
     private ArrayList<ArrayList<Flight>> singleTo2DArray(ArrayList<Flight> singleRoute) {
         ArrayList<ArrayList<Flight>> ret = new ArrayList<>();
 
@@ -34,6 +40,13 @@ public class Search {
         return ret;
     }
 
+    
+    /** 
+     * The main function for searching, will return a 2d flight arraylist by the given data and requirement.
+     * @param searchType
+     * @param onlySingle
+     * @return ArrayList<ArrayList<Flight>>
+     */
     public ArrayList<ArrayList<Flight>> searchRoute(String searchType, boolean onlySingle) {
         ComparatorFactory comparatorFactory = new ComparatorFactory();
         Comparator<ArrayList<Flight>> comparator = comparatorFactory.getComparator(searchType);

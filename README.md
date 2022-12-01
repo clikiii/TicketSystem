@@ -14,7 +14,7 @@
     chmod 755 buildAndRun.sh
     ./buildAndRun.sh
     ```
-3. this java project use openjdk:19, please mind the version is correct.
+3. this java project uses openjdk:19, please mind the version is correct.
 4. mysql is not needed. (not tested yet)
 
 

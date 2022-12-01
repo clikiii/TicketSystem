@@ -16,6 +16,11 @@ public class Database{
         this.conn = null;
     }
 
+    
+    /** 
+     * Connect database.
+     * @return Connection
+     */
     public Connection connect() {
 
         if (this.conn != null) return conn;
@@ -40,6 +45,11 @@ public class Database{
 
     }
 
+    
+    /** 
+     * Close the given result set.
+     * @param rs
+     */
     public static void closeRs(ResultSet rs) {
         try {
             if (rs != null) rs.close();
@@ -49,6 +59,11 @@ public class Database{
         }
     }
 
+    
+    /** 
+     * Close the given statement.
+     * @param stmt
+     */
     public static void closeStmt(Statement stmt) {
         try {
             if (stmt != null) stmt.close();
@@ -58,6 +73,9 @@ public class Database{
         }
     }
 
+    /**
+     * Close database connection.
+     */
     public void closeConn() {
         try {
             if (this.conn != null){

@@ -5,6 +5,13 @@ import java.util.Comparator;
 
 public class TakeOffComparator implements Comparator<ArrayList<Flight> >{
 
+    
+    /** 
+     * Compare the two given flight arraylists by the take off time.
+     * @param o1
+     * @param o2
+     * @return int
+     */
     @Override
     public int compare(ArrayList<Flight> o1, ArrayList<Flight> o2) {
         /**

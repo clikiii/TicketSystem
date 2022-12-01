@@ -9,6 +9,13 @@ public class Algorithm {
 
     private static final ArrayList<String> cities = TicketSystem.getCities();
 
+    
+    /** 
+     * Convert flights information to edge arrays.
+     * @param flightsArr
+     * @param isFrom
+     * @return ArrayList<Integer>
+     */
     private static ArrayList<Integer> flightsToEdges(ArrayList<Flight> flightsArr, boolean isFrom) {
 
         ArrayList<Integer> ret = new ArrayList<>();
@@ -24,6 +31,13 @@ public class Algorithm {
         return ret;
     }
 
+    
+    /** 
+     * Compute the routes with one stop.
+     * @param fromA
+     * @param toB
+     * @return ArrayList<ArrayList<Flight>>
+     */
     public static ArrayList<ArrayList<Flight> > computeDoubleRoute(ArrayList<Flight> fromA, ArrayList<Flight> toB) {
         ArrayList<Integer> fromARoute = flightsToEdges(fromA, true);
         ArrayList<Integer> toBRoute = flightsToEdges(toB, false);

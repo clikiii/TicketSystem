@@ -10,10 +10,22 @@ import ticketSystem.database.dbException.ExDbOrderNotFound;
 public class OrderDAO implements IOrderDAO{
     private static OrderDAO instance = new OrderDAO();
     private OrderDAO(){};
+    
+    /** 
+     * The singleton instance getter.
+     * @return OrderDAO
+     */
     public static OrderDAO getInstance() {
         return instance;
     }
 
+    
+    /** 
+     * Get order from the database by the given username.
+     * @param db
+     * @param username
+     * @return ArrayList<Order>
+     */
     @Override
     public ArrayList<Order> queryOrderByUsername(Database db, String username) {
         Connection conn = db.connect();
@@ -37,6 +49,15 @@ public class OrderDAO implements IOrderDAO{
 
     }
 
+    
+    /** 
+     * Add a new order record to the database.
+     * @param db
+     * @param flightSet
+     * @param number
+     * @param username
+     * @return ArrayList<Order>
+     */
     @Override
     public ArrayList<Order> addOrder(Database db, String flightSet, int number, String username) {
         Connection conn = db.connect();
@@ -60,6 +81,14 @@ public class OrderDAO implements IOrderDAO{
 
     }
 
+    
+    /** 
+     * Delete an order record from the database.
+     * @param db
+     * @param orderIndex
+     * @return boolean
+     * @throws ExDbOrderNotFound
+     */
     @Override
     public boolean deleteOrder(Database db, int orderIndex) throws ExDbOrderNotFound {
         Connection conn = db.connect();
@@ -88,6 +117,12 @@ public class OrderDAO implements IOrderDAO{
 
     }
 
+    
+    /** 
+     * Get all orders from the database.
+     * @param db
+     * @return ArrayList<Order>
+     */
     @Override
     public ArrayList<Order> queryAllOrder(Database db) {
         Connection conn = db.connect();

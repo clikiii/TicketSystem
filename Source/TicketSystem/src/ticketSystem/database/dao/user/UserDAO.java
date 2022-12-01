@@ -10,10 +10,24 @@ import java.sql.*;
 public class UserDAO implements IUserDAO{
     private static UserDAO instance = new UserDAO();
     private UserDAO(){};
+    
+    /** 
+     * The singleton instance getter.
+     * @return UserDAO
+     */
     public static UserDAO getInstance() {
         return instance;
     }
 
+    
+    /** 
+     * Add a new user to the database.
+     * @param db
+     * @param username
+     * @param password
+     * @return boolean
+     * @throws ExDbUserExisted
+     */
     @Override
     public boolean addUser(Database db, String username, String password) throws ExDbUserExisted {
         Connection conn = db.connect();
@@ -41,6 +55,15 @@ public class UserDAO implements IUserDAO{
         return true;
     }
 
+    
+    /** 
+     * Change the password of a user.
+     * @param db
+     * @param username
+     * @param newPwd
+     * @return boolean
+     * @throws ExDbUserNotFound
+     */
     @Override
     public boolean changePwd(Database db, String username, String newPwd) throws ExDbUserNotFound {
         Connection conn = db.connect();
@@ -68,6 +91,16 @@ public class UserDAO implements IUserDAO{
         return true;
     }
 
+    
+    /** 
+     * Get a user by the given username.
+     * @param db
+     * @param username
+     * @param password
+     * @return boolean
+     * @throws ExDbUserNotFound
+     * @throws ExDbPwdIsWrong
+     */
     @Override
     public boolean queryUser(Database db, String username, String password) throws ExDbUserNotFound, ExDbPwdIsWrong {
         Connection conn = db.connect();
@@ -96,7 +129,15 @@ public class UserDAO implements IUserDAO{
         return true;
     }
 
-    // TODO: check error handling
+    
+    /** 
+     * Delete a user from the database by the fiven username.
+     * @param db
+     * @param username
+     * @param password
+     * @return boolean
+     * @throws ExDbUserNotFound
+     */
     @Override
     public boolean deleteUser(Database db, String username, String password) throws ExDbUserNotFound {
         Connection conn = db.connect();
@@ -124,6 +165,13 @@ public class UserDAO implements IUserDAO{
         return true;
     }
     
+    
+    /** 
+     * Check the given username if existed.
+     * @param db
+     * @param username
+     * @return boolean
+     */
     @Override
     public boolean checkUsernameExist(Database db, String username) {
         Connection conn = db.connect();
