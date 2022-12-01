@@ -21,13 +21,12 @@ public class FlightTest extends BaseTest {
     @Before
     public void init() throws SQLException {
         super.init();
-
         Mockito.when(rs.getInt("flight_index")).thenReturn(1);
         Mockito.when(rs.getString("fid")).thenReturn("f1");
         Mockito.when(rs.getString("departure")).thenReturn("dep");
         Mockito.when(rs.getString("destination")).thenReturn("dest");
-        Mockito.when(rs.getString("take_off_time")).thenReturn("take_off");
-        Mockito.when(rs.getString("landing_time")).thenReturn("landing");
+        Mockito.when(rs.getString("take_off_time")).thenReturn("1000");
+        Mockito.when(rs.getString("landing_time")).thenReturn("2000");
         Mockito.when(rs.getInt("total_seats")).thenReturn(100);
         Mockito.when(rs.getInt("available_seats")).thenReturn(90);
         Mockito.when(rs.getString("sell_status")).thenReturn("sell");
@@ -38,7 +37,7 @@ public class FlightTest extends BaseTest {
     public void testQueryAllFail() throws SQLException {
         Mockito.when(stmt.executeQuery(anyString())).thenThrow(new SQLException());
         ArrayList<Flight> list = Flight.queryAllFlight(db);
-        Assert.assertEquals(0, list.size());
+        Assert.assertNull(list);
     }
 
     @Test
@@ -70,8 +69,8 @@ public class FlightTest extends BaseTest {
         Assert.assertEquals("f1", flight.getFid());
         Assert.assertEquals("dep", flight.getDeparture());
         Assert.assertEquals("dest", flight.getDestination());
-        Assert.assertEquals("take_off", flight.getTakeOffTime());
-        Assert.assertEquals("landing", flight.getLandingTime());
+        Assert.assertEquals(new Date(1000*1000), flight.getTakeOffTime());
+        Assert.assertEquals(new Date(2000*1000), flight.getLandingTime());
         Assert.assertEquals(100, flight.getTotalSeats());
         Assert.assertEquals(90, flight.getAvailableSeats());
         Assert.assertEquals("sell", flight.getSellStatus());
@@ -82,7 +81,7 @@ public class FlightTest extends BaseTest {
     public void testQueryByIdFail() throws SQLException {
         Mockito.when(stmt.executeQuery(anyString())).thenThrow(new SQLException());
         ArrayList<Flight> list = Flight.queryFlightByIndex(db, 1);
-        Assert.assertEquals(0, list.size());
+        Assert.assertNull(list);
     }
 
     @Test
@@ -94,7 +93,6 @@ public class FlightTest extends BaseTest {
 
     @Test
     public void testQueryByDeptPass2() throws SQLException {
-        ResultSet rs = Mockito.mock(ResultSet.class);
         Mockito.when(stmt.executeQuery(anyString())).thenReturn(rs);
         Mockito.when(rs.next()).thenReturn(true, false);
         ArrayList<Flight> list = Flight.queryByDepart(db, "dept",new Date());
@@ -105,7 +103,7 @@ public class FlightTest extends BaseTest {
     public void testQueryByDeptFail() throws SQLException {
         Mockito.when(stmt.executeQuery(anyString())).thenThrow(new SQLException());
         ArrayList<Flight> list = Flight.queryByDepart(db, "dept",new Date());
-        Assert.assertEquals(0, list.size());
+        Assert.assertNull(list);
     }
 
     @Test
@@ -126,7 +124,7 @@ public class FlightTest extends BaseTest {
     public void testQueryByDestFail() throws SQLException {
         Mockito.when(stmt.executeQuery(anyString())).thenThrow(new SQLException());
         ArrayList<Flight> list = Flight.queryByDest(db, "dest",new Date());
-        Assert.assertEquals(0, list.size());
+        Assert.assertNull(list);
     }
 
     @Test
@@ -147,7 +145,7 @@ public class FlightTest extends BaseTest {
     public void testQueryByDeptAndDestFail() throws SQLException {
         Mockito.when(stmt.executeQuery(anyString())).thenThrow(new SQLException());
         ArrayList<Flight> list = Flight.queryByDepartAndDest(db, "dept", "dest",new Date());
-        Assert.assertEquals(0, list.size());
+        Assert.assertNull(list);
     }
 
     @Test

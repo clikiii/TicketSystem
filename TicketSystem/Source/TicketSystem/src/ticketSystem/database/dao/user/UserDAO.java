@@ -1,6 +1,7 @@
 package ticketSystem.database.dao.user;
 
 import ticketSystem.database.Database;
+import ticketSystem.database.dbException.ExDbPwdIsWrong;
 import ticketSystem.database.dbException.ExDbUserExisted;
 import ticketSystem.database.dbException.ExDbUserNotFound;
 
@@ -33,8 +34,8 @@ public class UserDAO implements IUserDAO{
             e.printStackTrace();
             return false;
         } finally {
-            db.closeRs(rs);
-            db.closeStmt(stmt);
+            Database.closeRs(rs);
+            Database.closeStmt(stmt);
         }
 
         return true;
@@ -60,16 +61,16 @@ public class UserDAO implements IUserDAO{
             e.printStackTrace();
             return false;
         } finally {
-            db.closeRs(rs);
-            db.closeStmt(stmt);
+            Database.closeRs(rs);
+            Database.closeStmt(stmt);
         }
 
         return true;
     }
 
     @Override
-    public boolean queryUser(Database db, String username, String password) throws ExDbUserNotFound {
-        Connection conn;
+    public boolean queryUser(Database db, String username, String password) throws ExDbUserNotFound, ExDbPwdIsWrong {
+        Connection conn = db.connect();
         Statement stmt = null;
         ResultSet rs = null;
         try {
@@ -79,7 +80,7 @@ public class UserDAO implements IUserDAO{
             rs = stmt.executeQuery(String.format(sqlSelect, username, password));
             rs.next();
             if (rs.getInt("count(*)") == 0) {
-                throw new ExDbUserNotFound();
+                throw new ExDbPwdIsWrong();
             }else{
                 rs.close();
                 stmt.close();
@@ -88,8 +89,8 @@ public class UserDAO implements IUserDAO{
             e.printStackTrace();
             return false;
         } finally {
-            db.closeRs(rs);
-            db.closeStmt(stmt);
+            Database.closeRs(rs);
+            Database.closeStmt(stmt);
         }
 
         return true;
@@ -103,23 +104,46 @@ public class UserDAO implements IUserDAO{
         ResultSet rs = null;
         try {
             stmt = conn.createStatement();
-            String sqlSelect = "select count(*) from ticketdb.user where username = '%s' and password = '%s';";
-            rs = stmt.executeQuery(String.format(sqlSelect, username, password));
+            String sqlSelect = "select count(*) from ticketdb.user where username = '%s';";
+            rs = stmt.executeQuery(String.format(sqlSelect, username));
             rs.next();
             if (rs.getInt("count(*)") == 0) {
                 throw new ExDbUserNotFound();
             }else{
                 String sqlUpdate = "delete from ticketdb.user where username = '%s' and password = '%s';";
                 stmt.executeUpdate(String.format(sqlUpdate, username, password));
-            }
-            return true;
+            }       
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         } finally {
-            db.closeRs(rs);
-            db.closeStmt(stmt);
+            Database.closeRs(rs);
+            Database.closeStmt(stmt);
         }
+
+        return true;
     }
     
+    @Override
+    public boolean checkUsernameExist(Database db, String username) {
+        Connection conn = db.connect();
+        Statement stmt = null;
+        ResultSet rs = null;
+        try {
+            conn = db.connect();
+            stmt = conn.createStatement();
+            String sqlSelect = "select count(*) from ticketdb.user where username = '%s';";
+            rs = stmt.executeQuery(String.format(sqlSelect, username));
+            rs.next();
+
+            return (rs.getInt("count(*)") == 0);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            Database.closeRs(rs);
+            Database.closeStmt(stmt);
+        }
+
+    }
 }

@@ -12,40 +12,85 @@ import ticketSystem.database.dbException.ExDbOrderNotFound;
 public class Order {
     private int orderIndex;
     private String flightSet;
+    private ArrayList<Flight> flightSetObjList;
     private int number;
+    private String username;
 
-    public Order(String flightSet, int number) {
+    public int getOrderIndex() {
+        return this.orderIndex;
+    }
+
+    public String getFlightSet() {
+        return this.flightSet;
+    }
+
+    public ArrayList<Flight> getFlightSetObjList() {
+        return this.flightSetObjList;
+    }
+
+    public int getNumber() {
+        return this.number;
+    }
+
+    public String getUsername() {
+        return this.username;
+    }
+
+
+    public Order(String flightSet, int number, String username) {
         // NOTE: NO order index before insertion.
         this.orderIndex = -1;
         this.flightSet = flightSet;
         this.number = number;
+
+        this.flightSetObjList = null;
+        this.username = username;
     }
 
-    public Order(int orderIndex, String flightSet, int number){
+    public Order(
+        int orderIndex, 
+        String flightSet, 
+        int number, 
+        ArrayList<Flight> flightSetObjList, 
+        String username
+    ){
         this.orderIndex = orderIndex;
         this.flightSet = flightSet;
         this.number = number;
+
+        this.flightSetObjList = flightSetObjList;
+        this.username = username;
     }
 
-    private static ArrayList<Order> rsToAl(ResultSet rs) {
+    public static ArrayList<Order> rsToAl(Database db, ResultSet rs) {
         ArrayList<Order> ret = new ArrayList<>();
-        if (rs == null) {
-            return ret;
-        }
 
         try {
             while(rs.next()) {
+                // "001 002"
+                ArrayList<Flight> flightSetObjList = new ArrayList<>();
+                for (String s: rs.getString("flight_set").split(" ")){
+                    int fIdx = Integer.parseInt(s);
+                    flightSetObjList.addAll(Flight.queryFlightByIndex(db, fIdx));
+                }
+
                 Order order = new Order(
                     rs.getInt("order_index"),
                     rs.getString("flight_set"), 
-                    rs.getInt("number")
+                    rs.getInt("number"),
+                    flightSetObjList,
+                    rs.getString("username")
                 );
 
                 ret.add(order);
             }
+
+            System.out.println("Order success " + ret.size());
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
+        } finally {
+            Database.closeRs(rs);
         }
 
         return ret;
@@ -54,28 +99,18 @@ public class Order {
 
     public static ArrayList<Order> queryOrderByUsername(Database db, String username){
         IOrderDAO iOrderDAO = OrderDAO.getInstance();
-        ResultSet rs = iOrderDAO.queryOrderByUsername(db, username);
-        if (rs == null) {
-            return null;
-        }
-        return rsToAl(rs);
+        return iOrderDAO.queryOrderByUsername(db, username);
     }
 
     public static ArrayList<Order> queryAllOrder(Database db) {
         IOrderDAO iOrderDAO = OrderDAO.getInstance();
-        ResultSet rs = iOrderDAO.queryAllOrder(db);
-        return rsToAl(rs);
+        return iOrderDAO.queryAllOrder(db);
     }
 
     public static ArrayList<Order> addOrder(Database db, Order o) {
         IOrderDAO iOrderDAO = OrderDAO.getInstance();
-        ResultSet rs = iOrderDAO.addOrder(db, o.flightSet, o.number);
-
-        if (rs != null) {
-            // NOTE: here the ArrayList only contanins one order which is the one newly created above.
-            return rsToAl(rs);
-        }
-        return null;
+        return iOrderDAO.addOrder(db, o.flightSet, o.number, o.username);
+        // NOTE: here the ArrayList only contanins one order which is the one newly created above.
     }
 
     public static boolean cancelOrder(Database db, int orderIndex) throws ExDbOrderNotFound {

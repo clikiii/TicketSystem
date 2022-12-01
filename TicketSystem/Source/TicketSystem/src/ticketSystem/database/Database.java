@@ -40,7 +40,7 @@ public class Database{
 
     }
 
-    public void closeRs(ResultSet rs) {
+    public static void closeRs(ResultSet rs) {
         try {
             if (rs != null) rs.close();
         } catch (SQLException e) {
@@ -49,7 +49,7 @@ public class Database{
         }
     }
 
-    public void closeStmt(Statement stmt) {
+    public static void closeStmt(Statement stmt) {
         try {
             if (stmt != null) stmt.close();
         } catch (SQLException e) {

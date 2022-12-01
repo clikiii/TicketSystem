@@ -16,8 +16,8 @@ public class Flight {
     private String fid;
     private String departure;
     private String destination;
-    private String takeOffTime;
-    private String landingTime;
+    private Date takeOffTime;
+    private Date landingTime;
     private int totalSeats;
     private int availableSeats;
     private String sellStatus;
@@ -39,11 +39,11 @@ public class Flight {
         return this.destination;
     }
 
-    public String getTakeOffTime() {
+    public Date getTakeOffTime() {
         return this.takeOffTime;
     }
 
-    public String getLandingTime() {
+    public Date getLandingTime() {
         return this.landingTime;
     }
 
@@ -69,8 +69,8 @@ public class Flight {
         String fid,
         String departure,
         String destination,
-        String takeOffTime,
-        String landingTime,
+        Date takeOffTime,
+        Date landingTime,
         int totalSeats,
         int availableSeats,
         String sellStatus,
@@ -88,12 +88,17 @@ public class Flight {
         this.price = price;
     }
 
+
+    private static String dateToTs(Date date){
+        return String.valueOf((int)(date.getTime()/1000));
+    }
     
-    private static ArrayList<Flight> rsToAl(ResultSet rs) {
+    private static Date tsToDate(String ts){
+        return new Date(Long.parseLong(ts)*1000);
+    }
+
+    public static ArrayList<Flight> rsToAl(ResultSet rs) {
         ArrayList<Flight> ret = new ArrayList<>();
-        if (rs == null) {
-            return ret;
-        }
 
         try {
             while(rs.next()) {
@@ -102,8 +107,8 @@ public class Flight {
                     rs.getString("fid"), 
                     rs.getString("departure"), 
                     rs.getString("destination"), 
-                    rs.getString("take_off_time"), 
-                    rs.getString("landing_time"), 
+                    tsToDate(rs.getString("take_off_time")), 
+                    tsToDate(rs.getString("landing_time")), 
                     rs.getInt("total_seats"),
                     rs.getInt("available_seats"), 
                     rs.getString("sell_status"), 
@@ -112,9 +117,12 @@ public class Flight {
 
                 ret.add(flight);
             }
+            System.out.println("Flight success " + ret.size());
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
+        } finally {
+            Database.closeRs(rs);
         }
 
         return ret;
@@ -122,45 +130,38 @@ public class Flight {
 
     public static ArrayList<Flight> queryAllFlight(Database db) {
         IFlightDAO iFlightDAO = FlightDAO.getInstance();
-        ResultSet rs = iFlightDAO.queryAllFlight(db);
-        return rsToAl(rs);
+        return iFlightDAO.queryAllFlight(db);
     }
 
     public static ArrayList<Flight> queryFlightByIndex(Database db, int flightIndex) {
         IFlightDAO iFlightDAO = FlightDAO.getInstance();
-        ResultSet rs = iFlightDAO.queryFlightByIndex(db, flightIndex);
-        return rsToAl(rs);
+        return iFlightDAO.queryFlightByIndex(db, flightIndex);
     }
 
     public static boolean deleteFlightByIndex(Database db, int flightIndex) throws ExDbFlightNotFound {
         IFlightDAO iFlightDAO = FlightDAO.getInstance();
-        Boolean bret = iFlightDAO.deleteFlightByIndex(db, flightIndex);
-        return bret;
+        return iFlightDAO.deleteFlightByIndex(db, flightIndex);
     }
 
     // TODO: mind the dates
     // TODO: mind the status
     public static ArrayList<Flight> queryByDepart(Database db, String departure, Date startDate) {
         IFlightDAO iFlightDAO = FlightDAO.getInstance();
-        ResultSet rs = iFlightDAO.queryByDepart(db, departure, startDate);
-        return rsToAl(rs);
+        return iFlightDAO.queryByDepart(db, departure, dateToTs(startDate));
     }
 
     public static ArrayList<Flight> queryByDest(Database db, String destination, Date startDate) {
         IFlightDAO iFlightDAO = FlightDAO.getInstance();
-        ResultSet rs = iFlightDAO.queryByDest(db, destination, startDate);
-        return rsToAl(rs);
+        return iFlightDAO.queryByDest(db, destination, dateToTs(startDate));
     }
 
     public static ArrayList<Flight> queryByDepartAndDest(Database db, String departure, String destination, Date startDate) {
         IFlightDAO iFlightDAO = FlightDAO.getInstance();
-        ResultSet rs = iFlightDAO.queryByDepartAndDest(db, departure, destination, startDate);
-        return rsToAl(rs);
+        return iFlightDAO.queryByDepartAndDest(db, departure, destination, dateToTs(startDate));
     }
 
     public static boolean updateSeatByIndex(Database db, int flightIndex, int changeNumber) throws ExDbSeatInsufficient, ExDbFlightNotFound {
         IFlightDAO iFlightDAO = FlightDAO.getInstance();
-        boolean bret = iFlightDAO.updateSeatByIndex(db, flightIndex, changeNumber);
-        return bret;
+        return iFlightDAO.updateSeatByIndex(db, flightIndex, changeNumber);
     }
 }

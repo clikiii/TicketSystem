@@ -1,13 +1,14 @@
 package ticketSystem.database.dao.order;
 
-import java.sql.ResultSet;
+import java.util.ArrayList;
 
+import ticketSystem.Order;
 import ticketSystem.database.Database;
 import ticketSystem.database.dbException.ExDbOrderNotFound;
 
 public interface IOrderDAO {
-    public ResultSet queryOrderByUsername(Database db, String username);
-    public ResultSet addOrder(Database db, String flightSet, int number);
+    public ArrayList<Order> queryOrderByUsername(Database db, String username);
+    public ArrayList<Order> addOrder(Database db, String flightSet, int number, String username);
     public boolean deleteOrder(Database db, int orderIndex) throws ExDbOrderNotFound;
-    public ResultSet queryAllOrder(Database db);
+    public ArrayList<Order> queryAllOrder(Database db);
 }

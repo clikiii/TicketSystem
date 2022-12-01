@@ -16,14 +16,41 @@ public class TicketSystemTest extends BaseTest {
     @Before
     public void setUp() throws Exception {
         super.init();
+        Mockito.when(rs.getInt("flight_index")).thenReturn(1);
+        Mockito.when(rs.getString("fid")).thenReturn("f1");
+        Mockito.when(rs.getString("departure")).thenReturn("dep");
+        Mockito.when(rs.getString("destination")).thenReturn("dest");
+        Mockito.when(rs.getString("take_off_time")).thenReturn("1000");
+        Mockito.when(rs.getString("landing_time")).thenReturn("2000");
+        Mockito.when(rs.getInt("total_seats")).thenReturn(100);
+        Mockito.when(rs.getInt("available_seats")).thenReturn(90);
+        Mockito.when(rs.getString("sell_status")).thenReturn("sell");
+        Mockito.when(rs.getInt("price")).thenReturn(100);
 
         ticketSystem = new TicketSystem(db);
+    }
+
+    @Test
+    public void testStart() {
+        Assert.assertTrue(ticketSystem == TicketSystem.start());
+    }
+
+    @Test
+    public void testCheckUsernameExistPass() throws SQLException {
+        Mockito.when(rs.getInt("count(*)")).thenReturn(0);
+        Assert.assertTrue(ticketSystem.checkUsernameExist("abc"));
     }
 
     @Test
     public void testRegister() throws SQLException, ExDbUserExisted {
         Mockito.when(rs.getInt("count(*)")).thenReturn(0);
         Assert.assertNotNull(ticketSystem.register("abc", "123"));
+    }
+
+    @Test
+    public void testRegisterFailed() throws SQLException, ExDbUserExisted {
+        Mockito.when(rs.getInt("count(*)")).thenReturn(1);
+        Assert.assertNull(ticketSystem.register("abc", "123"));
     }
 
     @Test
@@ -40,6 +67,13 @@ public class TicketSystemTest extends BaseTest {
     }
 
     @Test
+    public void testLogin3() throws SQLException, ExDbUserNotFound {
+        Mockito.when(rs.getInt("count(*)")).thenReturn(0);
+        People people = ticketSystem.login("abc", "123");
+        Assert.assertTrue((((User) people).getPassword().equals("password wrong")));
+    }
+
+    @Test
     public void testSearch() throws SQLException {
         Mockito.when(rs.next()).thenReturn(true, false);
         Search search = new Search("dept", "dest", new Date(), db);
@@ -50,5 +84,10 @@ public class TicketSystemTest extends BaseTest {
     @Test
     public void testTerminate() {
         ticketSystem.terminate();
+    }
+
+    @Test
+    public void testCheckCity() {
+        Assert.assertTrue(ticketSystem.checkCity("Beijing"));
     }
 }

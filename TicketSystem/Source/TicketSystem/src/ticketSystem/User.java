@@ -9,6 +9,7 @@ import ticketSystem.database.dao.user.IUserDAO;
 import ticketSystem.database.dao.user.UserDAO;
 import ticketSystem.database.dbException.ExDbFlightNotFound;
 import ticketSystem.database.dbException.ExDbOrderNotFound;
+import ticketSystem.database.dbException.ExDbPwdIsWrong;
 import ticketSystem.database.dbException.ExDbSeatInsufficient;
 import ticketSystem.database.dbException.ExDbUserNotFound;
 
@@ -17,31 +18,36 @@ public class User implements People {
     private String password;
     private Database db;
 
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+    
+
     public User(Database db, String username, String password) {
         this.username = username;
         this.password = password;
         this.db = db;
     }
 
-    public static User login(Database db, String username, String password) throws ExDbUserNotFound {
+    public static User login(Database db, String username, String password) throws ExDbUserNotFound, ExDbPwdIsWrong {
         IUserDAO iUserDAO = UserDAO.getInstance();
 
-        if (iUserDAO.queryUser(db, username, password)) {
-            return new User(db, username, password);
-        }
+        iUserDAO.queryUser(db, username, password);
 
-        return null;
+        return new User(db, username, password);
     }
 
     public People changePwd(String newPwd) throws ExDbUserNotFound {
         IUserDAO iUserDAO = UserDAO.getInstance();
-
-        if (iUserDAO.changePwd(this.db, this.username, newPwd)) {
-            this.password = newPwd;
-            return this;
-        }
-
-        return null;
+        
+        iUserDAO.changePwd(this.db, this.username, newPwd);
+        
+        this.password = newPwd;
+        return this;
     }
 
     public Boolean deleteMe() throws ExDbUserNotFound {
@@ -53,13 +59,13 @@ public class User implements People {
     }
 
 
-    public ArrayList<Order> addOrder(String flightSet, int changeNumber) throws ExDbSeatInsufficient, ExDbFlightNotFound{
+    public ArrayList<Order> addOrder(String flightSet, int changeNumber, String username) throws ExDbSeatInsufficient, ExDbFlightNotFound{
         IFlightDAO iFlightDAO = FlightDAO.getInstance();
         for (String fIdx: flightSet.split(" ")){
             iFlightDAO.updateSeatByIndex(this.db, Integer.parseInt(fIdx), changeNumber);
         }
-        
-        ArrayList<Order> ret = Order.addOrder(this.db, new Order(flightSet, changeNumber));
+
+        ArrayList<Order> ret = Order.addOrder(this.db, new Order(flightSet, changeNumber, username));
 
         return ret;
     }

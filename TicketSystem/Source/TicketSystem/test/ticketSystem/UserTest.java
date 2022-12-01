@@ -14,6 +14,7 @@ import org.mockito.Mockito;
 import ticketSystem.database.Database;
 import ticketSystem.database.dbException.ExDbFlightNotFound;
 import ticketSystem.database.dbException.ExDbOrderNotFound;
+import ticketSystem.database.dbException.ExDbPwdIsWrong;
 import ticketSystem.database.dbException.ExDbSeatInsufficient;
 import ticketSystem.database.dbException.ExDbUserNotFound;
 
@@ -27,12 +28,13 @@ public class UserTest extends BaseTest {
         Mockito.when(rs.getInt("order_index")).thenReturn(1);
         Mockito.when(rs.getString("flight_set")).thenReturn("1");
         Mockito.when(rs.getInt("number")).thenReturn(1);
+        Mockito.when(rs.getString("username")).thenReturn("abc");
         user = new User(db, "abc", "123");
     }
 
     @Test (expected = NumberFormatException.class)
     public void testAddOrderFailed1() throws ExDbFlightNotFound, ExDbSeatInsufficient {
-        List<Order> list = user.addOrder("flight1", 1);
+        List<Order> list = user.addOrder("flight1", 1, "abc");
         Assert.assertEquals(1, list.size());
     }
 
@@ -40,7 +42,7 @@ public class UserTest extends BaseTest {
     public void testAddOrderFailed2() throws ExDbFlightNotFound, ExDbSeatInsufficient, SQLException {
         Mockito.when(stmt.executeQuery(anyString())).thenThrow(SQLException.class);
         Mockito.when(rs.next()).thenReturn(false, false, false);
-        List<Order> list = user.addOrder("101", 1);
+        List<Order> list = user.addOrder("101", 1, "abc");
         Assert.assertNull(list);
     }
 
@@ -49,7 +51,7 @@ public class UserTest extends BaseTest {
         Mockito.when(stmt.executeQuery(anyString())).thenReturn(rs);
         Mockito.when(rs.getInt("count(*)")).thenReturn(0);
 
-        List<Order> list = user.addOrder("101", 1);
+        List<Order> list = user.addOrder("101", 1, "abc");
     }
 
     @Test (expected = ExDbSeatInsufficient.class)
@@ -58,7 +60,7 @@ public class UserTest extends BaseTest {
         Mockito.when(rs.getInt("count(*)")).thenReturn(1);
         Mockito.when(rs.getInt("available_seats")).thenReturn(-1);
 
-        List<Order> list = user.addOrder("101", 1);
+        List<Order> list = user.addOrder("101", 1, "abc");
     }
 
     @Test
@@ -68,8 +70,14 @@ public class UserTest extends BaseTest {
         Mockito.when(rs.getInt("available_seats")).thenReturn(1);
         Mockito.when(rs.next()).thenReturn(true, true, true, false);
 
-        List<Order> list = user.addOrder("101", 1);
+        List<Order> list = user.addOrder("101", 1, "abc");
         Assert.assertEquals(1, list.size());
+
+        Order order = list.get(0);
+        Assert.assertEquals(1, order.getOrderIndex());
+        Assert.assertEquals("1", order.getFlightSet());
+        Assert.assertEquals(1, order.getNumber());
+        Assert.assertEquals("abc", order.getUsername());
     }
 
     @Test (expected = ExDbOrderNotFound.class)
@@ -119,20 +127,20 @@ public class UserTest extends BaseTest {
         Assert.assertTrue(user.deleteMe());
     }
 
-    @Test (expected = ExDbUserNotFound.class)
-    public void testLoginFailed1() throws SQLException, ExDbUserNotFound {
+    @Test (expected = ExDbPwdIsWrong.class)
+    public void testLoginFailed1() throws SQLException, ExDbUserNotFound, ExDbPwdIsWrong {
         Mockito.when(rs.getInt("count(*)")).thenReturn(0);
         Assert.assertNotNull(user.login(db, "abc", "123"));
     }
 
     @Test
-    public void testLoginFailed2() throws SQLException, ExDbUserNotFound {
+    public void testLoginFailed2() throws SQLException, ExDbUserNotFound, ExDbPwdIsWrong {
         Mockito.when(rs.getInt("count(*)")).thenThrow(SQLException.class);
-        Assert.assertNull(user.login(db, "abc", "123"));
+        Assert.assertNotNull(user.login(db, "abc", "123"));
     }
 
     @Test
-    public void testLoginPass() throws SQLException, ExDbUserNotFound {
+    public void testLoginPass() throws SQLException, ExDbUserNotFound, ExDbPwdIsWrong {
         Mockito.when(rs.getInt("count(*)")).thenReturn(1);
         Assert.assertNotNull(user.login(db, "abc", "123"));
     }
@@ -146,7 +154,7 @@ public class UserTest extends BaseTest {
     @Test
     public void testChangePwdFailed2() throws SQLException, ExDbUserNotFound {
         Mockito.when(rs.getInt("count(*)")).thenThrow(SQLException.class);
-        Assert.assertNull(user.changePwd("123"));
+        Assert.assertNotNull(user.changePwd("123"));
     }
 
     @Test

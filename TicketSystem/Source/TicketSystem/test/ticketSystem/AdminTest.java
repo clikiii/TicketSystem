@@ -42,7 +42,7 @@ public class AdminTest extends BaseTest {
     @Test
     public void testGetAllOrderFail() throws SQLException {
         Mockito.when(stmt.executeQuery(anyString())).thenThrow(SQLException.class);
-        Assert.assertEquals(0, admin.getAllOrder().size());
+        Assert.assertNull(admin.getAllOrder());
     }
 
     @Test
