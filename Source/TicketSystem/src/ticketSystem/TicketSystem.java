@@ -22,6 +22,10 @@ public class TicketSystem {
     private TicketSystem(){
         this.db = new Database();
     }
+    public TicketSystem(Database inputDb) {
+        this.db = inputDb;
+    }
+
     public static TicketSystem start(){
         System.out.println("Welcome to the Flight Ticket System!");
         return instance;
