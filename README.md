@@ -8,7 +8,7 @@
     # sample output(version may not be the same)
     Docker version 20.10.14, build a224086
     ```
-2. run <kbd>/Source/Jar/buildAndRun.sh</kbd>
+2. run <kbd>/Source/buildAndRun.sh</kbd>
     ```bash
     cd Source
     chmod 755 buildAndRun.sh
