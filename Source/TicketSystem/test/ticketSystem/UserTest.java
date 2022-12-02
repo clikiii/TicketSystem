@@ -2,16 +2,12 @@ package ticketSystem;
 
 import static org.mockito.ArgumentMatchers.anyString;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import ticketSystem.database.Database;
 import ticketSystem.database.dbException.ExDbFlightNotFound;
 import ticketSystem.database.dbException.ExDbOrderNotFound;
 import ticketSystem.database.dbException.ExDbPwdIsWrong;

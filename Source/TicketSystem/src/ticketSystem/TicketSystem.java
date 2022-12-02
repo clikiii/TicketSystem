@@ -14,6 +14,9 @@ public class TicketSystem {
     private static final ArrayList<String> cities = new ArrayList<String>(Arrays.asList("Beijing", "Chongqing", "Chengdu", "Hangzhou", "Kunming", "Nanjing", "Shanghai", "Qingdao", "Wuhan", "Amoy", "Taipei", "Hong Kong"));
     private Database db;
 
+    public Database getDb() {
+        return this.db;
+    }
     public static ArrayList<String> getCities() {
         return cities;
     }
@@ -22,8 +25,9 @@ public class TicketSystem {
     private TicketSystem(){
         this.db = new Database();
     }
-    public TicketSystem(Database inputDb) {
-        this.db = inputDb;
+    public TicketSystem(Database db) {
+        this.db = db;
+        instance = this;
     }
 
     public static TicketSystem start(){

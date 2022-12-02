@@ -7,7 +7,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
 import ticketSystem.database.dbException.ExDbUserExisted;
-import ticketSystem.database.dbException.ExDbUserNotFound;
 
 public class PeopleTest extends BaseTest {
 
