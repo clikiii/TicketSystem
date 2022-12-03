@@ -153,6 +153,8 @@ public class UserDAO implements IUserDAO{
             }else{
                 String sqlUpdate = "delete from ticketdb.user where username = '%s' and password = '%s';";
                 stmt.executeUpdate(String.format(sqlUpdate, username, password));
+                sqlUpdate = "delete from ticketdb.order where username = '%s';";
+                stmt.executeUpdate(String.format(sqlUpdate, username));
             }       
         } catch (SQLException e) {
             e.printStackTrace();

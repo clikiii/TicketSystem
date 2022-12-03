@@ -146,7 +146,9 @@ public class Flight {
      * @return String
      */
     private static String dateToTs(Date date){
-        return String.valueOf((int)(date.getTime()/1000));
+        int startTs = (int)(date.getTime()/1000);
+        int nowTs = (int)(new Date().getTime()/1000);
+        return String.valueOf(nowTs>startTs? nowTs:startTs);
     }
     
     

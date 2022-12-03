@@ -274,6 +274,10 @@ public class FlightDAO implements IFlightDAO {
                     String sqlUpdate = "update ticketdb.flight set sell_status = 'SOLD OUT' WHERE flight_index = '%d';";
                     stmt.executeUpdate(String.format(sqlUpdate, flightIndex));
                 }
+                else {
+                    String sqlUpdate = "update ticketdb.flight set sell_status = 'SELLING' WHERE flight_index = '%d';";
+                    stmt.executeUpdate(String.format(sqlUpdate, flightIndex));
+                }
 
                 String sqlUpdate = "update ticketdb.flight set available_seats = '%d' WHERE flight_index = '%d';";
                 stmt.executeUpdate(String.format(sqlUpdate, newSeat, flightIndex));
