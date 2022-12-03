@@ -14,9 +14,6 @@ public class TicketSystem {
     private static final ArrayList<String> cities = new ArrayList<String>(Arrays.asList("Beijing", "Chongqing", "Chengdu", "Hangzhou", "Kunming", "Nanjing", "Shanghai", "Qingdao", "Wuhan", "Amoy", "Taipei", "Hong Kong"));
     private Database db;
 
-    public Database getDb() {
-        return this.db;
-    }
     public static ArrayList<String> getCities() {
         return cities;
     }
