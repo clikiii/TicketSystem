@@ -11,23 +11,24 @@ People can search direct flights and non-direct flights only by input the place 
 
 << Installation >>
 --------------------
+We recommend run the GUI in under MacOS.
+
 1. This application uses openjdk 19, please make sure your version is correct.
 2. For dockerized database, please make sure docker is properly installed. 
    If not, you can install the docker via the following link：
    https://docs.docker.com/get-docker/
+3. Open the whole project folder in the VSCode.
 
 Windows
 -----
-3. Run `build.sh` in `./Source/Jar` in cmd: sh build.sh
-4. Run `PreBuild.jar` in cmd: java -jar PreBuild.jar
-5. Run `TicketSystem.jar` in cmd: java -jar PreBuild.jar
+4. Run `build.sh` in `./Source/Jar` in cmd: sh build.sh
 
 Mac or other Linux Environment
 -----
-3. Open the whole project folder in the VSCode.
 4. Run `build.sh` in `./Source/Jar` in terminal: 
    (1)Run chmod 755 build.sh
    (2)Run ./build.sh
+
 5. Run `./Source/TicketSystem/src/ticketSystem/PreStart.java` in VSCode.
 6. Run `./Source/TicketSystem/src/userInterface/SearchFlight.java` in VSCode.
 
