@@ -17,7 +17,7 @@ We recommend run the GUI in under MacOS.
 2. For dockerized database, please make sure docker is properly installed. 
    If not, you can install the docker via the following link：
    https://docs.docker.com/get-docker/
-3. Open the whole project folder in the VSCode.
+3. Open the root project folder (that is, the folder contains .vscode folder) in the VSCode.
 
 Windows
 -----
