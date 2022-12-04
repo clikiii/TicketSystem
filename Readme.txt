@@ -21,15 +21,15 @@ We recommend run the GUI in under MacOS.
 
 Windows
 -----
-4. Run `build.sh` in `./Source/Jar` in cmd: sh build.sh
+4. Run `build.sh` in `./Source/Run` in cmd: sh build.sh
 
 Mac or other Linux Environment
 -----
-4. Run `build.sh` in `./Source/Jar` in terminal: 
+4. Run `build.sh` in `./Source/Run` in terminal: 
    (1)Run chmod 755 build.sh
    (2)Run ./build.sh
 
-5. Run `./Source/TicketSystem/src/ticketSystem/PreStart.java` in VSCode.
+5. Run `./Source/TicketSystem/src/ticketSystem/PreStart.java` in VSCode, and wait for 1 minute.
 6. Run `./Source/TicketSystem/src/userInterface/SearchFlight.java` in VSCode.
 
 << User Guideline >>
@@ -45,7 +45,7 @@ Mac or other Linux Environment
 --------------------
 
 Program Manager: ZHAO Yiwei
-Assistant Program Manager: LI Xinagyu
+Assistant Program Manager: LI Xiangyu
 Program Developer: WANG Chenchen
 Program Developer: WANG Yian
 Interface Developer: XIE Yifei

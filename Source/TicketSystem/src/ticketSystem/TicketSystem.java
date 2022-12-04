@@ -14,6 +14,11 @@ public class TicketSystem {
     private static final ArrayList<String> cities = new ArrayList<String>(Arrays.asList("Beijing", "Chongqing", "Chengdu", "Hangzhou", "Kunming", "Nanjing", "Shanghai", "Qingdao", "Wuhan", "Amoy", "Taipei", "Hong Kong"));
     private Database db;
 
+    
+    /** 
+     * Get available cities.
+     * @return ArrayList<String>
+     */
     public static ArrayList<String> getCities() {
         return cities;
     }
@@ -27,11 +32,19 @@ public class TicketSystem {
         instance = this;
     }
 
+    
+    /** 
+     * Start the backend service.
+     * @return TicketSystem
+     */
     public static TicketSystem start(){
         System.out.println("Welcome to the Flight Ticket System!");
         return instance;
     }
 
+    /** 
+     * Load the data to the database.
+     */
     public void load() {
         System.out.println("Loading data to database...");
         if ((Flight.queryAllFlight(this.db)).size() == 0){
@@ -43,10 +56,23 @@ public class TicketSystem {
     }
 
 
+    
+    /** 
+     * Check if a given username is already used.
+     * @param username
+     * @return boolean
+     */
     public boolean checkUsernameExist(String username){
         return People.checkUsernameExist(this.db, username);
     }
 
+    
+    /** 
+     * Register a new user.
+     * @param username
+     * @param password
+     * @return User
+     */
     public User register(String username, String password){
         try {
             return People.register(this.db, username, password);
@@ -56,6 +82,13 @@ public class TicketSystem {
         }
     }
 
+    
+    /** 
+     * Admin or User login.
+     * @param username
+     * @param password
+     * @return People
+     */
     public People login(String username, String password){
         try {
             if (username.equals("admin")) return Admin.login(this.db, username, password);
@@ -70,6 +103,16 @@ public class TicketSystem {
         }
     }
 
+    
+    /** 
+     * Search the flight routes.
+     * @param departure
+     * @param destination
+     * @param startDate
+     * @param searchType
+     * @param onlySingle
+     * @return ArrayList<ArrayList<Flight>>
+     */
     public ArrayList<ArrayList<Flight>> searchRoute(
         String departure, 
         String destination, 
@@ -81,10 +124,19 @@ public class TicketSystem {
         return search.searchRoute(searchType, onlySingle);
     }
 
+    
+    /** 
+     * Check if a given city is available in the system.
+     * @param city
+     * @return boolean
+     */
     public boolean checkCity (String city) {
         return cities.contains(city);
     }
 
+    /**
+     * Terminate the backend.
+     */
     public void terminate(){
         this.db.closeConn();
         System.out.println("System terminated.");
