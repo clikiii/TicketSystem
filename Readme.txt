@@ -11,7 +11,7 @@ People can search direct flights and non-direct flights only by input the place 
 
 << Installation >>
 --------------------
-We recommend run the GUI in under MacOS.
+We recommend run the GUI in under **MacOS**.
 
 1. This application uses openjdk 19, please make sure your version is correct.
 2. For dockerized database, please make sure docker is properly installed. 
